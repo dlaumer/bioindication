@@ -4,7 +4,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import MapViewContainer from '@components/MapView/MapViewContainer';
 import WebMapSelector from '@components/WebMapSelector/WebMapSelector';
 
-export const ArcGISMapDemo = () => {
+export const Map = () => {
     return (
         <>
             <ErrorBoundary>
@@ -14,3 +14,5 @@ export const ArcGISMapDemo = () => {
         </>
     );
 };
+
+export default Map;
