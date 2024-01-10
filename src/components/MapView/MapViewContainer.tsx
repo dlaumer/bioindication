@@ -8,7 +8,7 @@ const MapViewContainer = () => {
 
     return (
         <div className={'fixed top-0 left-0 w-full h-full'}>
-            <MapView webmapId={webmapId} center={[-105, 40]} zoom={9} />
+            <MapView webmapId={webmapId} center={[8, 45]} zoom={9} />
         </div>
     );
 };
