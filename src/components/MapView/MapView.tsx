@@ -1,70 +1,82 @@
 import React, { useEffect, useState, useRef } from 'react';
 import MapView from '@arcgis/core/views/MapView';
-import WebMap from '@arcgis/core/WebMap';
+import Map from '@arcgis/core/Map';
+import Popup from '@arcgis/core/widgets/Popup';
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 
 interface Props {
-    /**
-     * item id of the selected webmap
-     */
-    webmapId: string;
-    /**
-     * center of the map view in format of [longitude, latitude] (e.g. [-105, 40])
-     */
-    center?: number[];
-    /**
-     * zoom level
-     */
-    zoom?: number;
     /**
      * all child element will receive the mapView as one of it's properties
      */
     children?: React.ReactNode;
 }
 
-const ArcGISMapView: React.FC<Props> = ({
-    webmapId,
-    center,
-    zoom,
-    children,
-}: Props) => {
+const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const mapDivRef = useRef<HTMLDivElement>();
 
     const [mapView, setMapView] = useState<MapView>(null);
 
     const initMapView = () => {
-        const view = new MapView({
-            container: mapDivRef.current,
-            map: new WebMap({
-                portalItem: {
-                    id: webmapId,
-                },
-            }),
-            center,
-            zoom,
+        /////// BASIC MAP ELEMENTS /////////////////////////////////////////////////////////
+        // Map instance, holds the layers and the basemap definition
+        const map = new Map({
+            /* basemap:new Basemap({
+                 portalItem: {
+                     id: "0560e29930dc4d5ebeb58c635c0909c9"
+                 }
+             }),
+             */
+            basemap: 'topo-vector',
+            ground: 'world-elevation',
         });
+
+        const popup = new Popup({
+            content: '{content}',
+            actions: [] as any, // Disable all actions, TODO: Does not work completely yet
+        });
+
+        // Restyle the popup to look more realistic, TODO: Also remove dock button
+        popup.viewModel.includeDefaultActions = false;
+
+        // The view instance is the most important instance for ArcGIS, from here you can access almost all elements like layers, ui elements, widget, etc
+        const view = new MapView({
+            popupEnabled: false,
+            container: mapDivRef.current,
+            map: map,
+            center: [8.331, 46.946],
+            zoom: 8,
+
+            padding: {
+                right: screen.width / 5,
+                bottom: 100,
+            },
+            timeExtent: {
+                start: new Date(2022, 1, 24),
+                end: new Date(2022, 3, 24),
+            },
+
+            popup: popup,
+        });
+
+        const dataLayer = new FeatureLayer({
+            portalItem: {
+                id: '665046b6489f4feaa1e25b379cb3f70c',
+            },
+        });
+
+        view.map.add(dataLayer);
+        // Remove all ui elements, so that they can be added manually as tools!
+        //view.ui.components = ["attribution"];
+        //view.ui.components = [];
 
         view.when(() => {
             setMapView(view);
         });
     };
 
-    const updateWebmapId = () => {
-        mapView.map = new WebMap({
-            portalItem: {
-                id: webmapId,
-            },
-        });
-    };
-
     useEffect(() => {
         initMapView();
     }, []);
-
-    useEffect(() => {
-        if (mapView) {
-            updateWebmapId();
-        }
-    }, [webmapId]);
 
     return (
         <>
