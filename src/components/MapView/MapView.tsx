@@ -3,6 +3,17 @@ import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/Map';
 import Popup from '@arcgis/core/widgets/Popup';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import TimeSlider from '@arcgis/core/widgets/TimeSlider';
+import TimeInterval from '@arcgis/core/TimeInterval';
+import Home from '@arcgis/core/widgets/Home';
+import AreaMeasurement2D from '@arcgis/core/widgets/AreaMeasurement2D';
+import Compass from '@arcgis/core/widgets/Compass';
+import DistanceMeasurement2D from '@arcgis/core/widgets/DistanceMeasurement2D';
+import BasemapGallery from '@arcgis/core/widgets/BasemapGallery';
+import Expand from '@arcgis/core/widgets/Expand';
+import Locate from '@arcgis/core/widgets/Locate';
+import Legend from '@arcgis/core/widgets/Legend';
+import LayerList from '@arcgis/core/widgets/LayerList';
 
 interface Props {
     /**
@@ -65,6 +76,88 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
 
         view.map.add(dataLayer);
+
+        const timeSlider = new TimeSlider({
+            view: view,
+            mode: 'time-window',
+            fullTimeExtent: {
+                start: new Date(2000, 1, 1),
+                end: new Date(),
+            },
+            timeExtent: {
+                start: new Date(2000, 1, 1),
+                end: new Date(),
+            },
+            stops: {
+                interval: new TimeInterval({
+                    value: 1,
+                    unit: 'days',
+                }),
+            },
+        });
+
+        view.ui.add(timeSlider, 'bottom-left');
+
+        const compass = new Compass({
+            view: view,
+        });
+        view.ui.add(compass, 'top-left');
+
+        const home = new Home({
+            view: view,
+        });
+        view.ui.add(home, 'top-left');
+
+        const locate = new Locate({
+            view: view,
+        });
+        view.ui.add(locate, 'top-left');
+
+        const layerList = new Expand({
+            view: view,
+            content: new LayerList({
+                view: view,
+            }),
+            group: 'top-right',
+        });
+        view.ui.add(layerList, 'top-right');
+
+        const legend = new Expand({
+            view: view,
+            content: new Legend({
+                view: view,
+            }),
+            group: 'top-right',
+        });
+        view.ui.add(legend, 'top-right');
+
+        const basemapGallery = new Expand({
+            view: view,
+            content: new BasemapGallery({
+                view: view,
+            }),
+            group: 'top-right',
+        });
+        view.ui.add(basemapGallery, 'top-right');
+
+        const measure = new Expand({
+            view: view,
+            content: new DistanceMeasurement2D({
+                view: view,
+            }),
+            group: 'top-right',
+        });
+        view.ui.add(measure, 'top-right');
+
+        const measureArea = new Expand({
+            view: view,
+            content: new AreaMeasurement2D({
+                view: view,
+            }),
+            group: 'top-right',
+        });
+        view.ui.add(measureArea, 'top-right');
+
         // Remove all ui elements, so that they can be added manually as tools!
         //view.ui.components = ["attribution"];
         //view.ui.components = [];

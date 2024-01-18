@@ -9,6 +9,7 @@ const MapViewContainer = () => {
     return (
         <div className={'fixed top-0 left-0 w-full h-full'}>
             <MapView />
+            <div id="timeSlider"></div>
         </div>
     );
 };

@@ -4,3 +4,11 @@
 
 @import "https://js.arcgis.com/4.27/@arcgis/core/assets/esri/themes/light/main.css";
 @import "@esri/calcite-components/dist/calcite/calcite.css";
+
+.esri-ui {
+    inset: 0px 0px 0px 0px !important
+}
+
+.esri-time-slider {
+    width: 80vw;
+}
