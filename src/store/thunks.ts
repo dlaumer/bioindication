@@ -1,4 +1,4 @@
-import { RootState, StoreDispatch, StoreGetState } from '../configureStore';
+import { RootState, StoreDispatch, StoreGetState } from './configureStore';
 import { webmapIdChanged } from './reducer';
 
 // Good resource about what "thunks" are, and why they're used for writing Redux logic: https://redux.js.org/usage/writing-logic-thunks

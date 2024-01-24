@@ -29,4 +29,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: master # Change this if you are using a different branch
-          FOLDER: build # Change this if your build output is in a different folder
+          FOLDER: dist # Change this if your build output is in a different folder

@@ -1,16 +1,16 @@
 import { PartialRootState } from './configureStore';
 
-import { initialMapState, MapState } from './Map/reducer';
+import { initialAppState, AppState } from './reducer';
 
-const getPreloadedMapState = (): MapState => {
+const getPreloadedAppState = (): AppState => {
     return {
-        ...initialMapState,
+        ...initialAppState,
     };
 };
 
 const getPreloadedState = (): PartialRootState => {
     return {
-        Map: getPreloadedMapState(),
+        App: getPreloadedAppState(),
     };
 };
 

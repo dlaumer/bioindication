@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/Map';
-import Popup from '@arcgis/core/widgets/Popup';
+import PopupTemplate from '@arcgis/core/PopupTemplate';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import TimeSlider from '@arcgis/core/widgets/TimeSlider';
 import TimeInterval from '@arcgis/core/TimeInterval';
@@ -14,6 +14,7 @@ import Expand from '@arcgis/core/widgets/Expand';
 import Locate from '@arcgis/core/widgets/Locate';
 import Legend from '@arcgis/core/widgets/Legend';
 import LayerList from '@arcgis/core/widgets/LayerList';
+import Editor from '@arcgis/core/widgets/Editor';
 
 interface Props {
     /**
@@ -26,6 +27,9 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const mapDivRef = useRef<HTMLDivElement>();
 
     const [mapView, setMapView] = useState<MapView>(null);
+
+    const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
+    const dataLayyerViewId = '014ebd4120354d9bb3795be9276b40b9';
 
     const initMapView = () => {
         /////// BASIC MAP ELEMENTS /////////////////////////////////////////////////////////
@@ -41,17 +45,24 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             ground: 'world-elevation',
         });
 
-        const popup = new Popup({
-            content: '{content}',
-            actions: [] as any, // Disable all actions, TODO: Does not work completely yet
+        const template = new PopupTemplate({
+            title: '{rivername}',
+            content: [
+                {
+                    type: 'fields',
+                    fieldInfos: [
+                        {
+                            fieldName: 'landscape_eco_number ',
+                            label: 'Landscape Ecology as Number',
+                        },
+                    ],
+                },
+            ],
         });
-
-        // Restyle the popup to look more realistic, TODO: Also remove dock button
-        popup.viewModel.includeDefaultActions = false;
 
         // The view instance is the most important instance for ArcGIS, from here you can access almost all elements like layers, ui elements, widget, etc
         const view = new MapView({
-            popupEnabled: false,
+            popupEnabled: true,
             container: mapDivRef.current,
             map: map,
             center: [8.331, 46.946],
@@ -65,15 +76,15 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 start: new Date(2022, 1, 24),
                 end: new Date(2022, 3, 24),
             },
-
-            popup: popup,
         });
 
         const dataLayer = new FeatureLayer({
             portalItem: {
-                id: '665046b6489f4feaa1e25b379cb3f70c',
+                id: dataLayerId,
             },
         });
+
+        dataLayer.popupTemplate = template;
 
         view.map.add(dataLayer);
 
@@ -112,6 +123,15 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             view: view,
         });
         view.ui.add(locate, 'top-left');
+
+        const editor = new Expand({
+            view: view,
+            content: new Editor({
+                view: view,
+            }),
+            group: 'top-right',
+        });
+        view.ui.add(editor, 'top-right');
 
         const layerList = new Expand({
             view: view,
@@ -175,11 +195,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         <>
             <div
                 style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
                     width: '100%',
-                    height: '100%',
+                    height: '93%',
                 }}
                 ref={mapDivRef}
             ></div>
