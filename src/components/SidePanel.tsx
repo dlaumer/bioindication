@@ -12,8 +12,12 @@ import { getTranslation } from '../services/languageHelper';
 import Charts from './Charts';
 import { selectSidePanelContent } from '@store/selectors';
 import Measurement from './Measurement';
+import Button from './Button';
+import { setSidePanelContent } from '@store/reducer';
 
 const SidePanel: FC<React.ComponentProps<'div'>> = () => {
+    const dispatch = useDispatch();
+
     const sidePanelContent = useSelector(selectSidePanelContent);
 
     const chartTitle = getTranslation('chartTitle');
@@ -22,48 +26,62 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
     const printTitle = getTranslation('printTitle');
     const editTitle = getTranslation('editTitle');
 
-    const [title, setTitle] = useState(null);
-    const [content, setContent] = useState(null);
+    const [sidePanelWindow, setSidePanelWindow] = useState(null);
+
+    //const [content, setContent] = useState(null);
 
     useEffect(() => {
+        let content = null;
+        let title = null;
         if (sidePanelContent == 'charts') {
-            setTitle(chartTitle);
-            setContent(<Charts title="chartTitle"></Charts>);
+            title = chartTitle;
+            content = <Charts title="chartTitle"></Charts>;
         } else if (sidePanelContent == 'measurement') {
-            setTitle(measurementTitle);
-            setContent(<Measurement title="measurementTitle"></Measurement>);
+            title = measurementTitle;
+            content = <Measurement title="measurementTitle"></Measurement>;
         } else if (sidePanelContent == 'layerList') {
-            setTitle(layerListTitle);
-            setContent(<Measurement title="layerListTitle"></Measurement>);
+            title = layerListTitle;
+            content = <Measurement title="layerListTitle"></Measurement>;
         } else if (sidePanelContent == 'print') {
-            setTitle(printTitle);
-            setContent(<Measurement title="printTitle"></Measurement>);
+            title = printTitle;
+            content = <Measurement title="printTitle"></Measurement>;
         } else if (sidePanelContent == 'edit') {
-            setTitle(editTitle);
-            setContent(<Measurement title="editTitle"></Measurement>);
+            title = editTitle;
+            content = <Measurement title="editTitle"></Measurement>;
         }
+
+        setSidePanelWindow(
+            <div
+                id="sidePanel"
+                className={`${
+                    sidePanelContent == 'null' ? 'hidden' : ''
+                } absolute flex flex-col flex-none justify-between z-30 w-[30%]  h-[calc(100%_-_80px)] bg-white top-[70px] left-[10px]`}
+            >
+                <div
+                    id="sidePanelHeader"
+                    className="w-full flex flex-row justify-between h-fit bg-projectgreen p-[5px] "
+                >
+                    <div>{title}</div>
+                    <div className="flex flex-row white">
+                        <div className="p-1">v</div>
+                        <button
+                            className="p-1"
+                            onClick={() =>
+                                dispatch(setSidePanelContent('null'))
+                            }
+                        >
+                            x
+                        </button>
+                    </div>
+                </div>
+
+                {content}
+            </div>
+        );
     }, [sidePanelContent]);
 
     // UI part
-    return (
-        <div
-            id="sidePanel"
-            className="absolute flex flex-col flex-none justify-between z-30 w-[30%]  h-[calc(100%_-_80px)] bg-white top-[70px] left-[10px]"
-        >
-            <div
-                id="sidePanelHeader"
-                className="w-full flex flex-row justify-between h-fit bg-projectgreen p-[5px] "
-            >
-                <div>{title}</div>
-                <div className="flex flex-row white">
-                    <div className="p-1">v</div>
-                    <div className="p-1">x</div>
-                </div>
-            </div>
-
-            {content}
-        </div>
-    );
+    return <div>{sidePanelWindow}</div>;
 };
 
 export default SidePanel;
