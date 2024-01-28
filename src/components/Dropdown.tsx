@@ -8,8 +8,10 @@ Functionality for most of a basic dropdown from scratch like the opening and clo
 */
 import React, { useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage } from '../store/reducer';
+import { selectLanguage } from '@store/selectors';
+
 type DropdownProps = {
     tag: string;
     options?: string[];
@@ -17,8 +19,11 @@ type DropdownProps = {
 };
 
 const Dropdown: React.FC<DropdownProps> = ({ tag, options, isDisabled }) => {
+    const language = useSelector(selectLanguage);
+
     const [isExpanded, setIsExpanded] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(options[0]);
+    // ToDo: Secure in case the language in the url is not existant, check if language is in options!
+    const [selectedOption, setSelectedOption] = useState(language);
 
     const dispatch = useDispatch();
 
@@ -38,6 +43,19 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, options, isDisabled }) => {
                 onClick={() => {
                     if (tag == 'language') {
                         dispatch(setLanguage(option));
+
+                        // Construct URLSearchParams object instance from current URL querystring.
+                        const queryParams = new URLSearchParams(
+                            window.location.search
+                        );
+                        // Set new or modify existing parameter value.
+                        queryParams.set('lang', option);
+                        // Replace current querystring with the new one.
+                        history.replaceState(
+                            null,
+                            null,
+                            '?' + queryParams.toString()
+                        );
                     }
                     setSelectedOption(option);
                     setIsExpanded(!isExpanded);

@@ -10,7 +10,7 @@ let lang = 'en';
 export function getTranslation(id: string): string {
     const language = useSelector(selectLanguage);
     lang = language;
-    return translations[id][language] || '';
+    return (translations as any)[id][language] || '';
 }
 
 export function getTranslationForLanguage(
@@ -18,12 +18,12 @@ export function getTranslationForLanguage(
     language: string
 ): string {
     lang = language;
-    return translations[id][language] || '';
+    return (translations as any)[id][language] || '';
 }
 
 // It is not yet possible to change the layer name in the LayerList widget with react. So in order to use the getTranslation inside to create a ArcGIS Widget, it cannot include a useSelector. So I tried to do the next best thing and just remember the last language that was set and just use that one.
 export function getTranslationStatic(id: string): string {
-    return translations[id][lang] || '';
+    return (translations as any)[id][lang] || '';
 }
 // export async function loadCSVFile(
 //     path: string
