@@ -12,12 +12,14 @@ import { setLocale } from '@arcgis/core/intl';
 export type AppState = {
     language?: string;
     webmapId?: string;
+    sidePanelContent?: string;
 };
 
 export const initialAppState: AppState = {
     language: 'en',
     // Topographic
     webmapId: '67372ff42cd145319639a99152b15bc3',
+    sidePanelContent: 'charts',
 };
 
 const slice = createSlice({
@@ -28,6 +30,9 @@ const slice = createSlice({
             setLocale(action.payload);
             state.language = action.payload;
         },
+        setSidePanelContent: (state, action: PayloadAction<string>) => {
+            state.sidePanelContent = action.payload;
+        },
         webmapIdChanged: (state, action: PayloadAction<string>) => {
             state.webmapId = action.payload;
         },
@@ -36,6 +41,7 @@ const slice = createSlice({
 
 const { reducer } = slice;
 
-export const { webmapIdChanged, setLanguage } = slice.actions;
+export const { webmapIdChanged, setSidePanelContent, setLanguage } =
+    slice.actions;
 
 export default reducer;

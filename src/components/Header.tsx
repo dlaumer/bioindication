@@ -11,27 +11,63 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Button from './Button';
 import Dropdown from './Dropdown';
-import { selectLanguage } from '../store/selectors';
+import { selectSidePanelContent } from '../store/selectors';
+import { setSidePanelContent } from '@store/reducer';
 
 const Header = () => {
     const dispatch = useDispatch();
     // UI part
+
+    const sidePanelContent = useSelector(selectSidePanelContent);
+
+    const [buttons, setButtons] = useState(null);
+
+    useEffect(() => {
+        setButtons(
+            <div className="flex flex-row items-center gap-2 mr-4 font-noigrotesk">
+                <Button
+                    titleKey="chartTitle"
+                    onClick={() => dispatch(setSidePanelContent('charts'))}
+                    isActive={sidePanelContent == 'charts'}
+                ></Button>
+                <Button
+                    titleKey="measurementTitle"
+                    onClick={() => dispatch(setSidePanelContent('measurement'))}
+                    isActive={sidePanelContent == 'measurement'}
+                ></Button>
+                <Button
+                    titleKey="layerListTitle"
+                    onClick={() => dispatch(setSidePanelContent('layerList'))}
+                    isActive={sidePanelContent == 'layerList'}
+                ></Button>
+                <Button
+                    titleKey="printTitle"
+                    onClick={() => dispatch(setSidePanelContent('print'))}
+                    isActive={sidePanelContent == 'print'}
+                ></Button>
+                <Button
+                    titleKey="editTitle"
+                    onClick={() => dispatch(setSidePanelContent('edit'))}
+                    isActive={sidePanelContent == 'edit'}
+                ></Button>
+            </div>
+        );
+    }, [sidePanelContent]);
+
     return (
         <div
             id="header"
-            className="flex flex-row flex-none justify-between z-30 w-full py-1 bg-backgroundgray px-[15px]"
+            className="absolute flex flex-row flex-none justify-between z-30 w-full h-[60px] py-1 bg-headergreen px-[15px]"
         >
-            <div className="basis-2/5 flex justify-start items-baseline gap-3 align-baseline flex">
+            <div className="flex flex-row items-center gap-2 mr-4 font-noigrotesk">
                 <Button
-                    className="leading-snug xl:text-xxl text-navyblue hover:text-hoverblue font-noigrotesk"
+                    className="leading-snug xxl:text-xxl text-navyblue hover:text-hoverblue font-noigrotesk"
                     titleKey="title"
-                />
-                <div className="flex flex-row items-center gap-2 mr-4 font-noigrotesk">
-                    <Dropdown
-                        tag="language"
-                        options={['en', 'de', 'fr', 'it']}
-                    />
-                </div>
+                ></Button>
+                {buttons}
+            </div>
+            <div className="flex flex-row items-center gap-2 mr-4 font-noigrotesk">
+                <Dropdown tag="language" options={['en', 'de', 'fr', 'it']} />
                 <Button
                     titleKey="login"
                     //onClick={() => dispatch(setIsLoggedIn())}

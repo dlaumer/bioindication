@@ -10,3 +10,8 @@ export const selectLanguage = createSelector(
     (state: RootState) => state.App.language,
     (language) => language
 );
+
+export const selectSidePanelContent = createSelector(
+    (state: RootState) => state.App.sidePanelContent,
+    (sidePanelContent) => sidePanelContent
+);

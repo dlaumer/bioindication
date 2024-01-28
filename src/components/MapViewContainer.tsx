@@ -4,16 +4,14 @@ import MapView from './MapView';
 import { selectWebmapId } from '@store/selectors';
 import { getTranslation } from '../services/languageHelper';
 import Header from './Header';
+import SidePanel from './SidePanel';
 
 const MapViewContainer = () => {
-    const webmapId = useSelector(selectWebmapId);
-
-    const title = getTranslation('title');
-
     return (
         <div className={'fixed top-0 left-0 w-full h-full'}>
             <Header></Header>
             <MapView />
+            <SidePanel title="chartTitle"></SidePanel>
             <div id="timeSlider"></div>
         </div>
     );

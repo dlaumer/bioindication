@@ -29,7 +29,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const [mapView, setMapView] = useState<MapView>(null);
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
-    const dataLayyerViewId = '014ebd4120354d9bb3795be9276b40b9';
+    //const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
 
     const initMapView = () => {
         /////// BASIC MAP ELEMENTS /////////////////////////////////////////////////////////
@@ -196,7 +196,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             <div
                 style={{
                     width: '100%',
-                    height: '93%',
+                    height: '100%',
+                    backgroundColor: 'grey',
                 }}
                 ref={mapDivRef}
             ></div>

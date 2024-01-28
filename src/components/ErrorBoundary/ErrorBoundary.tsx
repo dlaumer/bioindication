@@ -31,7 +31,7 @@ export default class ErrorBoundary extends PureComponent<Props, State> {
 
     render() {
         const { children } = this.props;
-        const { error, errorInfo } = this.state;
+        const { error } = this.state;
 
         if (!error) {
             return children;
