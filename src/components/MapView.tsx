@@ -85,6 +85,27 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             },
         });
 
+        const query: any = {
+            //where: `EXTRACT(MONTH FROM ${layer.timeInfo.startField}) = ${month}`,
+            where: `1=1`,
+            returnGeometry: false,
+            outFields: ['*'],
+        };
+
+        // Perform the query on the feature layer
+        dataLayer
+            .queryFeatures(query)
+            .then(function (result: any) {
+                if (result.features.length > 0) {
+                    console.log(result);
+                } else {
+                    console.log(`No data found`);
+                }
+            })
+            .catch(function (error: any) {
+                console.error(`Query failed: `, error);
+            });
+
         dataLayer.popupTemplate = template;
 
         view.map.add(dataLayer);
