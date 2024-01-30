@@ -69,6 +69,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             zoom: 8,
 
             padding: {
+                left: screen.width / 3,
                 right: screen.width / 5,
                 bottom: 100,
             },
@@ -184,6 +185,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         view.when(() => {
             setMapView(view);
+            //timeSlider.container = 'filterTime';
         });
     };
 
