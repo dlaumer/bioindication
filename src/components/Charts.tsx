@@ -23,6 +23,7 @@ import {
 } from '@store/selectors';
 import Dropdown from './Dropdown';
 import Button from './Button';
+import ExampleChart from './ExampleChart';
 
 type ChartsProps = {
     title?: string;
@@ -129,6 +130,7 @@ const Charts: FC<ChartsProps & React.ComponentProps<'div'>> = ({
                         ]}
                     />
                 </div>
+                <ExampleChart />
             </div>
         </div>
     );
