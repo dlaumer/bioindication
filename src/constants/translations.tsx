@@ -83,6 +83,30 @@ const translations = {
         fr: 'Catégories de graphiques',
         it: 'Categorie di grafici',
     },
+    waterQuality: {
+        de: 'Wasser Qualität',
+        en: 'Water Quality',
+        fr: 'Eau Qualite',
+        it: 'Water Quality',
+    },
+    bioQuality: {
+        de: 'Bio Qualität',
+        en: 'Bio Quality',
+        fr: 'Bio Qualite',
+        it: 'Bio Quality',
+    },
+    selectArea: {
+        de: 'Gebiet auswählen',
+        en: 'Select area',
+        fr: 'Select area',
+        it: 'Select area',
+    },
+    clear: {
+        de: 'Löschen',
+        en: 'clear',
+        fr: 'effacer',
+        it: 'clear',
+    },
 };
 
 export default translations;

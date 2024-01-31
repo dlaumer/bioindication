@@ -15,6 +15,10 @@ import Measurement from './Measurement';
 import Button from './Button';
 import { setSidePanelContent } from '@store/reducer';
 
+import settings from './../constants/Settings.svg';
+import edit from './../constants/Edit.svg';
+import sort from './../constants/Sort.svg';
+
 const SidePanel: FC<React.ComponentProps<'div'>> = () => {
     const dispatch = useDispatch();
 
@@ -33,9 +37,11 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
     useEffect(() => {
         let content = null;
         let title = null;
+        let icon = settings;
         if (sidePanelContent == 'charts') {
             title = chartTitle;
             content = <Charts title="chartTitle"></Charts>;
+            icon = sort;
         } else if (sidePanelContent == 'measurement') {
             title = measurementTitle;
             content = <Measurement title="measurementTitle"></Measurement>;
@@ -48,7 +54,29 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         } else if (sidePanelContent == 'edit') {
             title = editTitle;
             content = <Measurement title="editTitle"></Measurement>;
+            icon = edit;
         }
+
+        const sidePanelHeader = (
+            <div
+                id="sidePanelHeader"
+                className="rounded-t-xl w-full flex flex-row justify-between h-fit bg-projectgreen p-[5px] "
+            >
+                <div className="h-full flex items-center">
+                    <img src={icon} className="h-[20px] px-[10px]"></img>
+                    <div>{title}</div>
+                </div>
+                <div className="flex flex-row white">
+                    <div className="p-1">v</div>
+                    <button
+                        className="p-1"
+                        onClick={() => dispatch(setSidePanelContent('null'))}
+                    >
+                        x
+                    </button>
+                </div>
+            </div>
+        );
 
         setSidePanelWindow(
             <div
@@ -57,24 +85,7 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
                     sidePanelContent == 'null' ? 'hidden' : ''
                 } absolute rounded-xl flex flex-col flex-none justify-between z-30 w-[30%]  h-[calc(100%_-_120px)] bg-white top-[70px] left-[10px]`}
             >
-                <div
-                    id="sidePanelHeader"
-                    className="rounded-t-xl w-full flex flex-row justify-between h-fit bg-projectgreen p-[5px] "
-                >
-                    <div>{title}</div>
-                    <div className="flex flex-row white">
-                        <div className="p-1">v</div>
-                        <button
-                            className="p-1"
-                            onClick={() =>
-                                dispatch(setSidePanelContent('null'))
-                            }
-                        >
-                            x
-                        </button>
-                    </div>
-                </div>
-
+                {sidePanelHeader}
                 {content}
             </div>
         );

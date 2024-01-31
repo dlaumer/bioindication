@@ -25,3 +25,23 @@ export const selectFilterSpaceActive = createSelector(
     (state: RootState) => state.App.filterSpaceActive,
     (filterSpaceActive) => filterSpaceActive
 );
+
+export const selectCategory = createSelector(
+    (state: RootState) => state.App.category,
+    (category) => category
+);
+
+export const selectFilterTimeStart = createSelector(
+    (state: RootState) => state.App.filterTimeStart,
+    (filterTimeStart) => filterTimeStart
+);
+
+export const selectFilterTimeEnd = createSelector(
+    (state: RootState) => state.App.filterTimeEnd,
+    (filterTimeStart) => filterTimeStart
+);
+
+export const selectFilterSpace = createSelector(
+    (state: RootState) => state.App.filterSpace,
+    (filterSpace) => filterSpace
+);

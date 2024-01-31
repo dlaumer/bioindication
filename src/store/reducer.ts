@@ -15,6 +15,11 @@ export type AppState = {
     sidePanelContent?: string;
     filterTimeActive?: boolean;
     filterSpaceActive?: boolean;
+    category?: string;
+
+    filterTimeStart?: Date;
+    filterTimeEnd?: Date;
+    filterSpace?: string;
 };
 
 export const initialAppState: AppState = {
@@ -23,6 +28,11 @@ export const initialAppState: AppState = {
     sidePanelContent: 'charts',
     filterTimeActive: false,
     filterSpaceActive: false,
+    category: 'waterQuality',
+
+    filterTimeStart: null,
+    filterTimeEnd: null,
+    filterSpace: null,
 };
 
 const slice = createSlice({
@@ -45,6 +55,18 @@ const slice = createSlice({
         setFilterSpaceActive: (state) => {
             state.filterSpaceActive = !state.filterSpaceActive;
         },
+        setCategory: (state, action: PayloadAction<string>) => {
+            state.category = action.payload;
+        },
+        setFilterTimeStart: (state, action: PayloadAction<Date>) => {
+            state.filterTimeStart = action.payload;
+        },
+        setFilterTimeEnd: (state, action: PayloadAction<Date>) => {
+            state.filterTimeEnd = action.payload;
+        },
+        setFilterSpace: (state, action: PayloadAction<string>) => {
+            state.filterSpace = action.payload;
+        },
     },
 });
 
@@ -56,6 +78,9 @@ export const {
     setLanguage,
     setFilterTimeActive,
     setFilterSpaceActive,
+    setFilterTimeStart,
+    setFilterTimeEnd,
+    setFilterSpace,
 } = slice.actions;
 
 export default reducer;

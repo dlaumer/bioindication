@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage } from '../store/reducer';
-import { selectLanguage } from '@store/selectors';
+import { selectLanguage, selectCategory } from '@store/selectors';
 
 type DropdownProps = {
     tag: string;
@@ -20,10 +20,18 @@ type DropdownProps = {
 
 const Dropdown: React.FC<DropdownProps> = ({ tag, options, isDisabled }) => {
     const language = useSelector(selectLanguage);
+    const category = useSelector(selectCategory);
 
     const [isExpanded, setIsExpanded] = useState(false);
     // ToDo: Secure in case the language in the url is not existant, check if language is in options!
-    const [selectedOption, setSelectedOption] = useState(language);
+    let selectedOpt = null;
+    if (tag == 'language') {
+        selectedOpt = language;
+    } else if (tag == 'categories') {
+        selectedOpt = category;
+    }
+
+    const [selectedOption, setSelectedOption] = useState(selectedOpt);
 
     const dispatch = useDispatch();
 
@@ -84,7 +92,7 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, options, isDisabled }) => {
             </button>
             {isExpanded && (
                 <div>
-                    <div className="absolute bg-white flex shadow-lg flex-col px-2 py-2 z-30 rounded-sm top-[35px] left-[5px] border border-black/40 z-[200]">
+                    <div className="absolute bg-white flex shadow-lg flex-col px-2 py-2 z-30 rounded-sm top-[50px] left-[5px] border border-black/40 z-[200]">
                         {optionsElements}
                     </div>
                 </div>
