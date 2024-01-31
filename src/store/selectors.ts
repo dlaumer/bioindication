@@ -15,3 +15,13 @@ export const selectSidePanelContent = createSelector(
     (state: RootState) => state.App.sidePanelContent,
     (sidePanelContent) => sidePanelContent
 );
+
+export const selectFilterTimeActive = createSelector(
+    (state: RootState) => state.App.filterTimeActive,
+    (filterTimeActive) => filterTimeActive
+);
+
+export const selectFilterSpaceActive = createSelector(
+    (state: RootState) => state.App.filterSpaceActive,
+    (filterSpaceActive) => filterSpaceActive
+);

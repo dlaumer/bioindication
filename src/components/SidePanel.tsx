@@ -55,11 +55,11 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
                 id="sidePanel"
                 className={`${
                     sidePanelContent == 'null' ? 'hidden' : ''
-                } absolute flex flex-col flex-none justify-between z-30 w-[30%]  h-[calc(100%_-_80px)] bg-white top-[70px] left-[10px]`}
+                } absolute rounded-xl flex flex-col flex-none justify-between z-30 w-[30%]  h-[calc(100%_-_120px)] bg-white top-[70px] left-[10px]`}
             >
                 <div
                     id="sidePanelHeader"
-                    className="w-full flex flex-row justify-between h-fit bg-projectgreen p-[5px] "
+                    className="rounded-t-xl w-full flex flex-row justify-between h-fit bg-projectgreen p-[5px] "
                 >
                     <div>{title}</div>
                     <div className="flex flex-row white">

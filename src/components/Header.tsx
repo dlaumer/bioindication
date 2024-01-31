@@ -24,7 +24,7 @@ const Header = () => {
 
     useEffect(() => {
         setButtons(
-            <div className="flex flex-row items-center gap-2 mr-4 font-noigrotesk">
+            <div className="flex flex-row items-center gap-2 mr-4 font-noigrotesk text-[10px]">
                 <Button
                     titleKey="chartTitle"
                     onClick={() => dispatch(setSidePanelContent('charts'))}

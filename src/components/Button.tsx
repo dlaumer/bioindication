@@ -41,7 +41,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
 
     return (
         <button
-            className={`transition-opacity ease-in-out duration-200 font-noigrotesk px-1 py-1 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
+            className={`rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
                 isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
             }
             ${isActive ? 'bg-white shadow-sm text-black' : 'bg-backgroundgray'}

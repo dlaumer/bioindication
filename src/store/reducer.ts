@@ -13,13 +13,16 @@ export type AppState = {
     language?: string;
     webmapId?: string;
     sidePanelContent?: string;
+    filterTimeActive?: boolean;
+    filterSpaceActive?: boolean;
 };
 
 export const initialAppState: AppState = {
     language: 'en',
-    // Topographic
     webmapId: '67372ff42cd145319639a99152b15bc3',
     sidePanelContent: 'charts',
+    filterTimeActive: false,
+    filterSpaceActive: false,
 };
 
 const slice = createSlice({
@@ -36,12 +39,23 @@ const slice = createSlice({
         webmapIdChanged: (state, action: PayloadAction<string>) => {
             state.webmapId = action.payload;
         },
+        setFilterTimeActive: (state) => {
+            state.filterTimeActive = !state.filterTimeActive;
+        },
+        setFilterSpaceActive: (state) => {
+            state.filterSpaceActive = !state.filterSpaceActive;
+        },
     },
 });
 
 const { reducer } = slice;
 
-export const { webmapIdChanged, setSidePanelContent, setLanguage } =
-    slice.actions;
+export const {
+    webmapIdChanged,
+    setSidePanelContent,
+    setLanguage,
+    setFilterTimeActive,
+    setFilterSpaceActive,
+} = slice.actions;
 
 export default reducer;

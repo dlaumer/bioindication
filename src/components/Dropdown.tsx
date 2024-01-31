@@ -68,7 +68,7 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, options, isDisabled }) => {
     return (
         <div className="flex items-center relative px-1 py-1 h-fit w-fit">
             <button
-                className={`bg-white px-1 py-1 font-noigrotesk font-medium text-lg ${
+                className={`rounded-xl bg-white p-2 font-noigrotesk font-medium text-lg ${
                     isDisabled
                         ? 'cursor-not-allowed opacity-50'
                         : 'cursor-pointer'
