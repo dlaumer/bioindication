@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 
 import React, { FC } from 'react';
 import { getTranslation } from '../services/languageHelper';
+import ExampleChart from './ExampleChart';
 
 type ChartsProps = {
     title?: string;
@@ -39,6 +40,7 @@ const Charts: FC<ChartsProps & React.ComponentProps<'div'>> = ({
                 <div id="filterTopicTitle">
                     {getTranslation('filterTopicTitle')}
                 </div>
+                <ExampleChart />
             </div>
         </div>
     );
