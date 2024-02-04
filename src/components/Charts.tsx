@@ -114,7 +114,7 @@ const Charts: FC<ChartsProps & React.ComponentProps<'div'>> = ({
             </div>
             <div
                 id="filterChart"
-                className="rounded-xl w-full flex-grow-[4] p-[5px] my-[2.5px] bg-backgroundgray"
+                className="rounded-xl w-full flex-grow-[4] max-h-[60vh] p-[5px] my-[2.5px] bg-backgroundgray"
             >
                 <div className="flex items-center justify-between ">
                     <div id="filterTopicTitle">
