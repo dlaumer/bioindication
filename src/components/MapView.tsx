@@ -15,6 +15,7 @@ import Locate from '@arcgis/core/widgets/Locate';
 import Legend from '@arcgis/core/widgets/Legend';
 import LayerList from '@arcgis/core/widgets/LayerList';
 import Editor from '@arcgis/core/widgets/Editor';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils.js';
 
 interface Props {
     /**
@@ -30,6 +31,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     //const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
+
+    let isInitalizing = false;
 
     const initMapView = () => {
         /////// BASIC MAP ELEMENTS /////////////////////////////////////////////////////////
@@ -129,7 +132,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             },
         });
 
-        view.ui.add(timeSlider, 'bottom-left');
+        //view.ui.add(timeSlider, 'bottom-left');
 
         const compass = new Compass({
             view: view,
@@ -206,12 +209,24 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         view.when(() => {
             setMapView(view);
-            //timeSlider.container = 'filterTime';
         });
+
+        // Function block the UI while the map is loading!
+        reactiveUtils
+            .whenOnce(() => !view.updating)
+            .then(() => {
+                console.log(timeSlider.container);
+
+                timeSlider.container = 'filterTimeContainer';
+            });
     };
 
     useEffect(() => {
-        initMapView();
+        // For some reason it always excecuted this twice, so that's a hacky solution to fix this
+        if (!isInitalizing) {
+            initMapView();
+            isInitalizing = true;
+        }
     }, []);
 
     return (

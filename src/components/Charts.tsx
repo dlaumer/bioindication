@@ -72,6 +72,7 @@ const Charts: FC<ChartsProps & React.ComponentProps<'div'>> = ({
                         {getTranslation('clear')}
                     </button>
                 </div>
+                <div id="filterTimeContainer"></div>
             </div>
             <div
                 id="filterSpace"
