@@ -16,6 +16,12 @@ import Legend from '@arcgis/core/widgets/Legend';
 import LayerList from '@arcgis/core/widgets/LayerList';
 import Editor from '@arcgis/core/widgets/Editor';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils.js';
+import esriId from '@arcgis/core/identity/IdentityManager';
+import OAuthInfo from '@arcgis/core/identity/OAuthInfo';
+import ServerInfo from '@arcgis/core/identity/ServerInfo';
+import PortalItem from '@arcgis/core/portal/PortalItem';
+import esriConfig from '@arcgis/core/config';
+import Portal from '@arcgis/core/portal/Portal';
 
 interface Props {
     /**
@@ -34,7 +40,26 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     let isInitalizing = false;
 
+    esriConfig.portalUrl = 'https://globe-swiss.maps.arcgis.com/';
+
+    const info = new OAuthInfo({
+        appId: 'yfPKXnYPgQwSEDyK',
+        popup: false, // the default
+    });
+    let signedIn = false;
+
     const initMapView = () => {
+        esriId.registerOAuthInfos([info]);
+
+        esriId
+            .checkSignInStatus(info.portalUrl + '/sharing')
+            .then(() => {
+                handleSignedIn();
+            })
+            .catch(() => {
+                handleSignedOut();
+            });
+
         /////// BASIC MAP ELEMENTS /////////////////////////////////////////////////////////
         // Map instance, holds the layers and the basemap definition
         const map = new Map({
@@ -219,6 +244,33 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
                 timeSlider.container = 'filterTimeContainer';
             });
+    };
+
+    const handleSignInOut = () => {
+        if (signedIn) {
+            esriId.destroyCredentials();
+            window.location.reload();
+        } else {
+            esriId.getCredential(info.portalUrl + '/sharing');
+        }
+    };
+
+    const handleSignedIn = () => {
+        const portal = new Portal();
+        portal
+            .load()
+            .then(() => {
+                signedIn = true;
+            })
+            .catch(() => {
+                esriId.destroyCredentials();
+                window.location.reload();
+                //alert(strings.get("notAllowed"))
+            });
+    };
+
+    const handleSignedOut = () => {
+        signedIn = false;
     };
 
     useEffect(() => {
