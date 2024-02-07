@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from './Button';
 import Dropdown from './Dropdown';
 import { selectSidePanelContent } from '../store/selectors';
-import { setSidePanelContent } from '@store/reducer';
+import { setSidePanelContent, toggleIsLoggedIn } from '@store/reducer';
 import settings from './../constants/Settings.svg';
 import edit from './../constants/Edit.svg';
 import sort from './../constants/Sort.svg';
@@ -82,7 +82,7 @@ const Header = () => {
                     />
                     <Button
                         titleKey="login"
-                        //onClick={() => dispatch(setIsLoggedIn())}
+                        onClick={() => dispatch(toggleIsLoggedIn())}
                     />
                 </div>
             </div>

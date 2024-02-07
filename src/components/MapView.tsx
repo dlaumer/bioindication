@@ -22,6 +22,8 @@ import ServerInfo from '@arcgis/core/identity/ServerInfo';
 import PortalItem from '@arcgis/core/portal/PortalItem';
 import esriConfig from '@arcgis/core/config';
 import Portal from '@arcgis/core/portal/Portal';
+import { selectFilterTimeActive, selectIsLoggedIn } from '@store/selectors';
+import { useSelector } from 'react-redux';
 
 interface Props {
     /**
@@ -34,9 +36,13 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const mapDivRef = useRef<HTMLDivElement>();
 
     const [mapView, setMapView] = useState<MapView>(null);
+    const [timeSlider, setTimeSlider] = useState<TimeSlider>(null);
+
+    const filterTimeActive = useSelector(selectFilterTimeActive);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
-    //const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
+    const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
 
     let isInitalizing = false;
 
@@ -46,7 +52,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         appId: 'yfPKXnYPgQwSEDyK',
         popup: false, // the default
     });
-    let signedIn = false;
 
     const initMapView = () => {
         esriId.registerOAuthInfos([info]);
@@ -138,7 +143,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         view.map.add(dataLayer);
 
-        const timeSlider = new TimeSlider({
+        const slider = new TimeSlider({
             view: view,
             mode: 'time-window',
             fullTimeExtent: {
@@ -155,7 +160,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     unit: 'days',
                 }),
             },
+            disabled: true,
         });
+
+        setTimeSlider(slider);
 
         //view.ui.add(timeSlider, 'bottom-left');
 
@@ -240,17 +248,40 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         reactiveUtils
             .whenOnce(() => !view.updating)
             .then(() => {
-                console.log(timeSlider.container);
+                slider.container = 'filterTimeContainer';
 
-                timeSlider.container = 'filterTimeContainer';
+                slider.when(() => {
+                    const timeSliderFooter = document.getElementsByClassName(
+                        'esri-time-slider__min'
+                    )[0].parentNode;
+                    (timeSliderFooter as HTMLElement).style.display = 'none';
+                    document.getElementById('filterTimeContainer').onclick =
+                        function (event) {
+                            event.stopPropagation();
+                        };
+                });
             });
     };
 
+    useEffect(() => {
+        if (timeSlider != null) {
+            timeSlider.disabled = !timeSlider.disabled;
+        }
+    }, [filterTimeActive]);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            handleSignInOut();
+        }
+    }, [isLoggedIn]);
+
     const handleSignInOut = () => {
-        if (signedIn) {
+        if (!isLoggedIn) {
+            console.log('wuhu1');
             esriId.destroyCredentials();
             window.location.reload();
         } else {
+            console.log('wuhu2');
             esriId.getCredential(info.portalUrl + '/sharing');
         }
     };
@@ -260,7 +291,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         portal
             .load()
             .then(() => {
-                signedIn = true;
+                console.log(portal.user.username);
             })
             .catch(() => {
                 esriId.destroyCredentials();
@@ -269,9 +300,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             });
     };
 
-    const handleSignedOut = () => {
-        signedIn = false;
-    };
+    const handleSignedOut = () => {};
 
     useEffect(() => {
         // For some reason it always excecuted this twice, so that's a hacky solution to fix this

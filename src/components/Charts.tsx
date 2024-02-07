@@ -50,7 +50,10 @@ const Charts: FC<ChartsProps & React.ComponentProps<'div'>> = ({
                         ? 'bg-activeBlue cursor-pointer'
                         : 'bg-backgroundgray opacity-50'
                 }`}
-                onClick={() => dispatch(setFilterTimeActive())}
+                onClick={(event) => {
+                    dispatch(setFilterTimeActive());
+                    event.stopPropagation();
+                }}
             >
                 <div className="flex items-center justify-between ">
                     <div id="filterTimeTitle">
@@ -81,7 +84,10 @@ const Charts: FC<ChartsProps & React.ComponentProps<'div'>> = ({
                         ? 'bg-activeBlue cursor-pointer'
                         : 'bg-backgroundgray opacity-50'
                 }`}
-                onClick={() => dispatch(setFilterSpaceActive())}
+                onClick={(event) => {
+                    dispatch(setFilterSpaceActive());
+                    event.stopPropagation();
+                }}
             >
                 <div className="flex items-center justify-between ">
                     <div id="filterSpaceTitle">

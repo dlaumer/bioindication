@@ -14,3 +14,7 @@
 .esri-ui-inner-container {
     inset: 70px 15px 30px 32% !important
 }
+
+.esri-time-slider {
+    min-width: unset;
+}

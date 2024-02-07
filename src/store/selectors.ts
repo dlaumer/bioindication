@@ -45,3 +45,8 @@ export const selectFilterSpace = createSelector(
     (state: RootState) => state.App.filterSpace,
     (filterSpace) => filterSpace
 );
+
+export const selectIsLoggedIn = createSelector(
+    (state: RootState) => state.App.isLoggedIn,
+    (isLoggedIn) => isLoggedIn
+);

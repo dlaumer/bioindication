@@ -20,6 +20,8 @@ export type AppState = {
     filterTimeStart?: Date;
     filterTimeEnd?: Date;
     filterSpace?: string;
+
+    isLoggedIn?: boolean;
 };
 
 export const initialAppState: AppState = {
@@ -33,6 +35,7 @@ export const initialAppState: AppState = {
     filterTimeStart: null,
     filterTimeEnd: null,
     filterSpace: null,
+    isLoggedIn: false,
 };
 
 const slice = createSlice({
@@ -67,6 +70,9 @@ const slice = createSlice({
         setFilterSpace: (state, action: PayloadAction<string>) => {
             state.filterSpace = action.payload;
         },
+        toggleIsLoggedIn: (state) => {
+            state.isLoggedIn = !state.isLoggedIn;
+        },
     },
 });
 
@@ -81,6 +87,7 @@ export const {
     setFilterTimeStart,
     setFilterTimeEnd,
     setFilterSpace,
+    toggleIsLoggedIn,
 } = slice.actions;
 
 export default reducer;
