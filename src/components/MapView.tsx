@@ -14,6 +14,7 @@ import Expand from '@arcgis/core/widgets/Expand';
 import Locate from '@arcgis/core/widgets/Locate';
 import Legend from '@arcgis/core/widgets/Legend';
 import LayerList from '@arcgis/core/widgets/LayerList';
+import ElevationProfile from '@arcgis/core/widgets/ElevationProfile';
 import Editor from '@arcgis/core/widgets/Editor';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils.js';
 import esriId from '@arcgis/core/identity/IdentityManager';
@@ -236,6 +237,15 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
         view.ui.add(measureArea, 'top-right');
 
+        const elevatonProfile = new Expand({
+            view: view,
+            content: new ElevationProfile({
+                view: view,
+            }),
+            group: 'top-right',
+        });
+        view.ui.add(elevatonProfile, 'top-right');
+
         // Remove all ui elements, so that they can be added manually as tools!
         //view.ui.components = ["attribution"];
         //view.ui.components = [];
@@ -269,13 +279,19 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         }
     }, [filterTimeActive]);
 
+    let firstTime = true;
     useEffect(() => {
-        if (isLoggedIn) {
+        if (isLoggedIn && firstTime) {
+            handleSignInOut();
+            firstTime = false;
+        }
+        if (!firstTime) {
             handleSignInOut();
         }
     }, [isLoggedIn]);
 
     const handleSignInOut = () => {
+        console.log('wuhu');
         if (!isLoggedIn) {
             console.log('wuhu1');
             esriId.destroyCredentials();

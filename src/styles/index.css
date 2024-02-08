@@ -18,3 +18,11 @@
 .esri-time-slider {
     min-width: unset;
 }
+
+.esri-distance-measurement-2d {
+    padding: 10px;
+}
+.esri-area-measurement-2d {
+    padding: 10px;
+}
+

@@ -82,7 +82,7 @@ const Header = () => {
                     />
                     <Button
                         titleKey="login"
-                        onClick={() => dispatch(toggleIsLoggedIn())}
+                        //onClick={() => dispatch(toggleIsLoggedIn())}
                     />
                 </div>
             </div>
