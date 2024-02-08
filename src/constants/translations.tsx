@@ -86,26 +86,26 @@ const translations = {
     waterQuality: {
         de: 'Wasser Qualität',
         en: 'Water Quality',
-        fr: 'Eau Qualite',
-        it: 'Water Quality',
+        fr: "Qualite d'eau",
+        it: "Qualita dell'acuqa",
     },
     bioQuality: {
         de: 'Bio Qualität',
         en: 'Bio Quality',
-        fr: 'Bio Qualite',
-        it: 'Bio Quality',
+        fr: 'Qualité biologique',
+        it: 'Qualita Biologica',
     },
     selectArea: {
         de: 'Gebiet auswählen',
         en: 'Select area',
-        fr: 'Select area',
-        it: 'Select area',
+        fr: 'Sélectionner une zone',
+        it: 'Seleziona zona',
     },
     clear: {
         de: 'Löschen',
         en: 'clear',
         fr: 'effacer',
-        it: 'clear',
+        it: 'eliminare',
     },
 };
 
