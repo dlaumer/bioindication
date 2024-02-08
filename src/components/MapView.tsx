@@ -23,7 +23,11 @@ import ServerInfo from '@arcgis/core/identity/ServerInfo';
 import PortalItem from '@arcgis/core/portal/PortalItem';
 import esriConfig from '@arcgis/core/config';
 import Portal from '@arcgis/core/portal/Portal';
-import { selectFilterTimeActive, selectIsLoggedIn } from '@store/selectors';
+import {
+    selectFilterTimeActive,
+    selectIsLoggedIn,
+    selectSidePanelContent,
+} from '@store/selectors';
 import { useSelector } from 'react-redux';
 
 interface Props {
@@ -38,9 +42,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     const [mapView, setMapView] = useState<MapView>(null);
     const [timeSlider, setTimeSlider] = useState<TimeSlider>(null);
+    const [editor, setEditor] = useState<Editor>(null);
 
     const filterTimeActive = useSelector(selectFilterTimeActive);
     const isLoggedIn = useSelector(selectIsLoggedIn);
+    const sidePanelContent = useSelector(selectSidePanelContent);
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
@@ -183,14 +189,12 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
         view.ui.add(locate, 'top-left');
 
-        const editor = new Expand({
+        const edit = new Editor({
             view: view,
-            content: new Editor({
-                view: view,
-            }),
-            group: 'top-right',
         });
-        view.ui.add(editor, 'top-right');
+
+        setEditor(edit);
+        //view.ui.add(editor, 'top-right');
 
         const layerList = new Expand({
             view: view,
@@ -272,6 +276,18 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 });
             });
     };
+
+    useEffect(() => {
+        console.log(editor);
+
+        if (sidePanelContent == 'edit' && editor != null) {
+            setTimeout(function () {
+                console.log(document.getElementById('editTitle'));
+
+                editor.container = 'editTitle';
+            }, 500);
+        }
+    }, [sidePanelContent]);
 
     useEffect(() => {
         if (timeSlider != null) {

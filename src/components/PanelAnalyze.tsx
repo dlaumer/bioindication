@@ -25,10 +25,10 @@ import Dropdown from './Dropdown';
 import Button from './Button';
 import ExampleChart from './ExampleChart';
 
-type ChartsProps = {
+type PanelAnalyzeProps = {
     title?: string;
 };
-const Charts: FC<ChartsProps & React.ComponentProps<'div'>> = ({
+const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     title = 'Default',
 }) => {
     title = getTranslation(title);
@@ -143,4 +143,4 @@ const Charts: FC<ChartsProps & React.ComponentProps<'div'>> = ({
     );
 };
 
-export default Charts;
+export default PanelAnalyze;

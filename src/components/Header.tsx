@@ -29,21 +29,16 @@ const Header = () => {
         setButtons(
             <div className="flex flex-row h-[80%] items-center gap-2 mr-4 font-noigrotesk">
                 <Button
-                    titleKey="chartTitle"
+                    titleKey="analyzeTitle"
                     onClick={() => dispatch(setSidePanelContent('charts'))}
                     isActive={sidePanelContent == 'charts'}
                     icon={sort}
                 ></Button>
+
                 <Button
-                    titleKey="measurementTitle"
-                    onClick={() => dispatch(setSidePanelContent('measurement'))}
-                    isActive={sidePanelContent == 'measurement'}
-                    icon={settings}
-                ></Button>
-                <Button
-                    titleKey="layerListTitle"
-                    onClick={() => dispatch(setSidePanelContent('layerList'))}
-                    isActive={sidePanelContent == 'layerList'}
+                    titleKey="processTitle"
+                    onClick={() => dispatch(setSidePanelContent('process'))}
+                    isActive={sidePanelContent == 'process'}
                     icon={settings}
                 ></Button>
                 <Button

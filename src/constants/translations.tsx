@@ -35,11 +35,11 @@ const translations = {
         fr: 'Connexion',
         it: 'Accesso',
     },
-    chartTitle: {
-        de: 'Diagramme',
-        en: 'Charts',
-        fr: 'Graphiques',
-        it: 'Grafici',
+    analyzeTitle: {
+        de: 'Analyse',
+        en: 'Analyze',
+        fr: 'Analyser',
+        it: 'Analizzare',
     },
     measurementTitle: {
         de: 'Messung',
@@ -52,6 +52,12 @@ const translations = {
         en: 'Layer List',
         fr: 'Liste des couches',
         it: 'Lista dei layer',
+    },
+    processTitle: {
+        de: 'Verarbeiten',
+        en: 'Process',
+        fr: 'Traiter',
+        it: 'Processare',
     },
     printTitle: {
         de: 'Drucken',

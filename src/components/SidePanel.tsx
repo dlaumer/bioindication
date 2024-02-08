@@ -9,24 +9,26 @@ UI for the Header, different buttons, dropdowns and titles
 import { useSelector, useDispatch } from 'react-redux';
 import React, { FC, useEffect, useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
-import Charts from './Charts';
+import PanelAnalyze from './PanelAnalyze';
 import { selectSidePanelContent } from '@store/selectors';
-import Measurement from './Measurement';
+import Measurement from './PanelEditor';
 import Button from './Button';
 import { setSidePanelContent } from '@store/reducer';
 
 import settings from './../constants/Settings.svg';
 import edit from './../constants/Edit.svg';
 import sort from './../constants/Sort.svg';
+import PanelProcess from './PanelProcess';
+import PanelPrint from './PanelPrint';
+import PanelEditor from './PanelEditor';
 
 const SidePanel: FC<React.ComponentProps<'div'>> = () => {
     const dispatch = useDispatch();
 
     const sidePanelContent = useSelector(selectSidePanelContent);
 
-    const chartTitle = getTranslation('chartTitle');
-    const measurementTitle = getTranslation('measurementTitle');
-    const layerListTitle = getTranslation('layerListTitle');
+    const analyzeTitle = getTranslation('analyzeTitle');
+    const processTitle = getTranslation('processTitle');
     const printTitle = getTranslation('printTitle');
     const editTitle = getTranslation('editTitle');
 
@@ -39,21 +41,18 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         let title = null;
         let icon = settings;
         if (sidePanelContent == 'charts') {
-            title = chartTitle;
-            content = <Charts title="chartTitle"></Charts>;
+            title = analyzeTitle;
+            content = <PanelAnalyze title="analyzeTitle"></PanelAnalyze>;
             icon = sort;
-        } else if (sidePanelContent == 'measurement') {
-            title = measurementTitle;
-            content = <Measurement title="measurementTitle"></Measurement>;
-        } else if (sidePanelContent == 'layerList') {
-            title = layerListTitle;
-            content = <Measurement title="layerListTitle"></Measurement>;
+        } else if (sidePanelContent == 'process') {
+            title = processTitle;
+            content = <PanelProcess title="processTitle"></PanelProcess>;
         } else if (sidePanelContent == 'print') {
             title = printTitle;
-            content = <Measurement title="printTitle"></Measurement>;
+            content = <PanelPrint title="printTitle"></PanelPrint>;
         } else if (sidePanelContent == 'edit') {
             title = editTitle;
-            content = <Measurement title="editTitle"></Measurement>;
+            content = <PanelEditor title="editTitle"></PanelEditor>;
             icon = edit;
         }
 
