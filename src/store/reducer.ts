@@ -27,7 +27,7 @@ export type AppState = {
 export const initialAppState: AppState = {
     language: 'en',
     webmapId: '67372ff42cd145319639a99152b15bc3',
-    sidePanelContent: 'charts',
+    sidePanelContent: 'analyze',
     filterTimeActive: false,
     filterSpaceActive: false,
     category: 'waterQuality',

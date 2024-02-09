@@ -207,12 +207,13 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const legend = new Expand({
             view: view,
+            expanded: true,
             content: new Legend({
                 view: view,
             }),
             group: 'top-right',
         });
-        view.ui.add(legend, 'top-right');
+        view.ui.add(legend, 'bottom-right');
 
         const basemapGallery = new Expand({
             view: view,
@@ -281,11 +282,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         console.log(editor);
 
         if (sidePanelContent == 'edit' && editor != null) {
-            setTimeout(function () {
-                console.log(document.getElementById('editTitle'));
-
-                editor.container = 'editTitle';
-            }, 500);
+            editor.container = 'editTitle';
         }
     }, [sidePanelContent]);
 

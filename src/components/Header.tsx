@@ -15,7 +15,9 @@ import { selectSidePanelContent } from '../store/selectors';
 import { setSidePanelContent, toggleIsLoggedIn } from '@store/reducer';
 import settings from './../constants/Settings.svg';
 import edit from './../constants/Edit.svg';
-import sort from './../constants/Sort.svg';
+import analyze from './../constants/pie-chart.svg';
+import process from './../constants/refresh-cw.svg';
+import print from './../constants/printer.svg';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -30,22 +32,22 @@ const Header = () => {
             <div className="flex flex-row h-[80%] items-center gap-2 mr-4 font-noigrotesk">
                 <Button
                     titleKey="analyzeTitle"
-                    onClick={() => dispatch(setSidePanelContent('charts'))}
-                    isActive={sidePanelContent == 'charts'}
-                    icon={sort}
+                    onClick={() => dispatch(setSidePanelContent('analyze'))}
+                    isActive={sidePanelContent == 'analyze'}
+                    icon={analyze}
                 ></Button>
 
                 <Button
                     titleKey="processTitle"
                     onClick={() => dispatch(setSidePanelContent('process'))}
                     isActive={sidePanelContent == 'process'}
-                    icon={settings}
+                    icon={process}
                 ></Button>
                 <Button
                     titleKey="printTitle"
                     onClick={() => dispatch(setSidePanelContent('print'))}
                     isActive={sidePanelContent == 'print'}
-                    icon={settings}
+                    icon={print}
                 ></Button>
                 <Button
                     titleKey="editTitle"

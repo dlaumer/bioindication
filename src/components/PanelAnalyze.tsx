@@ -27,9 +27,11 @@ import ExampleChart from './ExampleChart';
 
 type PanelAnalyzeProps = {
     title?: string;
+    active?: boolean;
 };
 const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     title = 'Default',
+    active = false,
 }) => {
     title = getTranslation(title);
 
@@ -40,8 +42,10 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     // UI part
     return (
         <div
-            id="charts"
-            className="flex flex-col flex-none justify-between z-30 w-full  h-full bg-white p-[5px]"
+            id="analyze"
+            className={`${
+                active ? '' : 'hidden'
+            } flex flex-col flex-none justify-between z-30 w-full  h-full bg-white p-[5px]`}
         >
             <div
                 id="filterTime"

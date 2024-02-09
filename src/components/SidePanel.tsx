@@ -15,12 +15,15 @@ import Measurement from './PanelEditor';
 import Button from './Button';
 import { setSidePanelContent } from '@store/reducer';
 
-import settings from './../constants/Settings.svg';
-import edit from './../constants/Edit.svg';
-import sort from './../constants/Sort.svg';
 import PanelProcess from './PanelProcess';
 import PanelPrint from './PanelPrint';
 import PanelEditor from './PanelEditor';
+
+import settings from './../constants/Settings.svg';
+import edit from './../constants/Edit.svg';
+import analyze from './../constants/pie-chart.svg';
+import process2 from './../constants/refresh-cw.svg';
+import print from './../constants/printer.svg';
 
 const SidePanel: FC<React.ComponentProps<'div'>> = () => {
     const dispatch = useDispatch();
@@ -35,26 +38,49 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
     const [sidePanelWindow, setSidePanelWindow] = useState(null);
 
     //const [content, setContent] = useState(null);
+    const content: any = [];
 
     useEffect(() => {
-        let content = null;
         let title = null;
         let icon = settings;
-        if (sidePanelContent == 'charts') {
+        if (sidePanelContent == 'analyze') {
             title = analyzeTitle;
-            content = <PanelAnalyze title="analyzeTitle"></PanelAnalyze>;
-            icon = sort;
+            icon = analyze;
         } else if (sidePanelContent == 'process') {
             title = processTitle;
-            content = <PanelProcess title="processTitle"></PanelProcess>;
+            icon = process2;
         } else if (sidePanelContent == 'print') {
             title = printTitle;
-            content = <PanelPrint title="printTitle"></PanelPrint>;
+            icon = print;
         } else if (sidePanelContent == 'edit') {
             title = editTitle;
-            content = <PanelEditor title="editTitle"></PanelEditor>;
             icon = edit;
         }
+
+        content.push(
+            <PanelAnalyze
+                active={sidePanelContent == 'analyze'}
+                title="analyzeTitle"
+            ></PanelAnalyze>
+        );
+        content.push(
+            <PanelProcess
+                active={sidePanelContent == 'process'}
+                title="processTitle"
+            ></PanelProcess>
+        );
+        content.push(
+            <PanelPrint
+                active={sidePanelContent == 'print'}
+                title="printTitle"
+            ></PanelPrint>
+        );
+        content.push(
+            <PanelEditor
+                active={sidePanelContent == 'edit'}
+                title="editTitle"
+            ></PanelEditor>
+        );
 
         const sidePanelHeader = (
             <div

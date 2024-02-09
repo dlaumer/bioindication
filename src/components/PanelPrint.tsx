@@ -13,9 +13,11 @@ import { getTranslation } from '../services/languageHelper';
 
 type PanelPrintProps = {
     title?: string;
+    active?: boolean;
 };
 const PanelPrint: FC<PanelPrintProps & React.ComponentProps<'div'>> = ({
     title = 'Default',
+    active = false,
 }) => {
     const dispatch = useDispatch();
     //let title = getTranslation(titleId);
@@ -24,7 +26,9 @@ const PanelPrint: FC<PanelPrintProps & React.ComponentProps<'div'>> = ({
     return (
         <div
             id={title}
-            className="flex flex-col flex-none justify-between z-30 w-full  h-full bg-white p-[5px]"
+            className={`${
+                active ? '' : 'hidden'
+            } flex flex-col flex-none justify-between z-30 w-full  h-full bg-white p-[5px]`}
         ></div>
     );
 };
