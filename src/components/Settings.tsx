@@ -21,6 +21,7 @@ import {
     toggleSettingsOpen,
 } from '@store/reducer';
 import Button from './Button';
+import { getTranslation } from '@services/languageHelper';
 
 const Settings: FC<React.ComponentProps<'div'>> = () => {
     const dispatch = useDispatch();
@@ -31,6 +32,8 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
 
     const [settingsWindow, setSettingsWindow] = useState(null);
     const [settingsSidePanel, setSettingsSidePanel] = useState(null);
+
+    const title = getTranslation('settings');
 
     //const [content, setContent] = useState(null);
 
@@ -117,7 +120,7 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
             <div
                 key="settings"
                 id="settings"
-                className={`absolute rounded-xl flex flex-col flex-none justify-between z-30 w-[30%]  h-[30%] bg-white`}
+                className={`flex flex-col flex-none justify-between`}
             >
                 {content}
             </div>
@@ -139,28 +142,31 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
             id={'settingsWindow'}
             className={`${
                 settingsOpen ? '' : 'hidden'
-            } absolute top-0 w-full bg-black bg-opacity-50 h-full z-[100] p-64`}
+            } absolute top-0 w-full bg-black bg-opacity-50 h-full z-[100] pointer-events-none`}
         >
-            <div className="w-full h-full bg-white p-3 overflow-auto">
+            <div className="absolute left-[calc(50%-300px)] top-[calc(50%-200px)] h-[400px] w-[600px] bg-backgroundgray p-3 overflow-auto pointer-events-auto">
                 <div
                     id="settingsHeader"
-                    className="flex flex-row justify-end w-full h-[10%]"
+                    className="flex flex-row justify-between w-full h-[10%]"
                 >
+                    <div className="flex align-center justify-center flex-col">
+                        <div>{title}</div>
+                    </div>
                     <button
-                        className="relative top-2 right-2"
+                        className="top-2 right-2"
                         onClick={() => {
                             dispatch(toggleSettingsOpen());
                         }}
                     >
                         <img
-                            className={`w-[25px] px-[5px] flex`}
+                            className={`w-[25px] flex`}
                             src={
                                 'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/x-24.svg'
                             }
                         ></img>
                     </button>
                 </div>
-                <div className="flex w-full h-[90%]">
+                <div className="flex w-full h-[90%] py-3">
                     {settingsSidePanel}
                     <div id="settingsContent" className="h-full w-[70%]">
                         {settingsWindow}

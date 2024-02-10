@@ -125,11 +125,17 @@ const translations = {
         fr: 'Info',
         it: 'Informazioni',
     },
-    Help: {
+    help: {
         de: 'Hilfe',
         en: 'Help',
         fr: 'Aide',
         it: 'Aiuto',
+    },
+    settings: {
+        de: 'Einstellungen',
+        en: 'Settings',
+        fr: 'Paramètres',
+        it: 'Impostazioni',
     },
 };
 
