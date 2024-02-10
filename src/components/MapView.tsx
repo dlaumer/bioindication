@@ -131,24 +131,114 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             },
         });
 
+        const renderer: any = {
+            type: 'unique-value', // autocasts as new UniqueValueRenderer()
+            field: 'LandscapeEcology',
+            defaultSymbol: {
+                type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                style: 'circle',
+                size: 6, // pixels
+                outline: {
+                    // autocasts as new SimpleLineSymbol()
+                    color: [153, 153, 153, 64],
+                    width: 0.75, // points
+                },
+                color: [170, 170, 170, 255],
+            }, // autocasts as new SimpleFillSymbol()
+            uniqueValueInfos: [
+                {
+                    // All features with value of "North" will be blue
+                    value: 'natural (1.0 - 1.4)',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'circle',
+                        size: 15, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.75, // points
+                        },
+                        color: [0, 197, 255, 255],
+                    },
+                },
+                {
+                    // All features with value of "East" will be green
+                    value: 'obstructed (1.5 - 1.9)',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'circle',
+                        size: 15, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.75, // points
+                        },
+                        color: [85, 255, 0, 255],
+                    },
+                },
+                {
+                    // All features with value of "South" will be red
+                    value: 'strongly obstructed (2.0 - 2.4)',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'circle',
+                        size: 15, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.75, // points
+                        },
+                        color: [255, 255, 0, 255],
+                    },
+                },
+                {
+                    // All features with value of "West" will be yellow
+                    value: 'artificial (2.5 - 3.0)',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'circle',
+                        size: 15, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.75, // points
+                        },
+                        color: [255, 0, 0, 255],
+                    },
+                },
+            ],
+            visualVariables: [
+                {
+                    type: 'size',
+                    field: 'landscape_eco_number ',
+                    // features with 30 ppl/sq km or below are assigned the first opacity value
+                    stops: [
+                        { value: 1, size: 5 },
+                        { value: 3, size: 10 },
+                        { value: 5, size: 15 },
+                        { value: 2000, size: 20 },
+                    ],
+                },
+            ],
+        };
+
         const dataLay = new FeatureLayer({
             portalItem: {
                 id: dataLayerId,
             },
+            renderer: renderer,
         });
 
         const dataLayView = new FeatureLayer({
             portalItem: {
                 id: dataLayerViewId,
             },
+            renderer: renderer,
         });
 
         if (isLoggedIn) {
-            console.log('dataLay');
             view.map.add(dataLay);
         } else {
-            console.log('dataLayView');
-
             view.map.add(dataLayView);
         }
 
@@ -177,6 +267,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             });
 
         dataLay.popupTemplate = template;
+        dataLayView.popupTemplate = template;
 
         const slider = new TimeSlider({
             view: view,
@@ -318,8 +409,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     }, [isLoggedIn]);
 
     useEffect(() => {
-        console.log(editor);
-
         if (sidePanelContent == 'edit' && editor != null) {
             editor.container = 'editTitle';
         }
@@ -334,13 +423,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const firstTime = true;
     useEffect(() => {
         if (logInAttempt) {
-            console.log(logInAttempt);
             handleSignInOut();
         }
     }, [logInAttempt]);
 
     const handleSignInOut = () => {
-        console.log('wuhu');
         if (isLoggedIn) {
             esriId.destroyCredentials();
             dispatch(setIsLoggedIn(false));
