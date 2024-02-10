@@ -24,6 +24,7 @@ import edit from './../constants/Edit.svg';
 import analyze from './../constants/pie-chart.svg';
 import process2 from './../constants/refresh-cw.svg';
 import print from './../constants/printer.svg';
+import SidePanelHeader from './SidePanelHeader';
 
 const SidePanel: FC<React.ComponentProps<'div'>> = () => {
     const dispatch = useDispatch();
@@ -38,68 +39,56 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
     const [sidePanelWindow, setSidePanelWindow] = useState(null);
 
     //const [content, setContent] = useState(null);
-    const content: any = [];
 
     useEffect(() => {
-        let title = null;
-        let icon = settings;
-        if (sidePanelContent == 'analyze') {
-            title = analyzeTitle;
-            icon = analyze;
-        } else if (sidePanelContent == 'process') {
-            title = processTitle;
-            icon = process2;
-        } else if (sidePanelContent == 'print') {
-            title = printTitle;
-            icon = print;
-        } else if (sidePanelContent == 'edit') {
-            title = editTitle;
-            icon = edit;
-        }
-
+        const content: any = [];
         content.push(
-            <PanelAnalyze
-                active={sidePanelContent == 'analyze'}
-                title="analyzeTitle"
-            ></PanelAnalyze>
-        );
-        content.push(
-            <PanelProcess
-                active={sidePanelContent == 'process'}
-                title="processTitle"
-            ></PanelProcess>
-        );
-        content.push(
-            <PanelPrint
-                active={sidePanelContent == 'print'}
-                title="printTitle"
-            ></PanelPrint>
-        );
-        content.push(
-            <PanelEditor
-                active={sidePanelContent == 'edit'}
-                title="editTitle"
-            ></PanelEditor>
-        );
-
-        const sidePanelHeader = (
             <div
-                id="sidePanelHeader"
-                className="rounded-t-xl w-full flex flex-row justify-between h-fit bg-projectgreen p-[5px] "
+                className={`${sidePanelContent == 'analyze' ? '' : 'hidden'} `}
             >
-                <div className="h-full flex items-center">
-                    <img src={icon} className="h-[20px] px-[10px]"></img>
-                    <div>{title}</div>
-                </div>
-                <div className="flex flex-row white">
-                    <div className="p-1">v</div>
-                    <button
-                        className="p-1"
-                        onClick={() => dispatch(setSidePanelContent('null'))}
-                    >
-                        x
-                    </button>
-                </div>
+                <SidePanelHeader
+                    title="analyzeTitle"
+                    icon={analyze}
+                ></SidePanelHeader>
+                <PanelAnalyze
+                    active={sidePanelContent == 'analyze'}
+                    title="analyzeTitle"
+                ></PanelAnalyze>
+            </div>
+        );
+        content.push(
+            <div
+                className={`${sidePanelContent == 'process' ? '' : 'hidden'} `}
+            >
+                <SidePanelHeader
+                    title="processTitle"
+                    icon={process2}
+                ></SidePanelHeader>
+                <PanelProcess
+                    active={sidePanelContent == 'process'}
+                    title="processTitle"
+                ></PanelProcess>
+            </div>
+        );
+        content.push(
+            <div className={`${sidePanelContent == 'print' ? '' : 'hidden'} `}>
+                <SidePanelHeader
+                    title="printTitle"
+                    icon={print}
+                ></SidePanelHeader>
+                <PanelPrint title="printTitle"></PanelPrint>
+            </div>
+        );
+        content.push(
+            <div className={`${sidePanelContent == 'edit' ? '' : 'hidden'} `}>
+                <SidePanelHeader
+                    title="editTitle"
+                    icon={edit}
+                ></SidePanelHeader>
+                <PanelEditor
+                    active={sidePanelContent == 'edit'}
+                    title="editTitle"
+                ></PanelEditor>
             </div>
         );
 
@@ -110,7 +99,6 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
                     sidePanelContent == 'null' ? 'hidden' : ''
                 } absolute rounded-xl flex flex-col flex-none justify-between z-30 w-[30%]  h-[calc(100%_-_120px)] bg-white top-[70px] left-[10px]`}
             >
-                {sidePanelHeader}
                 {content}
             </div>
         );

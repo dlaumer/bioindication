@@ -43,9 +43,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     return (
         <div
             id="analyze"
-            className={`${
-                active ? '' : 'hidden'
-            } flex flex-col flex-none justify-between z-30 w-full  h-full bg-white p-[5px]`}
+            className={`flex flex-col flex-none justify-between z-30 w-full  h-full bg-white p-[5px]`}
         >
             <div
                 id="filterTime"

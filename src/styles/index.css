@@ -9,10 +9,8 @@
     inset: 0px 0px 0px 0px !important
 }
 
-
-
 .esri-ui-inner-container {
-    inset: 70px 15px 30px 32% !important
+    inset: 70px 15px 0px 32% !important
 }
 
 .esri-time-slider {

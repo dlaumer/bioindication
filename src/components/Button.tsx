@@ -47,9 +47,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
         content = (
             <div className="h-full flex items-center">
                 <img src={icon} className="h-[80%] px-[5px]"></img>
-                <div className={`${isActive ? '' : 'hidden'}`}>
-                    {isHover ? hoverTitle : title}
-                </div>
+                <div>{isHover ? hoverTitle : title}</div>
             </div>
         );
     }
