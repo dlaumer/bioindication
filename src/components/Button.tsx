@@ -7,8 +7,9 @@ Functionality for most of the basic buttons like disable, active, hover, etc.
 
 */
 
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
+import { useSelector } from 'react-redux';
 
 type ButtonProps = {
     title?: string;
@@ -18,6 +19,8 @@ type ButtonProps = {
     hoverTitle?: string;
     hoverStyle?: React.CSSProperties;
     icon?: any;
+    isVisible?: boolean;
+    username?: string;
 };
 const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     title = 'Default',
@@ -26,6 +29,8 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     isActive = false,
     hoverTitle = title,
     icon = null,
+    isVisible = true,
+    username = '',
     ...props
 }) => {
     const [isHover, setIsHovered] = useState(false);
@@ -38,7 +43,11 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
         setIsHovered(false);
     };
 
-    title = titleKey ? getTranslation(titleKey) : title;
+    if (titleKey == 'login' && username != '') {
+        titleKey = username;
+    }
+    title = titleKey != null ? getTranslation(titleKey) : title;
+
     hoverTitle = title;
 
     let content: any = isHover ? hoverTitle : title;
@@ -58,6 +67,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
                 isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
             }
             ${isActive ? 'bg-white shadow-sm text-black' : 'bg-backgroundgray'}
+            ${isVisible ? '' : 'hidden'}
             `}
             onMouseEnter={handleHover}
             onMouseLeave={handleMouseLeave}

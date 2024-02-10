@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage } from '../store/reducer';
-import { selectLanguage, selectCategory } from '@store/selectors';
+import { selectCategory, selectLanguage } from '@store/selectors';
 
 type DropdownProps = {
     tag: string;

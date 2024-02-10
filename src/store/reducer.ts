@@ -22,6 +22,8 @@ export type AppState = {
     filterSpace?: string;
 
     isLoggedIn?: boolean;
+    logInAttempt?: boolean;
+    usernameEsri?: string;
 };
 
 export const initialAppState: AppState = {
@@ -35,7 +37,10 @@ export const initialAppState: AppState = {
     filterTimeStart: null,
     filterTimeEnd: null,
     filterSpace: null,
+
     isLoggedIn: false,
+    logInAttempt: false,
+    usernameEsri: 'login',
 };
 
 const slice = createSlice({
@@ -70,8 +75,14 @@ const slice = createSlice({
         setFilterSpace: (state, action: PayloadAction<string>) => {
             state.filterSpace = action.payload;
         },
-        toggleIsLoggedIn: (state) => {
-            state.isLoggedIn = !state.isLoggedIn;
+        setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
+            state.isLoggedIn = action.payload;
+        },
+        setLogInAttempt: (state, action: PayloadAction<boolean>) => {
+            state.logInAttempt = action.payload;
+        },
+        setUsernameEsri: (state, action: PayloadAction<string>) => {
+            state.usernameEsri = action.payload;
         },
     },
 });
@@ -84,10 +95,13 @@ export const {
     setLanguage,
     setFilterTimeActive,
     setFilterSpaceActive,
+    setCategory,
     setFilterTimeStart,
     setFilterTimeEnd,
     setFilterSpace,
-    toggleIsLoggedIn,
+    setIsLoggedIn,
+    setLogInAttempt,
+    setUsernameEsri,
 } = slice.actions;
 
 export default reducer;

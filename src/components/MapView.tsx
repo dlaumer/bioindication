@@ -26,9 +26,15 @@ import Portal from '@arcgis/core/portal/Portal';
 import {
     selectFilterTimeActive,
     selectIsLoggedIn,
+    selectLogInAttempt,
     selectSidePanelContent,
 } from '@store/selectors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    setIsLoggedIn,
+    setLogInAttempt,
+    setUsernameEsri,
+} from '@store/reducer';
 
 interface Props {
     /**
@@ -38,6 +44,8 @@ interface Props {
 }
 
 const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
+    const dispatch = useDispatch();
+
     const mapDivRef = useRef<HTMLDivElement>();
 
     const [mapView, setMapView] = useState<MapView>(null);
@@ -47,6 +55,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const filterTimeActive = useSelector(selectFilterTimeActive);
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const sidePanelContent = useSelector(selectSidePanelContent);
+    const logInAttempt = useSelector(selectLogInAttempt);
+
+    const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
+    const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
@@ -119,11 +131,29 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             },
         });
 
-        const dataLayer = new FeatureLayer({
+        const dataLay = new FeatureLayer({
             portalItem: {
                 id: dataLayerId,
             },
         });
+
+        const dataLayView = new FeatureLayer({
+            portalItem: {
+                id: dataLayerViewId,
+            },
+        });
+
+        if (isLoggedIn) {
+            console.log('dataLay');
+            view.map.add(dataLay);
+        } else {
+            console.log('dataLayView');
+
+            view.map.add(dataLayView);
+        }
+
+        setDataLayer(dataLay);
+        setDataLayerView(dataLayView);
 
         const query: any = {
             //where: `EXTRACT(MONTH FROM ${layer.timeInfo.startField}) = ${month}`,
@@ -133,7 +163,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         };
 
         // Perform the query on the feature layer
-        dataLayer
+        dataLayView
             .queryFeatures(query)
             .then(function (result: any) {
                 if (result.features.length > 0) {
@@ -146,9 +176,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 console.error(`Query failed: `, error);
             });
 
-        dataLayer.popupTemplate = template;
-
-        view.map.add(dataLayer);
+        dataLay.popupTemplate = template;
 
         const slider = new TimeSlider({
             view: view,
@@ -279,6 +307,17 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     };
 
     useEffect(() => {
+        if (mapView != null) {
+            if (isLoggedIn) {
+                mapView.map.remove(dataLayerView);
+                mapView.map.add(dataLayer);
+            } else {
+                mapView.map.add(dataLayerView);
+            }
+        }
+    }, [isLoggedIn]);
+
+    useEffect(() => {
         console.log(editor);
 
         if (sidePanelContent == 'edit' && editor != null) {
@@ -292,25 +331,22 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         }
     }, [filterTimeActive]);
 
-    let firstTime = true;
+    const firstTime = true;
     useEffect(() => {
-        if (isLoggedIn && firstTime) {
-            handleSignInOut();
-            firstTime = false;
-        }
-        if (!firstTime) {
+        if (logInAttempt) {
+            console.log(logInAttempt);
             handleSignInOut();
         }
-    }, [isLoggedIn]);
+    }, [logInAttempt]);
 
     const handleSignInOut = () => {
         console.log('wuhu');
-        if (!isLoggedIn) {
-            console.log('wuhu1');
+        if (isLoggedIn) {
             esriId.destroyCredentials();
+            dispatch(setIsLoggedIn(false));
+            dispatch(setLogInAttempt(false));
             window.location.reload();
         } else {
-            console.log('wuhu2');
             esriId.getCredential(info.portalUrl + '/sharing');
         }
     };
@@ -321,9 +357,12 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             .load()
             .then(() => {
                 console.log(portal.user.username);
+                dispatch(setIsLoggedIn(true));
+                dispatch(setUsernameEsri(portal.user.username));
             })
             .catch(() => {
                 esriId.destroyCredentials();
+                dispatch(setIsLoggedIn(false));
                 window.location.reload();
                 //alert(strings.get("notAllowed"))
             });

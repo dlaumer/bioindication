@@ -21,14 +21,14 @@ export const selectFilterTimeActive = createSelector(
     (filterTimeActive) => filterTimeActive
 );
 
-export const selectFilterSpaceActive = createSelector(
-    (state: RootState) => state.App.filterSpaceActive,
-    (filterSpaceActive) => filterSpaceActive
-);
-
 export const selectCategory = createSelector(
     (state: RootState) => state.App.category,
     (category) => category
+);
+
+export const selectFilterSpaceActive = createSelector(
+    (state: RootState) => state.App.filterSpaceActive,
+    (filterSpaceActive) => filterSpaceActive
 );
 
 export const selectFilterTimeStart = createSelector(
@@ -49,4 +49,14 @@ export const selectFilterSpace = createSelector(
 export const selectIsLoggedIn = createSelector(
     (state: RootState) => state.App.isLoggedIn,
     (isLoggedIn) => isLoggedIn
+);
+
+export const selectLogInAttempt = createSelector(
+    (state: RootState) => state.App.logInAttempt,
+    (logInAttempt) => logInAttempt
+);
+
+export const selectUsernameEsri = createSelector(
+    (state: RootState) => state.App.usernameEsri,
+    (usernameEsri) => usernameEsri
 );

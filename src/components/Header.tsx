@@ -11,8 +11,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Button from './Button';
 import Dropdown from './Dropdown';
-import { selectSidePanelContent } from '../store/selectors';
-import { setSidePanelContent, toggleIsLoggedIn } from '@store/reducer';
+import {
+    selectUsernameEsri,
+    selectIsLoggedIn,
+    selectSidePanelContent,
+} from '../store/selectors';
+import { setSidePanelContent, setLogInAttempt } from '@store/reducer';
 import settings from './../constants/Settings.svg';
 import edit from './../constants/Edit.svg';
 import analyze from './../constants/pie-chart.svg';
@@ -24,8 +28,11 @@ const Header = () => {
     // UI part
 
     const sidePanelContent = useSelector(selectSidePanelContent);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const username = useSelector(selectUsernameEsri);
 
     const [buttons, setButtons] = useState(null);
+    const [loginButton, setLoginButton] = useState(null);
 
     useEffect(() => {
         setButtons(
@@ -54,10 +61,21 @@ const Header = () => {
                     onClick={() => dispatch(setSidePanelContent('edit'))}
                     isActive={sidePanelContent == 'edit'}
                     icon={edit}
+                    isVisible={isLoggedIn}
                 ></Button>
             </div>
         );
-    }, [sidePanelContent]);
+    }, [sidePanelContent, isLoggedIn]);
+
+    useEffect(() => {
+        setLoginButton(
+            <Button
+                titleKey="login"
+                username={username}
+                onClick={() => dispatch(setLogInAttempt(true))}
+            />
+        );
+    }, [username]);
 
     return (
         <div
@@ -77,10 +95,7 @@ const Header = () => {
                         tag="language"
                         options={['en', 'de', 'fr', 'it']}
                     />
-                    <Button
-                        titleKey="login"
-                        //onClick={() => dispatch(toggleIsLoggedIn())}
-                    />
+                    {loginButton}
                 </div>
             </div>
         </div>
