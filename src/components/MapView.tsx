@@ -245,6 +245,14 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         setDataLayer(dataLay);
         setDataLayerView(dataLayView);
 
+        const riverData = new FeatureLayer({
+            portalItem: {
+                id: 'a58f33bc922a4451932383e620d910dd',
+            },
+        });
+
+        view.map.add(riverData);
+
         const query: any = {
             //where: `EXTRACT(MONTH FROM ${layer.timeInfo.startField}) = ${month}`,
             where: `1=1`,

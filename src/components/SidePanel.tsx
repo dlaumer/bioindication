@@ -44,6 +44,7 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         const content: any = [];
         content.push(
             <div
+                key="analyze"
                 className={`${sidePanelContent == 'analyze' ? '' : 'hidden'} `}
             >
                 <SidePanelHeader
@@ -58,6 +59,7 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         );
         content.push(
             <div
+                key="process"
                 className={`${sidePanelContent == 'process' ? '' : 'hidden'} `}
             >
                 <SidePanelHeader
@@ -71,7 +73,10 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
             </div>
         );
         content.push(
-            <div className={`${sidePanelContent == 'print' ? '' : 'hidden'} `}>
+            <div
+                key="print"
+                className={`${sidePanelContent == 'print' ? '' : 'hidden'} `}
+            >
                 <SidePanelHeader
                     title="printTitle"
                     icon={print}
@@ -80,7 +85,10 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
             </div>
         );
         content.push(
-            <div className={`${sidePanelContent == 'edit' ? '' : 'hidden'} `}>
+            <div
+                key="edit"
+                className={`${sidePanelContent == 'edit' ? '' : 'hidden'} `}
+            >
                 <SidePanelHeader
                     title="editTitle"
                     icon={edit}
@@ -94,6 +102,7 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
 
         setSidePanelWindow(
             <div
+                key="sidePanel"
                 id="sidePanel"
                 className={`${
                     sidePanelContent == 'null' ? 'hidden' : ''
