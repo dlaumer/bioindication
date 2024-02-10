@@ -46,7 +46,7 @@ export const initialAppState: AppState = {
     usernameEsri: 'login',
 
     settingsContent: 'languages',
-    settingsOpen: true,
+    settingsOpen: false,
 };
 
 const slice = createSlice({
