@@ -15,8 +15,13 @@ import {
     selectUsernameEsri,
     selectIsLoggedIn,
     selectSidePanelContent,
+    selectSettingsOpen,
 } from '../store/selectors';
-import { setSidePanelContent, setLogInAttempt } from '@store/reducer';
+import {
+    setSidePanelContent,
+    setLogInAttempt,
+    toggleSettingsOpen,
+} from '@store/reducer';
 import settings from './../constants/Settings.svg';
 import edit from './../constants/Edit.svg';
 import analyze from './../constants/pie-chart.svg';
@@ -30,6 +35,7 @@ const Header = () => {
     const sidePanelContent = useSelector(selectSidePanelContent);
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const username = useSelector(selectUsernameEsri);
+    const settingsOpen = useSelector(selectSettingsOpen);
 
     const [buttons, setButtons] = useState(null);
     const [loginButton, setLoginButton] = useState(null);
@@ -91,10 +97,12 @@ const Header = () => {
             </div>
             <div className="flex flex-row h-full items-center gap-2 mr-4 font-noigrotesk">
                 <div className="flex flex-row h-[80%] items-center gap-2 font-noigrotesk">
-                    <Dropdown
-                        tag="language"
-                        options={['en', 'de', 'fr', 'it']}
-                    />
+                    <Button
+                        titleKey=""
+                        onClick={() => dispatch(toggleSettingsOpen())}
+                        isActive={settingsOpen}
+                        icon={settings}
+                    ></Button>
                     {loginButton}
                 </div>
             </div>

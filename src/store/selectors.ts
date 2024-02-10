@@ -60,3 +60,13 @@ export const selectUsernameEsri = createSelector(
     (state: RootState) => state.App.usernameEsri,
     (usernameEsri) => usernameEsri
 );
+
+export const selectSettingsContent = createSelector(
+    (state: RootState) => state.App.settingsContent,
+    (settingsContent) => settingsContent
+);
+
+export const selectSettingsOpen = createSelector(
+    (state: RootState) => state.App.settingsOpen,
+    (settingsOpen) => settingsOpen
+);

@@ -5,6 +5,7 @@ import { selectWebmapId } from '@store/selectors';
 import { getTranslation } from '../services/languageHelper';
 import Header from './Header';
 import SidePanel from './SidePanel';
+import Settings from './Settings';
 
 const MapViewContainer = () => {
     return (
@@ -12,6 +13,8 @@ const MapViewContainer = () => {
             <Header></Header>
             <MapView />
             <SidePanel title="chartTitle"></SidePanel>
+            <Settings></Settings>
+
             <div id="timeSlider"></div>
         </div>
     );

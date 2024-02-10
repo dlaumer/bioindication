@@ -25,9 +25,7 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, options, isDisabled }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     // ToDo: Secure in case the language in the url is not existant, check if language is in options!
     let selectedOpt = null;
-    if (tag == 'language') {
-        selectedOpt = language;
-    } else if (tag == 'categories') {
+    if (tag == 'categories') {
         selectedOpt = category;
     }
 
@@ -49,22 +47,6 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, options, isDisabled }) => {
                 className="flex px-2 py-2 text-lg text-neutral-600 font-medium hover:text-blue-600 cursor-pointer font-noigrotesk"
                 key={option}
                 onClick={() => {
-                    if (tag == 'language') {
-                        dispatch(setLanguage(option));
-
-                        // Construct URLSearchParams object instance from current URL querystring.
-                        const queryParams = new URLSearchParams(
-                            window.location.search
-                        );
-                        // Set new or modify existing parameter value.
-                        queryParams.set('lang', option);
-                        // Replace current querystring with the new one.
-                        history.replaceState(
-                            null,
-                            null,
-                            '?' + queryParams.toString()
-                        );
-                    }
                     setSelectedOption(option);
                     setIsExpanded(!isExpanded);
                 }}

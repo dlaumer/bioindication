@@ -24,6 +24,9 @@ export type AppState = {
     isLoggedIn?: boolean;
     logInAttempt?: boolean;
     usernameEsri?: string;
+
+    settingsContent?: string;
+    settingsOpen?: boolean;
 };
 
 export const initialAppState: AppState = {
@@ -41,6 +44,9 @@ export const initialAppState: AppState = {
     isLoggedIn: false,
     logInAttempt: false,
     usernameEsri: 'login',
+
+    settingsContent: 'languages',
+    settingsOpen: true,
 };
 
 const slice = createSlice({
@@ -84,6 +90,12 @@ const slice = createSlice({
         setUsernameEsri: (state, action: PayloadAction<string>) => {
             state.usernameEsri = action.payload;
         },
+        setSettingsContent: (state, action: PayloadAction<string>) => {
+            state.settingsContent = action.payload;
+        },
+        toggleSettingsOpen: (state) => {
+            state.settingsOpen = !state.settingsOpen;
+        },
     },
 });
 
@@ -102,6 +114,8 @@ export const {
     setIsLoggedIn,
     setLogInAttempt,
     setUsernameEsri,
+    setSettingsContent,
+    toggleSettingsOpen,
 } = slice.actions;
 
 export default reducer;
