@@ -43,24 +43,30 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     return (
         <div
             id="analyze"
-            className={`flex flex-col flex-none justify-between z-30 w-full  h-full bg-white p-[5px]`}
+            className={`flex flex-col flex-none z-30 w-full  h-full bg-white p-[5px]`}
         >
             <div
                 id="filterTime"
-                className={`rounded-xl w-full flex-grow p-[5px] my-[2.5px] ${
-                    filterTimeActive
-                        ? 'bg-activeBlue cursor-pointer'
-                        : 'bg-backgroundgray opacity-50'
+                className={`rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray  ${
+                    filterTimeActive ? 'cursor-pointer' : 'opacity-50'
                 }`}
-                onClick={(event) => {
-                    dispatch(setFilterTimeActive());
-                    event.stopPropagation();
-                }}
             >
                 <div className="flex items-center justify-between ">
-                    <div id="filterTimeTitle">
-                        {getTranslation('filterTimeTitle')}
+                    <div className="flex items-center">
+                        <input
+                            type="checkbox"
+                            id="checkboxTime"
+                            className="w-[15px] h-[15px] m-[10px]"
+                            onChange={() => {
+                                dispatch(setFilterTimeActive());
+                            }}
+                        />
+
+                        <div id="filterTimeTitle">
+                            {getTranslation('filterTimeTitle')}
+                        </div>
                     </div>
+
                     <button
                         id="filterTimeClear"
                         className={`${
@@ -81,20 +87,25 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
             </div>
             <div
                 id="filterSpace"
-                className={`rounded-xl w-full flex-grow p-[5px] my-[2.5px] ${
-                    filterSpaceActive
-                        ? 'bg-activeBlue cursor-pointer'
-                        : 'bg-backgroundgray opacity-50'
+                className={`rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray ${
+                    filterSpaceActive ? 'cursor-pointer' : 'opacity-50'
                 }`}
-                onClick={(event) => {
-                    dispatch(setFilterSpaceActive());
-                    event.stopPropagation();
-                }}
             >
                 <div className="flex items-center justify-between ">
-                    <div id="filterSpaceTitle">
-                        {getTranslation('filterSpaceTitle')}
+                    <div className="flex items-center">
+                        <input
+                            type="checkbox"
+                            id="checkboxTime"
+                            className="w-[15px] h-[15px] m-[10px]"
+                            onChange={() => {
+                                dispatch(setFilterSpaceActive());
+                            }}
+                        />
+                        <div id="filterSpaceTitle">
+                            {getTranslation('filterSpaceTitle')}
+                        </div>
                     </div>
+
                     <div>
                         <Button
                             titleKey="selectArea"
@@ -123,7 +134,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
             </div>
             <div
                 id="filterChart"
-                className="rounded-xl w-full flex-grow-[4] max-h-[60vh] p-[5px] my-[2.5px] bg-backgroundgray overflow-auto"
+                className="rounded-xl w-full max-h-[60vh] p-[5px] my-[2.5px] bg-backgroundgray overflow-auto"
             >
                 <div className="flex items-center justify-between ">
                     <div id="filterTopicTitle">
