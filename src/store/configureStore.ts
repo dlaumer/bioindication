@@ -15,7 +15,7 @@ export type PartialRootState = DeepPartial<RootState>;
 const configureAppStore = (preloadedState: PartialRootState = {}) => {
     const store = configureStore({
         reducer: rootReducer,
-        middleware: [...getDefaultMiddleware<RootState>()],
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
         preloadedState: preloadedState as any,
     });
 

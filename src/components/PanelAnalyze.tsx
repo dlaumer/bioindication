@@ -16,10 +16,12 @@ import {
     setFilterTimeStart,
     setFilterTimeEnd,
     setFilterSpace,
+    setFilterSpaceDrawing,
 } from '@store/reducer';
 import {
     selectFilterTimeActive,
     selectFilterSpaceActive,
+    selectFilterSpaceDrawing,
 } from '@store/selectors';
 import Dropdown from './Dropdown';
 import Button from './Button';
@@ -38,6 +40,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     const dispatch = useDispatch();
     const filterTimeActive = useSelector(selectFilterTimeActive);
     const filterSpaceActive = useSelector(selectFilterSpaceActive);
+    const filterSpaceDrawing = useSelector(selectFilterSpaceDrawing);
 
     // UI part
     return (
@@ -56,6 +59,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                         <input
                             type="checkbox"
                             id="checkboxTime"
+                            checked={filterTimeActive ? true : false}
                             className="w-[15px] h-[15px] m-[10px]"
                             onChange={() => {
                                 dispatch(setFilterTimeActive());
@@ -96,6 +100,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                         <input
                             type="checkbox"
                             id="checkboxTime"
+                            checked={filterSpaceActive ? true : false}
                             className="w-[15px] h-[15px] m-[10px]"
                             onChange={() => {
                                 dispatch(setFilterSpaceActive());
@@ -110,9 +115,12 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                         <Button
                             titleKey="selectArea"
                             onClick={(event: any) => {
+                                dispatch(
+                                    setFilterSpaceDrawing(!filterSpaceDrawing)
+                                );
                                 event.stopPropagation();
                             }}
-                            isActive={true}
+                            isActive={!filterSpaceDrawing}
                             isDisabled={!filterSpaceActive}
                         ></Button>
                         <button

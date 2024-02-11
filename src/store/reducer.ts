@@ -19,7 +19,9 @@ export type AppState = {
 
     filterTimeStart?: Date;
     filterTimeEnd?: Date;
-    filterSpace?: string;
+
+    filterSpace?: Array<any>;
+    filterSpaceDrawing?: boolean;
 
     isLoggedIn?: boolean;
     logInAttempt?: boolean;
@@ -33,13 +35,15 @@ export const initialAppState: AppState = {
     language: 'en',
     webmapId: '67372ff42cd145319639a99152b15bc3',
     sidePanelContent: 'analyze',
-    filterTimeActive: false,
-    filterSpaceActive: false,
+    filterTimeActive: true,
+    filterSpaceActive: true,
     category: 'waterQuality',
 
     filterTimeStart: null,
     filterTimeEnd: null,
-    filterSpace: null,
+
+    filterSpace: [],
+    filterSpaceDrawing: false,
 
     isLoggedIn: false,
     logInAttempt: false,
@@ -78,8 +82,14 @@ const slice = createSlice({
         setFilterTimeEnd: (state, action: PayloadAction<Date>) => {
             state.filterTimeEnd = action.payload;
         },
-        setFilterSpace: (state, action: PayloadAction<string>) => {
+        addFilterSpace: (state, action: PayloadAction<any>) => {
+            state.filterSpace.push(action.payload);
+        },
+        setFilterSpace: (state, action: PayloadAction<Array<any>>) => {
             state.filterSpace = action.payload;
+        },
+        setFilterSpaceDrawing: (state, action: PayloadAction<boolean>) => {
+            state.filterSpaceDrawing = action.payload;
         },
         setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload;
@@ -110,7 +120,9 @@ export const {
     setCategory,
     setFilterTimeStart,
     setFilterTimeEnd,
+    addFilterSpace,
     setFilterSpace,
+    setFilterSpaceDrawing,
     setIsLoggedIn,
     setLogInAttempt,
     setUsernameEsri,

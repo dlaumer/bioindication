@@ -3,6 +3,7 @@ import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/Map';
 import PopupTemplate from '@arcgis/core/PopupTemplate';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import TimeSlider from '@arcgis/core/widgets/TimeSlider';
 import TimeInterval from '@arcgis/core/TimeInterval';
 import Home from '@arcgis/core/widgets/Home';
@@ -23,7 +24,14 @@ import ServerInfo from '@arcgis/core/identity/ServerInfo';
 import PortalItem from '@arcgis/core/portal/PortalItem';
 import esriConfig from '@arcgis/core/config';
 import Portal from '@arcgis/core/portal/Portal';
+import Sketch from '@arcgis/core/widgets/Sketch';
+import Query from '@arcgis/core/rest/support/Query';
+import Color from '@arcgis/core/Color';
+import SimpleRenderer from '@arcgis/core/renderers/SimpleRenderer';
+import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
+
 import {
+    selectFilterSpaceDrawing,
     selectFilterTimeActive,
     selectIsLoggedIn,
     selectLogInAttempt,
@@ -31,6 +39,9 @@ import {
 } from '@store/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    addFilterSpace,
+    setFilterSpace,
+    setFilterSpaceDrawing,
     setIsLoggedIn,
     setLogInAttempt,
     setUsernameEsri,
@@ -56,9 +67,13 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const sidePanelContent = useSelector(selectSidePanelContent);
     const logInAttempt = useSelector(selectLogInAttempt);
+    const filterSpaceDrawing = useSelector(selectFilterSpaceDrawing);
+    const filterSpace = useSelector(selectFilterSpaceDrawing);
 
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
+    const [sketchWidget, setSketchWidget] = useState<Sketch>(null);
+    const [highlightedFeatures, setHighlightedFeatures] = useState<any>(null);
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
@@ -128,6 +143,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             timeExtent: {
                 start: new Date(2022, 1, 24),
                 end: new Date(2022, 3, 24),
+            },
+            highlightOptions: {
+                color: new Color([255, 241, 58]),
+                fillOpacity: 0.4,
             },
         });
 
@@ -294,7 +313,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     unit: 'days',
                 }),
             },
-            disabled: true,
+            disabled: !filterTimeActive,
         });
 
         setTimeSlider(slider);
@@ -378,6 +397,100 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
         view.ui.add(elevatonProfile, 'top-right');
 
+        // Filter by space
+        const graphicsLayerLasso = new GraphicsLayer({});
+
+        view.map.add(graphicsLayerLasso);
+
+        // Create a Sketch widget without adding it to the view
+        const sketch = new Sketch({
+            view: view,
+            layer: graphicsLayerLasso,
+            creationMode: 'update',
+        });
+
+        sketch.when(() => {
+            sketch.viewModel.polygonSymbol = new SimpleFillSymbol({
+                color: new Color([0, 0, 0, 0.5]), // Transparent black filling (RGBA)
+                outline: {
+                    color: new Color([0, 0, 0, 0]), // No border (RGBA)
+                    width: 0,
+                },
+            });
+        });
+        setSketchWidget(sketch);
+
+        // Event listener for when the sketch is completed
+        sketch.on('create', function (event: any) {
+            if (event.state === 'complete' && event.tool === 'polygon') {
+                dispatch(setFilterSpaceDrawing(false));
+
+                // Get the polygon geometry
+                const lassoPolygon = event.graphic.geometry;
+                // Perform a spatial query to select features and highlight them
+                queryFeatures(lassoPolygon);
+            }
+        });
+        sketch.on('update', function (event: any) {
+            console.log(event.toolEventInfo);
+            if (
+                (event.toolEventInfo &&
+                    event.toolEventInfo.type == 'move-stop') ||
+                event.toolEventInfo.type == 'reshape-stop' ||
+                event.toolEventInfo.type == 'rotate-stop'
+            ) {
+                // Get the polygon geometry
+                const lassoPolygon = event.graphics[0].geometry;
+                // Perform a spatial query to select features and highlight them
+                queryFeatures(lassoPolygon);
+            }
+        });
+
+        let highlightedFeats: any = [];
+
+        function queryFeatures(geometry: any) {
+            // Replace with your feature layer
+
+            //dispatch(setFilterSpace(geometry))
+            const query = new Query();
+            query.geometry = geometry;
+            query.timeExtent = view.timeExtent;
+            query.outFields = ['*'];
+            //query.spatialRelationship = "contains"
+
+            const lay = isLoggedIn ? dataLay : dataLayView;
+
+            lay.queryFeatures(query).then((results: any) => {
+                // Clear the previous selection
+                if (highlightedFeats.length != 0) {
+                    highlightedFeats.remove();
+                }
+
+                //setHighlightedFeatures([]);
+                highlightedFeats = [];
+                view.whenLayerView(lay).then(function (layerView: any) {
+                    highlightedFeats = layerView.highlight(results.features);
+                    setHighlightedFeatures(highlightedFeats);
+                });
+            });
+
+            /*
+          featureLayer1.queryFeatures(query).then(function (result: any) {
+              // Clear the previous selection
+              if (lighlightedFeatures != null) {
+                  lighlightedFeatures.remove()
+              }
+              featuresWidget.open({
+                  features: result.features
+              })
+              view.whenLayerView(featureLayer1).then(function (layerView: any) {
+                  lighlightedFeatures = layerView.highlight(result.features);
+              })
+
+          });
+          */
+        }
+
         // Remove all ui elements, so that they can be added manually as tools!
         //view.ui.components = ["attribution"];
         //view.ui.components = [];
@@ -406,6 +519,25 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     };
 
     useEffect(() => {
+        if (sketchWidget) {
+            if (filterSpaceDrawing) {
+                sketchWidget.create('polygon');
+            } else {
+                sketchWidget.cancel();
+            }
+        }
+    }, [filterSpaceDrawing]);
+
+    useEffect(() => {
+        // Start drawing using the "polygon" tool
+        console.log(highlightedFeatures);
+        if (highlightedFeatures != null) {
+            highlightedFeatures.remove();
+            setHighlightedFeatures(null);
+        }
+    }, [filterSpace]);
+
+    useEffect(() => {
         if (mapView != null) {
             if (isLoggedIn) {
                 mapView.map.remove(dataLayerView);
@@ -424,7 +556,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     useEffect(() => {
         if (timeSlider != null) {
-            timeSlider.disabled = !timeSlider.disabled;
+            timeSlider.disabled = !filterTimeActive;
         }
     }, [filterTimeActive]);
 
