@@ -29,11 +29,16 @@ import Query from '@arcgis/core/rest/support/Query';
 import Color from '@arcgis/core/Color';
 import SimpleRenderer from '@arcgis/core/renderers/SimpleRenderer';
 import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
+import TimeExtent from '@arcgis/core/TimeExtent';
 
 import {
     selectFilterSpace,
+    selectFilterSpaceActive,
     selectFilterSpaceDrawing,
+    selectFilterTime,
     selectFilterTimeActive,
+    selectFilterTimeEnd,
+    selectFilterTimeStart,
     selectIsLoggedIn,
     selectLogInAttempt,
     selectSidePanelContent,
@@ -44,6 +49,9 @@ import {
     setFeatures,
     setFilterSpace,
     setFilterSpaceDrawing,
+    setFilterTime,
+    setFilterTimeEnd,
+    setFilterTimeStart,
     setIsLoggedIn,
     setLogInAttempt,
     setUsernameEsri,
@@ -66,11 +74,15 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const [editor, setEditor] = useState<Editor>(null);
 
     const filterTimeActive = useSelector(selectFilterTimeActive);
+    const filterSpaceActive = useSelector(selectFilterSpaceActive);
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const sidePanelContent = useSelector(selectSidePanelContent);
     const logInAttempt = useSelector(selectLogInAttempt);
     const filterSpaceDrawing = useSelector(selectFilterSpaceDrawing);
     const filterSpace = useSelector(selectFilterSpace);
+    const filterTime = useSelector(selectFilterTime);
+    const filterTimeStart = useSelector(selectFilterTimeStart);
+    const filterTimeEnd = useSelector(selectFilterTimeEnd);
 
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
@@ -81,6 +93,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
+
+    const fullTimeExtent = new TimeExtent({
+        start: new Date(2000, 1, 1),
+        end: new Date(),
+    });
 
     let isInitalizing = false;
 
@@ -436,10 +453,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         //view.ui.components = ["attribution"];
         //view.ui.components = [];
 
-        slider.watch('timeExtent', (value: any) => {
-            // update layer view filter to reflect current timeExtent
-            //queryFeatures(view)
-        });
         view.when(() => {
             setMapView(view);
         });
@@ -467,9 +480,45 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     useEffect(() => {
         if (mapView != null && dataLayer != null && dataLayerView != null) {
+            // Your event handler function
+            const handleSliderChange = (value: any) => {
+                // Your logic here, e.g., calling the backend
+                dispatch(setFilterTimeStart(mapView.timeExtent.start));
+                dispatch(setFilterTimeEnd(mapView.timeExtent.end));
+                queryFeatures(mapView);
+            };
+
+            // Set up a debounced version of your event handler
+            const debouncedSliderHandler = debounce(handleSliderChange, 500); // Adjust the delay as needed (500 milliseconds in this example)
+
+            timeSlider.watch('timeExtent', (value: any) => {
+                // update layer view filter to reflect current timeExtent
+                debouncedSliderHandler(value.start);
+                debouncedSliderHandler(value.end);
+            });
             queryFeatures(mapView);
         }
     }, [mapView, dataLayer, dataLayerView]);
+
+    useEffect(() => {
+        if (mapView != null) {
+            console.log(filterTimeStart);
+            if (!filterTimeActive) {
+                //mapView.timeExtent = fullTimeExtent as any;
+            } else {
+                mapView.timeExtent = new TimeExtent({
+                    start: new Date(filterTimeStart),
+                    end: new Date(filterTimeEnd),
+                });
+            }
+        }
+    }, [filterTimeActive]);
+
+    useEffect(() => {
+        if (mapView != null && dataLayer != null && dataLayerView != null) {
+            queryFeatures(mapView);
+        }
+    }, [filterTimeActive, filterSpaceActive]);
 
     useEffect(() => {
         if (sketchWidget) {
@@ -540,10 +589,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 maxRecordCountFactor: 2,
             };
 
-            if (view.timeExtent != null) {
+            if (filterTimeActive && view.timeExtent != null) {
                 query.timeExtent = view.timeExtent;
             }
-            if (filterSpace != null) {
+            if (filterSpaceActive && filterSpace != null) {
                 query.geometry = filterSpace;
             }
             // Perform the query on the feature layer
@@ -551,8 +600,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 .then(function (result: any) {
                     if (result.features.length > 0) {
                         dispatch(setFeatures(result.features));
-                        console.log(filterSpace);
-                        if (filterSpace != null && filterSpace.length != 0) {
+                        if (
+                            filterSpaceActive &&
+                            filterSpace != null &&
+                            filterSpace.length != 0
+                        ) {
                             // Clear the previous selection
                             if (
                                 highlightedFeatures != null &&
@@ -610,6 +662,17 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     const handleSignedOut = () => {};
 
+    const debounce = (func: any, delay: any) => {
+        let timeoutId: any;
+
+        return function (...args: any) {
+            clearTimeout(timeoutId);
+
+            timeoutId = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    };
     useEffect(() => {
         // For some reason it always excecuted this twice, so that's a hacky solution to fix this
         if (!isInitalizing) {

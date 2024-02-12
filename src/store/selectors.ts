@@ -31,6 +31,10 @@ export const selectFilterSpaceActive = createSelector(
     (filterSpaceActive) => filterSpaceActive
 );
 
+export const selectFilterTime = createSelector(
+    (state: RootState) => state.App.filterTime,
+    (filterTime) => filterTime
+);
 export const selectFilterTimeStart = createSelector(
     (state: RootState) => state.App.filterTimeStart,
     (filterTimeStart) => filterTimeStart

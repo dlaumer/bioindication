@@ -17,6 +17,7 @@ export type AppState = {
     filterSpaceActive?: boolean;
     category?: string;
 
+    filterTime?: any;
     filterTimeStart?: Date;
     filterTimeEnd?: Date;
 
@@ -41,6 +42,7 @@ export const initialAppState: AppState = {
     filterSpaceActive: true,
     category: 'waterQuality',
 
+    filterTime: null,
     filterTimeStart: null,
     filterTimeEnd: null,
 
@@ -79,6 +81,9 @@ const slice = createSlice({
         },
         setCategory: (state, action: PayloadAction<string>) => {
             state.category = action.payload;
+        },
+        setFilterTime: (state, action: PayloadAction<any>) => {
+            state.filterTime = action.payload;
         },
         setFilterTimeStart: (state, action: PayloadAction<Date>) => {
             state.filterTimeStart = action.payload;
@@ -125,6 +130,7 @@ export const {
     setFilterTimeActive,
     setFilterSpaceActive,
     setCategory,
+    setFilterTime,
     setFilterTimeStart,
     setFilterTimeEnd,
     addFilterSpace,
