@@ -51,6 +51,11 @@ export const selectFilterSpaceDrawing = createSelector(
     (filterSpaceDrawing) => filterSpaceDrawing
 );
 
+export const selectFeatures = createSelector(
+    (state: RootState) => state.App.features,
+    (features) => features
+);
+
 export const selectIsLoggedIn = createSelector(
     (state: RootState) => state.App.isLoggedIn,
     (isLoggedIn) => isLoggedIn

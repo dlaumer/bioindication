@@ -31,6 +31,7 @@ import SimpleRenderer from '@arcgis/core/renderers/SimpleRenderer';
 import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
 
 import {
+    selectFilterSpace,
     selectFilterSpaceDrawing,
     selectFilterTimeActive,
     selectIsLoggedIn,
@@ -40,6 +41,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addFilterSpace,
+    setFeatures,
     setFilterSpace,
     setFilterSpaceDrawing,
     setIsLoggedIn,
@@ -68,10 +70,12 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const sidePanelContent = useSelector(selectSidePanelContent);
     const logInAttempt = useSelector(selectLogInAttempt);
     const filterSpaceDrawing = useSelector(selectFilterSpaceDrawing);
-    const filterSpace = useSelector(selectFilterSpaceDrawing);
+    const filterSpace = useSelector(selectFilterSpace);
 
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
+    const [filterGraphic, setFilterGraphic] = useState<GraphicsLayer>(null);
+
     const [sketchWidget, setSketchWidget] = useState<Sketch>(null);
     const [highlightedFeatures, setHighlightedFeatures] = useState<any>(null);
 
@@ -272,27 +276,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         setDataLayer(dataLay);
         setDataLayerView(dataLayView);
 
-        const query: any = {
-            //where: `EXTRACT(MONTH FROM ${layer.timeInfo.startField}) = ${month}`,
-            where: `1=1`,
-            returnGeometry: false,
-            outFields: ['*'],
-        };
-
-        // Perform the query on the feature layer
-        dataLayView
-            .queryFeatures(query)
-            .then(function (result: any) {
-                if (result.features.length > 0) {
-                    console.log(result);
-                } else {
-                    console.log(`No data found`);
-                }
-            })
-            .catch(function (error: any) {
-                console.error(`Query failed: `, error);
-            });
-
         dataLay.popupTemplate = template;
         dataLayView.popupTemplate = template;
 
@@ -398,14 +381,16 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         view.ui.add(elevatonProfile, 'top-right');
 
         // Filter by space
-        const graphicsLayerLasso = new GraphicsLayer({});
+        const graphicsLayer = new GraphicsLayer({});
 
-        view.map.add(graphicsLayerLasso);
+        view.map.add(graphicsLayer);
+
+        setFilterGraphic(graphicsLayer);
 
         // Create a Sketch widget without adding it to the view
         const sketch = new Sketch({
             view: view,
-            layer: graphicsLayerLasso,
+            layer: graphicsLayer,
             creationMode: 'update',
         });
 
@@ -427,77 +412,39 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
                 // Get the polygon geometry
                 const lassoPolygon = event.graphic.geometry;
-                // Perform a spatial query to select features and highlight them
-                queryFeatures(lassoPolygon);
+                dispatch(setFilterSpace(lassoPolygon));
             }
         });
         sketch.on('update', function (event: any) {
-            console.log(event.toolEventInfo);
             if (
-                (event.toolEventInfo &&
-                    event.toolEventInfo.type == 'move-stop') ||
-                event.toolEventInfo.type == 'reshape-stop' ||
-                event.toolEventInfo.type == 'rotate-stop'
+                event.toolEventInfo &&
+                (event.toolEventInfo.type == 'move-stop' ||
+                    event.toolEventInfo.type == 'reshape-stop' ||
+                    event.toolEventInfo.type == 'scale-stop' ||
+                    event.toolEventInfo.type == 'rotate-stop')
             ) {
                 // Get the polygon geometry
                 const lassoPolygon = event.graphics[0].geometry;
-                // Perform a spatial query to select features and highlight them
-                queryFeatures(lassoPolygon);
+
+                dispatch(setFilterSpace(lassoPolygon));
             }
         });
 
-        let highlightedFeats: any = [];
-
-        function queryFeatures(geometry: any) {
-            // Replace with your feature layer
-
-            //dispatch(setFilterSpace(geometry))
-            const query = new Query();
-            query.geometry = geometry;
-            query.timeExtent = view.timeExtent;
-            query.outFields = ['*'];
-            //query.spatialRelationship = "contains"
-
-            const lay = isLoggedIn ? dataLay : dataLayView;
-
-            lay.queryFeatures(query).then((results: any) => {
-                // Clear the previous selection
-                if (highlightedFeats.length != 0) {
-                    highlightedFeats.remove();
-                }
-
-                //setHighlightedFeatures([]);
-                highlightedFeats = [];
-                view.whenLayerView(lay).then(function (layerView: any) {
-                    highlightedFeats = layerView.highlight(results.features);
-                    setHighlightedFeatures(highlightedFeats);
-                });
-            });
-
-            /*
-          featureLayer1.queryFeatures(query).then(function (result: any) {
-              // Clear the previous selection
-              if (lighlightedFeatures != null) {
-                  lighlightedFeatures.remove()
-              }
-              featuresWidget.open({
-                  features: result.features
-              })
-              view.whenLayerView(featureLayer1).then(function (layerView: any) {
-                  lighlightedFeatures = layerView.highlight(result.features);
-              })
-
-          });
-          */
-        }
+        const highlightedFeats: any = [];
 
         // Remove all ui elements, so that they can be added manually as tools!
         //view.ui.components = ["attribution"];
         //view.ui.components = [];
 
+        slider.watch('timeExtent', (value: any) => {
+            // update layer view filter to reflect current timeExtent
+            //queryFeatures(view)
+        });
         view.when(() => {
             setMapView(view);
         });
+
+        // Function block the UI while the map is loading!
 
         // Function block the UI while the map is loading!
         reactiveUtils
@@ -519,8 +466,15 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     };
 
     useEffect(() => {
+        if (mapView != null && dataLayer != null && dataLayerView != null) {
+            queryFeatures(mapView);
+        }
+    }, [mapView, dataLayer, dataLayerView]);
+
+    useEffect(() => {
         if (sketchWidget) {
             if (filterSpaceDrawing) {
+                filterGraphic.removeAll();
                 sketchWidget.create('polygon');
             } else {
                 sketchWidget.cancel();
@@ -529,12 +483,15 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     }, [filterSpaceDrawing]);
 
     useEffect(() => {
-        // Start drawing using the "polygon" tool
-        console.log(highlightedFeatures);
-        if (highlightedFeatures != null) {
-            highlightedFeatures.remove();
-            setHighlightedFeatures(null);
+        if (filterSpace == null) {
+            filterGraphic.removeAll();
+            // Start drawing using the "polygon" tool
+            if (highlightedFeatures != null) {
+                highlightedFeatures.remove();
+                setHighlightedFeatures(null);
+            }
         }
+        queryFeatures(mapView);
     }, [filterSpace]);
 
     useEffect(() => {
@@ -566,6 +523,62 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             handleSignInOut();
         }
     }, [logInAttempt]);
+
+    const queryFeatures = (view: MapView) => {
+        if (view != null) {
+            // Get the correct layer
+            let lay = dataLayerView;
+            if (isLoggedIn) {
+                lay = dataLayer;
+            }
+
+            const query: any = {
+                //where: `EXTRACT(MONTH FROM ${layer.timeInfo.startField}) = ${month}`,
+                where: `1=1`,
+                returnGeometry: false,
+                outFields: ['*'],
+                maxRecordCountFactor: 2,
+            };
+
+            if (view.timeExtent != null) {
+                query.timeExtent = view.timeExtent;
+            }
+            if (filterSpace != null) {
+                query.geometry = filterSpace;
+            }
+            // Perform the query on the feature layer
+            lay.queryFeatures(query)
+                .then(function (result: any) {
+                    if (result.features.length > 0) {
+                        dispatch(setFeatures(result.features));
+                        console.log(filterSpace);
+                        if (filterSpace != null && filterSpace.length != 0) {
+                            // Clear the previous selection
+                            if (
+                                highlightedFeatures != null &&
+                                highlightedFeatures.length != 0
+                            ) {
+                                highlightedFeatures.remove();
+                            }
+
+                            view.whenLayerView(lay).then(function (
+                                layerView: any
+                            ) {
+                                const highlightedFeat = layerView.highlight(
+                                    result.features
+                                );
+                                setHighlightedFeatures(highlightedFeat);
+                            });
+                        }
+                    } else {
+                        console.log(`No data found`);
+                    }
+                })
+                .catch(function (error: any) {
+                    console.error(`Query failed: `, error);
+                });
+        }
+    };
 
     const handleSignInOut = () => {
         if (isLoggedIn) {

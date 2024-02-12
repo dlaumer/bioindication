@@ -12,10 +12,17 @@ export type RootState = ReturnType<typeof rootReducer>;
 
 export type PartialRootState = DeepPartial<RootState>;
 
+const defaultMiddlewareConfig = {
+    serializableCheck: {
+        ignoredPaths: ['state.features'],
+    },
+};
+
 const configureAppStore = (preloadedState: PartialRootState = {}) => {
     const store = configureStore({
         reducer: rootReducer,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware({ serializableCheck: false }),
         preloadedState: preloadedState as any,
     });
 

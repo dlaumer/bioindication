@@ -23,6 +23,8 @@ export type AppState = {
     filterSpace?: Array<any>;
     filterSpaceDrawing?: boolean;
 
+    features?: any;
+
     isLoggedIn?: boolean;
     logInAttempt?: boolean;
     usernameEsri?: string;
@@ -44,6 +46,8 @@ export const initialAppState: AppState = {
 
     filterSpace: [],
     filterSpaceDrawing: false,
+
+    features: null,
 
     isLoggedIn: false,
     logInAttempt: false,
@@ -91,6 +95,9 @@ const slice = createSlice({
         setFilterSpaceDrawing: (state, action: PayloadAction<boolean>) => {
             state.filterSpaceDrawing = action.payload;
         },
+        setFeatures: (state, action: PayloadAction<any>) => {
+            state.features = action.payload;
+        },
         setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload;
         },
@@ -123,6 +130,7 @@ export const {
     addFilterSpace,
     setFilterSpace,
     setFilterSpaceDrawing,
+    setFeatures,
     setIsLoggedIn,
     setLogInAttempt,
     setUsernameEsri,

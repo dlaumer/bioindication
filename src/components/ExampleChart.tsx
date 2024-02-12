@@ -1,4 +1,6 @@
-import React, { PureComponent } from 'react';
+import { selectFeatures } from '@store/selectors';
+import React, { FC, PureComponent, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
     LineChart,
     Line,
@@ -55,37 +57,48 @@ const data = [
     },
 ];
 
-export default class Example extends PureComponent {
-    static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
+type ExampleChartProps = {
+    title?: string;
+};
+const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
+    title = 'Default',
+    ...props
+}) => {
+    const demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
 
-    render() {
-        return (
-            <ResponsiveContainer width="100%" height="85%">
-                <LineChart
-                    width={500}
-                    height={300}
-                    data={data}
-                    margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line
-                        type="monotone"
-                        dataKey="pv"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                    />
-                    <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                </LineChart>
-            </ResponsiveContainer>
-        );
-    }
-}
+    const features = useSelector(selectFeatures);
+
+    useEffect(() => {
+        console.log(features);
+    }, [features]);
+
+    return (
+        <ResponsiveContainer width="100%" height="85%">
+            <LineChart
+                width={500}
+                height={300}
+                data={data}
+                margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                    type="monotone"
+                    dataKey="pv"
+                    stroke="#8884d8"
+                    activeDot={{ r: 8 }}
+                />
+                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            </LineChart>
+        </ResponsiveContainer>
+    );
+};
+export default ExampleChart;
