@@ -94,9 +94,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
 
+    const actualDate = new Date();
     const fullTimeExtent = new TimeExtent({
         start: new Date(2000, 1, 1),
-        end: new Date(),
+        end: actualDate,
     });
 
     let isInitalizing = false;
@@ -160,10 +161,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 left: screen.width / 3,
                 right: screen.width / 5,
                 bottom: 100,
-            },
-            timeExtent: {
-                start: new Date(2022, 1, 24),
-                end: new Date(2022, 3, 24),
             },
             highlightOptions: {
                 color: new Color([255, 241, 58]),
@@ -301,11 +298,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             mode: 'time-window',
             fullTimeExtent: {
                 start: new Date(2000, 1, 1),
-                end: new Date(),
+                end: actualDate,
             },
             timeExtent: {
                 start: new Date(2000, 1, 1),
-                end: new Date(),
+                end: actualDate,
             },
             stops: {
                 interval: new TimeInterval({
@@ -317,6 +314,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
 
         setTimeSlider(slider);
+        //dispatch(setFilterTimeStart(slider.timeExtent.start));
+        //dispatch(setFilterTimeEnd(slider.timeExtent.end));
 
         //view.ui.add(timeSlider, 'bottom-left');
 
@@ -483,8 +482,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             // Your event handler function
             const handleSliderChange = (value: any) => {
                 // Your logic here, e.g., calling the backend
-                dispatch(setFilterTimeStart(mapView.timeExtent.start));
-                dispatch(setFilterTimeEnd(mapView.timeExtent.end));
+                dispatch(setFilterTimeStart(timeSlider.timeExtent.start));
+                dispatch(setFilterTimeEnd(timeSlider.timeExtent.end));
                 queryFeatures(mapView);
             };
 
@@ -504,9 +503,19 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         if (mapView != null) {
             console.log(filterTimeStart);
             if (!filterTimeActive) {
-                //mapView.timeExtent = fullTimeExtent as any;
+                const timeExtent = timeSlider.timeExtent;
+                timeSlider.timeExtent = new TimeExtent({
+                    start: new Date(2000, 1, 1),
+                    end: actualDate,
+                });
+
+                setTimeout(function () {
+                    dispatch(setFilterTimeStart(timeExtent.start));
+                    dispatch(setFilterTimeEnd(timeExtent.end));
+                }, 1000);
             } else {
-                mapView.timeExtent = new TimeExtent({
+                console.log(filterTimeStart);
+                timeSlider.timeExtent = new TimeExtent({
                     start: new Date(filterTimeStart),
                     end: new Date(filterTimeEnd),
                 });
