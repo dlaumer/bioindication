@@ -32,6 +32,7 @@ import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
 import TimeExtent from '@arcgis/core/TimeExtent';
 
 import {
+    selectCategory,
     selectFilterSpace,
     selectFilterSpaceActive,
     selectFilterSpaceDrawing,
@@ -46,6 +47,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addFilterSpace,
+    setAttribute,
     setFeatures,
     setFilterSpace,
     setFilterSpaceDrawing,
@@ -83,6 +85,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const filterTime = useSelector(selectFilterTime);
     const filterTimeStart = useSelector(selectFilterTimeStart);
     const filterTimeEnd = useSelector(selectFilterTimeEnd);
+    const category = useSelector(selectCategory);
 
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
@@ -527,7 +530,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         if (mapView != null && dataLayer != null && dataLayerView != null) {
             queryFeatures(mapView);
         }
-    }, [filterTimeActive, filterSpaceActive]);
+    }, [filterTimeActive, filterSpaceActive, category]);
 
     useEffect(() => {
         if (sketchWidget) {
@@ -604,6 +607,42 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             if (filterSpaceActive && filterSpace != null) {
                 query.geometry = filterSpace;
             }
+            switch (category) {
+                case 'bioQuality':
+                    query.outStatistics = [
+                        {
+                            statisticType: 'count',
+                            onStatisticField: 'LandscapeEcology',
+                            outStatisticFieldName: 'count_Attribute',
+                        },
+                    ];
+                    query.groupByFieldsForStatistics = ['LandscapeEcology'];
+                    dispatch(setAttribute('LandscapeEcology'));
+                    break;
+                case 'waterQuality':
+                    query.outStatistics = [
+                        {
+                            statisticType: 'count',
+                            onStatisticField: 'BioWaterQuality',
+                            outStatisticFieldName: 'count_Attribute',
+                        },
+                    ];
+                    query.groupByFieldsForStatistics = ['BioWaterQuality'];
+                    dispatch(setAttribute('BioWaterQuality'));
+                    break;
+                case 'temperatureDistribution':
+                    query.outStatistics = [
+                        {
+                            statisticType: 'count',
+                            onStatisticField: 'water_temp',
+                            outStatisticFieldName: 'count_Attribute',
+                        },
+                    ];
+                    query.groupByFieldsForStatistics = ['water_temp'];
+                    dispatch(setAttribute('water_temp'));
+                    break;
+            }
+
             // Perform the query on the feature layer
             lay.queryFeatures(query)
                 .then(function (result: any) {

@@ -60,6 +60,11 @@ export const selectFeatures = createSelector(
     (features) => features
 );
 
+export const selectAttribute = createSelector(
+    (state: RootState) => state.App.attribute,
+    (attribute) => attribute
+);
+
 export const selectIsLoggedIn = createSelector(
     (state: RootState) => state.App.isLoggedIn,
     (isLoggedIn) => isLoggedIn

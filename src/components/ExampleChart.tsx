@@ -1,5 +1,5 @@
-import { selectFeatures } from '@store/selectors';
-import React, { FC, PureComponent, useEffect } from 'react';
+import { selectAttribute, selectFeatures } from '@store/selectors';
+import React, { FC, PureComponent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
     LineChart,
@@ -10,9 +10,12 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
+    BarChart,
+    Bar,
+    Rectangle,
 } from 'recharts';
 
-const data = [
+const exampleData = [
     {
         name: 'Page A',
         uv: 4000,
@@ -64,17 +67,34 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
     title = 'Default',
     ...props
 }) => {
-    const demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
-
     const features = useSelector(selectFeatures);
+    const attribute = useSelector(selectAttribute);
+
+    const [data, setData] = useState<any>(null);
 
     useEffect(() => {
-        console.log(features);
+        parseData(features);
     }, [features]);
+
+    const parseData = (features: any) => {
+        const dataTemp = [];
+        for (const i in features) {
+            if (
+                features[i].attributes[attribute] != null &&
+                features[i].attributes[attribute] != ''
+            ) {
+                dataTemp.push({
+                    name: features[i].attributes[attribute],
+                    value: features[i].attributes.count_Attribute,
+                });
+            }
+        }
+        setData(dataTemp);
+    };
 
     return (
         <ResponsiveContainer width="100%" height="85%">
-            <LineChart
+            <BarChart
                 width={500}
                 height={300}
                 data={data}
@@ -90,14 +110,12 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#8884d8"
-                    activeDot={{ r: 8 }}
+                <Bar
+                    dataKey="value"
+                    fill="#A2C367"
+                    activeBar={<Rectangle fill="#79924e" />}
                 />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-            </LineChart>
+            </BarChart>
         </ResponsiveContainer>
     );
 };

@@ -9,7 +9,7 @@ Functionality for most of a basic dropdown from scratch like the opening and clo
 import React, { useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLanguage } from '../store/reducer';
+import { setCategory, setLanguage } from '../store/reducer';
 import { selectCategory, selectLanguage } from '@store/selectors';
 
 type DropdownProps = {
@@ -47,6 +47,9 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, options, isDisabled }) => {
                 className="flex px-2 py-2 text-lg text-neutral-600 font-medium hover:text-blue-600 cursor-pointer font-noigrotesk"
                 key={option}
                 onClick={() => {
+                    if (tag == 'categories') {
+                        dispatch(setCategory(option));
+                    }
                     setSelectedOption(option);
                     setIsExpanded(!isExpanded);
                 }}

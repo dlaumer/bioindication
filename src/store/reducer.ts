@@ -25,6 +25,7 @@ export type AppState = {
     filterSpaceDrawing?: boolean;
 
     features?: any;
+    attribute?: string;
 
     isLoggedIn?: boolean;
     logInAttempt?: boolean;
@@ -40,7 +41,7 @@ export const initialAppState: AppState = {
     sidePanelContent: 'analyze',
     filterTimeActive: true,
     filterSpaceActive: true,
-    category: 'waterQuality',
+    category: 'bioQuality',
 
     filterTime: null,
     filterTimeStart: null,
@@ -50,6 +51,7 @@ export const initialAppState: AppState = {
     filterSpaceDrawing: false,
 
     features: null,
+    attribute: null,
 
     isLoggedIn: false,
     logInAttempt: false,
@@ -103,6 +105,9 @@ const slice = createSlice({
         setFeatures: (state, action: PayloadAction<any>) => {
             state.features = action.payload;
         },
+        setAttribute: (state, action: PayloadAction<string>) => {
+            state.attribute = action.payload;
+        },
         setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload;
         },
@@ -137,6 +142,7 @@ export const {
     setFilterSpace,
     setFilterSpaceDrawing,
     setFeatures,
+    setAttribute,
     setIsLoggedIn,
     setLogInAttempt,
     setUsernameEsri,
