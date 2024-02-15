@@ -21,11 +21,12 @@ export type AppState = {
     filterTimeStart?: Date;
     filterTimeEnd?: Date;
 
-    filterSpace?: Array<any>;
+    filterSpace?: any;
     filterSpaceDrawing?: boolean;
 
     features?: any;
     attribute?: string;
+    hoverFeatures?: any;
 
     isLoggedIn?: boolean;
     logInAttempt?: boolean;
@@ -52,6 +53,7 @@ export const initialAppState: AppState = {
 
     features: null,
     attribute: null,
+    hoverFeatures: null,
 
     isLoggedIn: false,
     logInAttempt: false,
@@ -108,6 +110,9 @@ const slice = createSlice({
         setAttribute: (state, action: PayloadAction<string>) => {
             state.attribute = action.payload;
         },
+        setHoverFeatures: (state, action: PayloadAction<any>) => {
+            state.hoverFeatures = action.payload;
+        },
         setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload;
         },
@@ -143,6 +148,7 @@ export const {
     setFilterSpaceDrawing,
     setFeatures,
     setAttribute,
+    setHoverFeatures,
     setIsLoggedIn,
     setLogInAttempt,
     setUsernameEsri,

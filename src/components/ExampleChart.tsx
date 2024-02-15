@@ -1,5 +1,7 @@
+import { setHoverFeatures } from '@store/reducer';
 import { selectAttribute, selectFeatures } from '@store/selectors';
 import React, { FC, PureComponent, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import {
     LineChart,
@@ -67,6 +69,7 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
     title = 'Default',
     ...props
 }) => {
+    const dispatch = useDispatch();
     const features = useSelector(selectFeatures);
     const attribute = useSelector(selectAttribute);
 
@@ -113,6 +116,12 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
                 <Bar
                     dataKey="value"
                     fill="#A2C367"
+                    onMouseOver={(event) => {
+                        dispatch(setHoverFeatures(event.name));
+                    }}
+                    onMouseOut={(event) => {
+                        dispatch(setHoverFeatures(null));
+                    }}
                     activeBar={<Rectangle fill="#79924e" />}
                 />
             </BarChart>

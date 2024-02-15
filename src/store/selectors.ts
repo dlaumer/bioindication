@@ -65,6 +65,11 @@ export const selectAttribute = createSelector(
     (attribute) => attribute
 );
 
+export const selectHoverFeatures = createSelector(
+    (state: RootState) => state.App.hoverFeatures,
+    (hoverFeatures) => hoverFeatures
+);
+
 export const selectIsLoggedIn = createSelector(
     (state: RootState) => state.App.isLoggedIn,
     (isLoggedIn) => isLoggedIn

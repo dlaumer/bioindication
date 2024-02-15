@@ -30,8 +30,11 @@ import Color from '@arcgis/core/Color';
 import SimpleRenderer from '@arcgis/core/renderers/SimpleRenderer';
 import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
 import TimeExtent from '@arcgis/core/TimeExtent';
+import FeatureEffect from '@arcgis/core/layers/support/FeatureEffect';
+import FeatureFilter from '@arcgis/core/layers/support/FeatureFilter';
 
 import {
+    selectAttribute,
     selectCategory,
     selectFilterSpace,
     selectFilterSpaceActive,
@@ -40,6 +43,7 @@ import {
     selectFilterTimeActive,
     selectFilterTimeEnd,
     selectFilterTimeStart,
+    selectHoverFeatures,
     selectIsLoggedIn,
     selectLogInAttempt,
     selectSidePanelContent,
@@ -86,13 +90,17 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const filterTimeStart = useSelector(selectFilterTimeStart);
     const filterTimeEnd = useSelector(selectFilterTimeEnd);
     const category = useSelector(selectCategory);
+    const hoverFeatures = useSelector(selectHoverFeatures);
+    const attribute = useSelector(selectAttribute);
 
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
     const [filterGraphic, setFilterGraphic] = useState<GraphicsLayer>(null);
+    const [currentLayer, setCurrentLayer] = useState<FeatureLayer>(null);
+    const [filterSpaceEffect, setFilterSpaceEffect] =
+        useState<FeatureEffect>(null);
 
     const [sketchWidget, setSketchWidget] = useState<Sketch>(null);
-    const [highlightedFeatures, setHighlightedFeatures] = useState<any>(null);
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
@@ -166,8 +174,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 bottom: 100,
             },
             highlightOptions: {
-                color: new Color([255, 241, 58]),
-                fillOpacity: 0.4,
+                color: new Color([0, 0, 0, 0]),
+                fillOpacity: 0,
             },
         });
 
@@ -286,8 +294,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         if (isLoggedIn) {
             view.map.add(dataLay);
+            setCurrentLayer(dataLay);
         } else {
             view.map.add(dataLayView);
+            setCurrentLayer(dataLayView);
         }
 
         setDataLayer(dataLay);
@@ -410,12 +420,12 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         const sketch = new Sketch({
             view: view,
             layer: graphicsLayer,
-            creationMode: 'update',
+            creationMode: 'single',
         });
 
         sketch.when(() => {
             sketch.viewModel.polygonSymbol = new SimpleFillSymbol({
-                color: new Color([0, 0, 0, 0.5]), // Transparent black filling (RGBA)
+                color: new Color([0, 0, 0, 0.2]), // Transparent black filling (RGBA)
                 outline: {
                     color: new Color([0, 0, 0, 0]), // No border (RGBA)
                     width: 0,
@@ -448,8 +458,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 dispatch(setFilterSpace(lassoPolygon));
             }
         });
-
-        const highlightedFeats: any = [];
 
         // Remove all ui elements, so that they can be added manually as tools!
         //view.ui.components = ["attribution"];
@@ -533,6 +541,38 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     }, [filterTimeActive, filterSpaceActive, category]);
 
     useEffect(() => {
+        if (mapView != null && dataLayer != null && dataLayerView != null) {
+            if (hoverFeatures == null) {
+                if (filterSpace == null) {
+                    currentLayer.featureEffect = null;
+                } else {
+                    currentLayer.featureEffect = filterSpaceEffect;
+                }
+            } else {
+                const filter = new FeatureFilter({
+                    spatialRelationship: 'intersects',
+                });
+                if (filterTimeActive && mapView.timeExtent != null) {
+                    filter.timeExtent = mapView.timeExtent;
+                }
+                if (filterSpaceActive && filterSpace != null) {
+                    filter.geometry = filterSpace;
+                }
+                if (hoverFeatures != null) {
+                    filter.where = attribute + " = '" + hoverFeatures + "'";
+                }
+
+                currentLayer.featureEffect = new FeatureEffect({
+                    filter: filter,
+                    excludedEffect: 'grayscale(80%) opacity(70%)',
+                    includedEffect:
+                        'drop-shadow(1px, 1px, 1px) brightness(150%)',
+                });
+            }
+        }
+    }, [hoverFeatures]);
+
+    useEffect(() => {
         if (sketchWidget) {
             if (filterSpaceDrawing) {
                 filterGraphic.removeAll();
@@ -544,24 +584,44 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     }, [filterSpaceDrawing]);
 
     useEffect(() => {
-        if (filterSpace == null) {
-            filterGraphic.removeAll();
-            // Start drawing using the "polygon" tool
-            if (highlightedFeatures != null) {
-                highlightedFeatures.remove();
-                setHighlightedFeatures(null);
+        if (mapView != null && dataLayer != null && dataLayerView != null) {
+            queryFeatures(mapView);
+            if (filterSpace == null || !filterSpaceActive) {
+                if (filterSpace == null) {
+                    filterGraphic.removeAll();
+                }
+                currentLayer.featureEffect = null;
+            } else {
+                const filter = new FeatureFilter({
+                    spatialRelationship: 'intersects',
+                });
+                if (filterTimeActive && mapView.timeExtent != null) {
+                    filter.timeExtent = mapView.timeExtent;
+                }
+                if (filterSpaceActive && filterSpace != null) {
+                    filter.geometry = filterSpace;
+                }
+                currentLayer.featureEffect = new FeatureEffect({
+                    filter: filter,
+                    excludedEffect: 'grayscale(80%) opacity(70%)',
+                    includedEffect:
+                        'drop-shadow(1px, 1px, 1px) brightness(150%)',
+                });
+
+                setFilterSpaceEffect(currentLayer.featureEffect);
             }
         }
-        queryFeatures(mapView);
-    }, [filterSpace]);
+    }, [filterSpace, filterSpaceActive]);
 
     useEffect(() => {
         if (mapView != null) {
             if (isLoggedIn) {
                 mapView.map.remove(dataLayerView);
                 mapView.map.add(dataLayer);
+                setCurrentLayer(dataLayer);
             } else {
                 mapView.map.add(dataLayerView);
+                setCurrentLayer(dataLayerView);
             }
         }
     }, [isLoggedIn]);
@@ -585,13 +645,52 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         }
     }, [logInAttempt]);
 
+    /*
+
+    const filterFeaturesView = () => {
+        console.log("filterFeaturesView")
+        if (currentLayer != null) {
+            if (filterSpace == null) {
+                mapView.whenLayerView(currentLayer).then(function (
+                    layerView: any
+                ) {
+                    layerView.featureEffect = null;
+
+                })
+            }
+            else {
+                let filter = new FeatureFilter({
+                    spatialRelationship: "intersects",
+                })
+
+                if (filterTimeActive && mapView.timeExtent != null) {
+                    filter.timeExtent = mapView.timeExtent;
+                }
+                if (filterSpaceActive && filterSpace != null) {
+                    filter.geometry = filterSpace;
+                }
+
+                mapView.whenLayerView(currentLayer).then(function (
+                    layerView: any
+                ) {
+                    layerView.featureEffect = new FeatureEffect({
+                        filter: filter,
+                        excludedEffect: "grayscale(80%) opacity(70%)",
+                        includedEffect: "drop-shadow(1px, 1px, 1px) brightness(150%)"
+                    });
+                })
+
+
+
+            }
+        }
+
+    }
+    */
+
     const queryFeatures = (view: MapView) => {
         if (view != null) {
             // Get the correct layer
-            let lay = dataLayerView;
-            if (isLoggedIn) {
-                lay = dataLayer;
-            }
 
             const query: any = {
                 //where: `EXTRACT(MONTH FROM ${layer.timeInfo.startField}) = ${month}`,
@@ -644,32 +743,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             }
 
             // Perform the query on the feature layer
-            lay.queryFeatures(query)
+            currentLayer
+                .queryFeatures(query)
                 .then(function (result: any) {
                     if (result.features.length > 0) {
                         dispatch(setFeatures(result.features));
-                        if (
-                            filterSpaceActive &&
-                            filterSpace != null &&
-                            filterSpace.length != 0
-                        ) {
-                            // Clear the previous selection
-                            if (
-                                highlightedFeatures != null &&
-                                highlightedFeatures.length != 0
-                            ) {
-                                highlightedFeatures.remove();
-                            }
-
-                            view.whenLayerView(lay).then(function (
-                                layerView: any
-                            ) {
-                                const highlightedFeat = layerView.highlight(
-                                    result.features
-                                );
-                                setHighlightedFeatures(highlightedFeat);
-                            });
-                        }
                     } else {
                         console.log(`No data found`);
                     }
