@@ -45,6 +45,7 @@ import {
     selectFilterTimeStart,
     selectHoverFeatures,
     selectIsLoggedIn,
+    selectLanguage,
     selectLogInAttempt,
     selectSidePanelContent,
 } from '@store/selectors';
@@ -62,6 +63,7 @@ import {
     setLogInAttempt,
     setUsernameEsri,
 } from '@store/reducer';
+import { getTranslation, getTranslationStatic } from '@services/languageHelper';
 
 interface Props {
     /**
@@ -92,16 +94,20 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const category = useSelector(selectCategory);
     const hoverFeatures = useSelector(selectHoverFeatures);
     const attribute = useSelector(selectAttribute);
+    const language = useSelector(selectLanguage);
 
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
+    const [waterLayer, setWaterLayer] = useState<FeatureLayer>(null);
+    const [riverLayer, setRiverLayer] = useState<FeatureLayer>(null);
+
     const [filterGraphic, setFilterGraphic] = useState<GraphicsLayer>(null);
     const [currentLayer, setCurrentLayer] = useState<FeatureLayer>(null);
-    const [waterLayer, setWaterLayer] = useState<FeatureLayer>(null);
     const [filterSpaceEffect, setFilterSpaceEffect] =
         useState<FeatureEffect>(null);
 
     const [sketchWidget, setSketchWidget] = useState<Sketch>(null);
+    const [layerListWidget, setLayerListWidget] = useState<LayerList>(null);
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
@@ -184,12 +190,16 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             portalItem: {
                 id: 'a58f33bc922a4451932383e620d910dd',
             },
+            title: getTranslationStatic('riverData'),
         });
 
         view.map.add(riverData);
+        setRiverLayer(riverData);
 
         // Filter by space
-        const graphicsLayer = new GraphicsLayer({});
+        const graphicsLayer = new GraphicsLayer({
+            listMode: 'hide',
+        });
 
         view.map.add(graphicsLayer);
 
@@ -400,6 +410,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             portalItem: {
                 id: dataLayerId,
             },
+            title: getTranslationStatic('bioQuality'),
             renderer: rendererLandscape,
         });
 
@@ -407,6 +418,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             portalItem: {
                 id: dataLayerViewId,
             },
+            title: getTranslationStatic('bioQuality'),
             renderer: rendererLandscape,
         });
 
@@ -414,18 +426,19 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             portalItem: {
                 id: dataLayerViewId,
             },
+            title: getTranslationStatic('waterQuality'),
             renderer: rendererWater,
         });
 
         if (isLoggedIn) {
-            view.map.add(dataLay);
+            view.map.add(dataLay, 0);
             setCurrentLayer(dataLay);
         } else {
-            view.map.add(dataLayView);
+            view.map.add(dataLayView, 0);
             setCurrentLayer(dataLayView);
         }
 
-        view.map.add(dataLayViewWater);
+        view.map.add(dataLayViewWater, 10);
 
         setDataLayer(dataLay);
         setDataLayerView(dataLayView);
@@ -482,14 +495,16 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         setEditor(edit);
         //view.ui.add(editor, 'top-right');
 
+        const layList = new LayerList({
+            view: view,
+        });
         const layerList = new Expand({
             view: view,
-            content: new LayerList({
-                view: view,
-            }),
+            content: layList,
             group: 'top-right',
         });
         view.ui.add(layerList, 'top-right');
+        setLayerListWidget(layList);
 
         const legend = new Expand({
             view: view,
@@ -663,6 +678,15 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     useEffect(() => {
         if (mapView != null && dataLayer != null && dataLayerView != null) {
+            dataLayer.title = getTranslationStatic('bioQuality');
+            dataLayerView.title = getTranslationStatic('bioQuality');
+            waterLayer.title = getTranslationStatic('waterQuality');
+            riverLayer.title = getTranslationStatic('riverData');
+        }
+    }, [language]);
+
+    useEffect(() => {
+        if (mapView != null && dataLayer != null && dataLayerView != null) {
             if (hoverFeatures == null) {
                 if (filterSpace == null) {
                     currentLayer.featureEffect = null;
@@ -745,10 +769,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         if (mapView != null) {
             if (isLoggedIn) {
                 mapView.map.remove(dataLayerView);
-                mapView.map.add(dataLayer);
+                mapView.map.add(dataLayer, 0);
                 setCurrentLayer(dataLayer);
             } else {
-                mapView.map.add(dataLayerView);
+                mapView.map.add(dataLayerView, 0);
                 setCurrentLayer(dataLayerView);
             }
         }

@@ -101,6 +101,12 @@ const translations = {
         fr: "Distribution de l'écologie du paysage",
         it: "Distribuzione dell'ecologia del paesaggio",
     },
+    riverData: {
+        en: 'Rivers',
+        de: 'Flüsse',
+        fr: 'Rivières',
+        it: 'Fiumi',
+    },
     temperatureDistribution: {
         en: 'Distribution of temperature (°C)',
         de: 'Verteilung der Temperatur (°C)',
