@@ -97,6 +97,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
     const [filterGraphic, setFilterGraphic] = useState<GraphicsLayer>(null);
     const [currentLayer, setCurrentLayer] = useState<FeatureLayer>(null);
+    const [waterLayer, setWaterLayer] = useState<FeatureLayer>(null);
     const [filterSpaceEffect, setFilterSpaceEffect] =
         useState<FeatureEffect>(null);
 
@@ -187,7 +188,14 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         view.map.add(riverData);
 
-        const renderer: any = {
+        // Filter by space
+        const graphicsLayer = new GraphicsLayer({});
+
+        view.map.add(graphicsLayer);
+
+        setFilterGraphic(graphicsLayer);
+
+        const rendererLandscape: any = {
             type: 'unique-value', // autocasts as new UniqueValueRenderer()
             field: 'LandscapeEcology',
             defaultSymbol: {
@@ -263,17 +271,127 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     },
                 },
             ],
-            visualVariables: [
+        };
+
+        const rendererWater: any = {
+            type: 'unique-value', // autocasts as new UniqueValueRenderer()
+            field: 'BioWaterQuality',
+            defaultSymbol: {
+                type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                style: 'diamond',
+                size: 6, // pixels
+                outline: {
+                    // autocasts as new SimpleLineSymbol()
+                    color: [153, 153, 153, 64],
+                    width: 0.5, // points
+                },
+                color: [225, 225, 225, 255],
+            }, // autocasts as new SimpleFillSymbol()
+            uniqueValueInfos: [
                 {
-                    type: 'size',
-                    field: 'landscape_eco_number ',
-                    // features with 30 ppl/sq km or below are assigned the first opacity value
-                    stops: [
-                        { value: 1, size: 5 },
-                        { value: 3, size: 10 },
-                        { value: 5, size: 15 },
-                        { value: 2000, size: 20 },
-                    ],
+                    // All features with value of "North" will be blue
+                    value: 'unpolluted - I',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'diamond',
+                        size: 12, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.5, // points
+                        },
+                        color: [115, 178, 255, 255],
+                    },
+                },
+                {
+                    // All features with value of "East" will be green
+                    value: 'slightly polluted - I-II',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'diamond',
+                        size: 12, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.5, // points
+                        },
+                        color: [1, 254, 197, 255],
+                    },
+                },
+                {
+                    // All features with value of "South" will be red
+                    value: 'moderately polluted - II',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'diamond',
+                        size: 12, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.5, // points
+                        },
+                        color: [85, 255, 0, 255],
+                    },
+                },
+                {
+                    // All features with value of "West" will be yellow
+                    value: 'seriously polluted - II-III',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'diamond',
+                        size: 12, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.5, // points
+                        },
+                        color: [255, 255, 0, 255],
+                    },
+                },
+                {
+                    // All features with value of "West" will be yellow
+                    value: 'heavily polluted - III',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'diamond',
+                        size: 12, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.5, // points
+                        },
+                        color: [255, 170, 0, 255],
+                    },
+                },
+                {
+                    // All features with value of "West" will be yellow
+                    value: 'very heavily polluted - III-IV',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'diamond',
+                        size: 12, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.5, // points
+                        },
+                        color: [255, 0, 0, 255],
+                    },
+                },
+                {
+                    // All features with value of "West" will be yellow
+                    value: 'excessively polluted - IV',
+                    symbol: {
+                        type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
+                        style: 'diamond',
+                        size: 12, // pixels
+                        outline: {
+                            // autocasts as new SimpleLineSymbol()
+                            color: [153, 153, 153, 64],
+                            width: 0.5, // points
+                        },
+                        color: [168, 56, 0, 255],
+                    },
                 },
             ],
         };
@@ -282,14 +400,21 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             portalItem: {
                 id: dataLayerId,
             },
-            renderer: renderer,
+            renderer: rendererLandscape,
         });
 
         const dataLayView = new FeatureLayer({
             portalItem: {
                 id: dataLayerViewId,
             },
-            renderer: renderer,
+            renderer: rendererLandscape,
+        });
+
+        const dataLayViewWater = new FeatureLayer({
+            portalItem: {
+                id: dataLayerViewId,
+            },
+            renderer: rendererWater,
         });
 
         if (isLoggedIn) {
@@ -300,8 +425,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             setCurrentLayer(dataLayView);
         }
 
+        view.map.add(dataLayViewWater);
+
         setDataLayer(dataLay);
         setDataLayerView(dataLayView);
+        setWaterLayer(dataLayViewWater);
 
         dataLay.popupTemplate = template;
         dataLayView.popupTemplate = template;
@@ -408,13 +536,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             group: 'top-right',
         });
         view.ui.add(elevatonProfile, 'top-right');
-
-        // Filter by space
-        const graphicsLayer = new GraphicsLayer({});
-
-        view.map.add(graphicsLayer);
-
-        setFilterGraphic(graphicsLayer);
 
         // Create a Sketch widget without adding it to the view
         const sketch = new Sketch({
@@ -545,8 +666,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             if (hoverFeatures == null) {
                 if (filterSpace == null) {
                     currentLayer.featureEffect = null;
+                    waterLayer.featureEffect = null;
                 } else {
                     currentLayer.featureEffect = filterSpaceEffect;
+                    waterLayer.featureEffect = filterSpaceEffect;
                 }
             } else {
                 const filter = new FeatureFilter({
@@ -564,9 +687,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
                 currentLayer.featureEffect = new FeatureEffect({
                     filter: filter,
-                    excludedEffect: 'grayscale(80%) opacity(70%)',
-                    includedEffect:
-                        'drop-shadow(1px, 1px, 1px) brightness(150%)',
+                    excludedEffect: 'grayscale(100%) opacity(70%)',
+                });
+                waterLayer.featureEffect = new FeatureEffect({
+                    filter: filter,
+                    excludedEffect: 'grayscale(100%) opacity(70%)',
                 });
             }
         }
@@ -591,6 +716,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     filterGraphic.removeAll();
                 }
                 currentLayer.featureEffect = null;
+                waterLayer.featureEffect = null;
             } else {
                 const filter = new FeatureFilter({
                     spatialRelationship: 'intersects',
@@ -603,9 +729,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 }
                 currentLayer.featureEffect = new FeatureEffect({
                     filter: filter,
-                    excludedEffect: 'grayscale(80%) opacity(70%)',
-                    includedEffect:
-                        'drop-shadow(1px, 1px, 1px) brightness(150%)',
+                    excludedEffect: 'grayscale(100%) opacity(70%)',
+                });
+                waterLayer.featureEffect = new FeatureEffect({
+                    filter: filter,
+                    excludedEffect: 'grayscale(100%) opacity(70%)',
                 });
 
                 setFilterSpaceEffect(currentLayer.featureEffect);
