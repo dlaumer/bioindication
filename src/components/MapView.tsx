@@ -64,6 +64,8 @@ import {
     setUsernameEsri,
 } from '@store/reducer';
 import { getTranslation, getTranslationStatic } from '@services/languageHelper';
+import Popup from './Popup';
+import PopupPortal from './PopupPortal';
 
 interface Props {
     /**
@@ -96,6 +98,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const attribute = useSelector(selectAttribute);
     const language = useSelector(selectLanguage);
 
+    const [popupData, setPopupData] = useState({});
+
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
     const [waterLayer, setWaterLayer] = useState<FeatureLayer>(null);
@@ -108,6 +112,9 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     const [sketchWidget, setSketchWidget] = useState<Sketch>(null);
     const [layerListWidget, setLayerListWidget] = useState<LayerList>(null);
+
+    const popupRoot = document.createElement('div');
+    popupRoot.id = 'popupRoot';
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
@@ -154,17 +161,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const template = new PopupTemplate({
             title: '{rivername}',
-            content: [
-                {
-                    type: 'fields',
-                    fieldInfos: [
-                        {
-                            fieldName: 'landscape_eco_number ',
-                            label: 'Landscape Ecology as Number',
-                        },
-                    ],
-                },
-            ],
+            content: setContentInfo,
         });
 
         // The view instance is the most important instance for ArcGIS, from here you can access almost all elements like layers, ui elements, widget, etc
@@ -190,6 +187,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             portalItem: {
                 id: 'a58f33bc922a4451932383e620d910dd',
             },
+            popupEnabled: false,
             title: getTranslationStatic('riverData'),
         });
 
@@ -840,6 +838,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     }
     */
 
+    const setContentInfo = (feature: any) => {
+        setPopupData(feature);
+        return popupRoot;
+    };
+
     const queryFeatures = (view: MapView) => {
         if (view != null) {
             // Get the correct layer
@@ -968,7 +971,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     backgroundColor: 'grey',
                 }}
                 ref={mapDivRef}
-            ></div>
+            >
+                <PopupPortal mount={popupRoot}>
+                    <Popup data={popupData}></Popup>
+                </PopupPortal>
+            </div>
             {mapView
                 ? React.Children.map(children, (child) => {
                       return React.cloneElement(
