@@ -11,24 +11,24 @@ import { useDispatch } from 'react-redux';
 import React, { FC } from 'react';
 import { getTranslation } from '../services/languageHelper';
 
-type PanelPrintProps = {
-    title?: string;
-    active?: boolean;
+type PopupProps = {
+    data: any;
 };
-const PanelPrint: FC<PanelPrintProps & React.ComponentProps<'div'>> = ({
-    title = 'Default',
-    active = false,
+const Popup: FC<PopupProps & React.ComponentProps<'div'>> = ({
+    data = null,
 }) => {
-    const dispatch = useDispatch();
-    //let title = getTranslation(titleId);
-
-    // UI part
-    return (
-        <div
-            id={title}
-            className={`flex flex-col flex-none justify-between z-30 w-full  h-full bg-white p-[5px]`}
-        ></div>
-    );
+    const title = getTranslation('bioQuality');
+    if (Object.keys(data).length != 0) {
+        // UI part
+        return (
+            <div
+                id="bioQuality"
+                className={`flex flex-col flex-none justify-between z-30 w-full  h-full bg-white p-[5px]`}
+            >
+                {title + ': ' + data.graphic.attributes['BioWaterQuality']}
+            </div>
+        );
+    }
 };
 
-export default PanelPrint;
+export default Popup;
