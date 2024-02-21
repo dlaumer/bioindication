@@ -190,6 +190,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             portalItem: {
                 id: 'a58f33bc922a4451932383e620d910dd',
             },
+            outFields: ['Name'],
             title: getTranslationStatic('riverData'),
         });
 
@@ -601,6 +602,25 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         view.when(() => {
             setMapView(view);
+
+            view.on('pointer-move', function (event) {
+                // only include graphics from hurricanesLayer in the hitTest
+                const opts = {
+                    include: riverData,
+                };
+                view.hitTest(event, opts).then(function (response) {
+                    if (response.results.length) {
+                        const temp = response.results.filter(function (result) {
+                            // check if the graphic belongs to the layer of interest
+                            return (result as any).graphic.layer === riverData;
+                        })[0];
+                        if (temp != null) {
+                            const graphic = (temp as any).graphic;
+                            console.log(graphic.attributes.NAME);
+                        }
+                    }
+                });
+            });
         });
 
         // Function block the UI while the map is loading!
@@ -798,7 +818,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     }, [logInAttempt]);
 
     /*
-
+ 
     const filterFeaturesView = () => {
         console.log("filterFeaturesView")
         if (currentLayer != null) {
@@ -807,21 +827,21 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     layerView: any
                 ) {
                     layerView.featureEffect = null;
-
+ 
                 })
             }
             else {
                 let filter = new FeatureFilter({
                     spatialRelationship: "intersects",
                 })
-
+ 
                 if (filterTimeActive && mapView.timeExtent != null) {
                     filter.timeExtent = mapView.timeExtent;
                 }
                 if (filterSpaceActive && filterSpace != null) {
                     filter.geometry = filterSpace;
                 }
-
+ 
                 mapView.whenLayerView(currentLayer).then(function (
                     layerView: any
                 ) {
@@ -831,12 +851,12 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                         includedEffect: "drop-shadow(1px, 1px, 1px) brightness(150%)"
                     });
                 })
-
-
-
+ 
+ 
+ 
             }
         }
-
+ 
     }
     */
 
