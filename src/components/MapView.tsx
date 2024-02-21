@@ -688,12 +688,12 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     useEffect(() => {
         if (mapView != null && dataLayer != null && dataLayerView != null) {
             if (hoverFeatures == null) {
-                if (filterSpace == null) {
-                    currentLayer.featureEffect = null;
-                    waterLayer.featureEffect = null;
-                } else {
+                if (filterSpace != null && filterSpaceActive) {
                     currentLayer.featureEffect = filterSpaceEffect;
                     waterLayer.featureEffect = filterSpaceEffect;
+                } else {
+                    currentLayer.featureEffect = null;
+                    waterLayer.featureEffect = null;
                 }
             } else {
                 const filter = new FeatureFilter({
