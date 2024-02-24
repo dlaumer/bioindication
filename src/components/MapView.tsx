@@ -192,6 +192,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             },
             outFields: ['Name'],
             title: getTranslationStatic('riverData'),
+            popupEnabled: false,
         });
 
         view.map.add(riverData);
