@@ -608,18 +608,32 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 const opts = {
                     include: riverData,
                 };
-                view.hitTest(event, opts).then(function (response) {
-                    if (response.results.length) {
-                        const temp = response.results.filter(function (result) {
-                            // check if the graphic belongs to the layer of interest
-                            return (result as any).graphic.layer === riverData;
-                        })[0];
-                        if (temp != null) {
-                            const graphic = (temp as any).graphic;
-                            console.log(graphic.attributes.NAME);
+                if (view.zoom > 9) {
+                    view.hitTest(event, opts).then(function (response) {
+                        const tooltip = document.getElementById('tooltip');
+                        if (response.results.length) {
+                            const temp = response.results.filter(function (
+                                result
+                            ) {
+                                // check if the graphic belongs to the layer of interest
+                                return (
+                                    (result as any).graphic.layer === riverData
+                                );
+                            })[0];
+                            if (temp != null) {
+                                const graphic = (temp as any).graphic;
+                                const x = event.x + 10;
+                                const y = event.y + 10;
+                                tooltip.innerHTML = graphic.attributes.NAME;
+                                tooltip.style.left = x + 'px';
+                                tooltip.style.top = y + 'px';
+                                tooltip.style.visibility = 'visible';
+                            }
+                        } else {
+                            tooltip.style.visibility = 'hidden';
                         }
-                    }
-                });
+                    });
+                }
             });
         });
 
@@ -988,6 +1002,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     backgroundColor: 'grey',
                 }}
                 ref={mapDivRef}
+            ></div>
+            <div
+                id="tooltip"
+                className="absolute cursor-default bg-black bg-opacity-40 rounded-lg p-[5px] text-white text-sm"
             ></div>
             {mapView
                 ? React.Children.map(children, (child) => {
