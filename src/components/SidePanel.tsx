@@ -45,7 +45,9 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         content.push(
             <div
                 key="analyze"
-                className={`${sidePanelContent == 'analyze' ? '' : 'hidden'} `}
+                className={`${
+                    sidePanelContent == 'analyze' ? '' : 'hidden'
+                } h-full`}
             >
                 <SidePanelHeader
                     title="analyzeTitle"

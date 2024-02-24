@@ -98,8 +98,6 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
     return (
         <ResponsiveContainer width="100%" height="85%">
             <BarChart
-                width={500}
-                height={300}
                 data={data}
                 margin={{
                     top: 5,

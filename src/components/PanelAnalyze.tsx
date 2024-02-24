@@ -142,7 +142,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
             </div>
             <div
                 id="filterChart"
-                className="rounded-xl w-full max-h-[60vh] p-[5px] my-[2.5px] bg-backgroundgray overflow-auto"
+                className="flex-1 rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray overflow-auto"
             >
                 <div className="flex items-center justify-between ">
                     <div id="filterTopicTitle">
