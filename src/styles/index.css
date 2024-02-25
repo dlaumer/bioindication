@@ -5,14 +5,12 @@
 @import "https://js.arcgis.com/4.27/@arcgis/core/assets/esri/themes/light/main.css";
 @import "@esri/calcite-components/dist/calcite/calcite.css";
 
-.esri-ui {
-    inset: 0px 0px 0px 0px !important
-}
 
 .esri-ui-inner-container.esri-ui-corner-container {
     inset: 70px 15px 30px 32% !important
 
 }
+
 
 .esri-time-slider {
     min-width: unset;

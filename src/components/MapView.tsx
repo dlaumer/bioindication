@@ -1,4 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
+import ReactDOMServer, { renderToString } from 'react-dom/server';
+import { Provider as ReduxProvider } from 'react-redux';
+import { store } from '@store/configureStore';
+
 import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/Map';
 import PopupTemplate from '@arcgis/core/PopupTemplate';
@@ -66,6 +70,8 @@ import {
 import { getTranslation, getTranslationStatic } from '@services/languageHelper';
 import Popup from './Popup';
 import PopupPortal from './PopupPortal';
+import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 interface Props {
     /**
@@ -161,7 +167,20 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const template = new PopupTemplate({
             title: '{rivername}',
-            content: setContentInfo,
+            content: (feature: any) => {
+                // Create a container element for React to render into
+                const container = document.createElement('div');
+                const root = createRoot(container); // createRoot(container!) if you use TypeScript
+                // Render your React component into the container
+                root.render(
+                    <ReduxProvider store={store}>
+                        <Popup data={feature}></Popup>
+                    </ReduxProvider>
+                );
+
+                // Return the container element
+                return container;
+            },
         });
 
         // The view instance is the most important instance for ArcGIS, from here you can access almost all elements like layers, ui elements, widget, etc
@@ -171,12 +190,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             map: map,
             center: [8.331, 46.946],
             zoom: 8,
-
-            padding: {
-                left: screen.width / 3,
-                right: screen.width / 5,
-                bottom: 100,
-            },
             highlightOptions: {
                 color: new Color([0, 0, 0, 0]),
                 fillOpacity: 0,
@@ -190,7 +203,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             outFields: ['Name'],
             popupEnabled: false,
             title: getTranslationStatic('riverData'),
-            popupEnabled: false,
             editingEnabled: false,
         });
 
@@ -876,7 +888,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     */
 
     const setContentInfo = (feature: any) => {
-        setPopupData(feature);
+        console.log(feature);
+        console.log(
+            ReactDOMServer.renderToStaticMarkup(<Popup data={feature}></Popup>)
+        );
         return popupRoot;
     };
 
@@ -978,7 +993,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             });
     };
 
-    const handleSignedOut = () => { };
+    const handleSignedOut = () => {};
 
     const debounce = (func: any, delay: any) => {
         let timeoutId: any;
@@ -1013,18 +1028,15 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 id="tooltip"
                 className="absolute cursor-default bg-black bg-opacity-40 rounded-lg p-[5px] text-white text-sm"
             ></div>
-            <PopupPortal mount={popupRoot}>
-                <Popup data={popupData}></Popup>
-            </PopupPortal>
             {mapView
                 ? React.Children.map(children, (child) => {
-                    return React.cloneElement(
-                        child as React.ReactElement<any>,
-                        {
-                            mapView,
-                        }
-                    );
-                })
+                      return React.cloneElement(
+                          child as React.ReactElement<any>,
+                          {
+                              mapView,
+                          }
+                      );
+                  })
                 : null}
         </>
     );
