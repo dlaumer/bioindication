@@ -193,6 +193,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             outFields: ['Name'],
             title: getTranslationStatic('riverData'),
             popupEnabled: false,
+            editingEnabled: false,
         });
 
         view.map.add(riverData);
@@ -430,6 +431,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             },
             title: getTranslationStatic('waterQuality'),
             renderer: rendererWater,
+            editingEnabled: false,
         });
 
         if (isLoggedIn) {
