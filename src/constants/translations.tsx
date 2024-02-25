@@ -167,6 +167,80 @@ const translations = {
         fr: 'Ouvrir dans le SceneViewer',
         it: 'Apri nel SceneViewer',
     },
+
+    waterTemperature: {
+        en: 'Water Temperature [°C]',
+        de: 'Wassertemperatur [°C]',
+        fr: "Température de l'eau [°C]",
+        it: "Temperatura dell'acqua [°C]",
+    },
+    oxygen: {
+        en: 'Oxygen [mg/l O2]',
+        de: 'Sauerstoff [mg/l O2]',
+        fr: 'Oxygène [mg/l O2]',
+        it: 'Ossigeno [mg/l O2]',
+    },
+    nitrate: {
+        en: 'Nitrates [mg/l NOx-N]',
+        de: 'Nitrate [mg/l NOx-N]',
+        fr: 'Nitrates [mg/l NOx-N]',
+        it: 'Nitrati [mg/l NOx-N]',
+    },
+    conductivity: {
+        en: 'Conductivity [µS/cm]',
+        de: 'Leitfähigkeit [µS/cm]',
+        fr: 'Conductivité [µS/cm]',
+        it: 'Conduttività [µS/cm]',
+    },
+    ph: {
+        en: 'pH',
+        de: 'pH',
+        fr: 'pH',
+        it: 'pH',
+    },
+    alkalinity: {
+        en: 'Alkalinity [mg/l CaCO3]',
+        de: 'Alkalinität [mg/l CaCO3]',
+        fr: 'Alcalinité [mg/l CaCO3]',
+        it: 'Alcalinità [mg/l CaCO3]',
+    },
+    flowVelocity: {
+        en: 'Flow Velocity [cm]',
+        de: 'Fliessgeschwindigkeit [cm]',
+        fr: "Vitesse d'écoulement [cm]",
+        it: 'Velocità del flusso [cm]',
+    },
+    remarks: {
+        en: 'Remarks',
+        de: 'Bemerkungen',
+        fr: 'Remarques',
+        it: 'Osservazioni',
+    },
+
+    landscapeEcology: {
+        en: 'Landscape Ecology',
+        de: 'Landschaftsökologie',
+        fr: 'Écologie du paysage',
+        it: 'Ecologia del paesaggio',
+    },
+    physioChemicalProperties: {
+        en: 'Physicochemical Properties',
+        de: 'Physikalisch-chemische Eigenschaften',
+        fr: 'Propriétés physico-chimiques',
+        it: 'Proprietà fisico-chimiche',
+    },
+    bioWaterQuality: {
+        en: 'Biological Water Quality',
+        de: 'Biologische Wasserqualität',
+        fr: "Qualité biologique de l'eau",
+        it: "Qualità biologica dell'acqua",
+    },
+    value: {
+        en: 'Value',
+        de: 'Wert',
+        fr: 'Valeur',
+        it: 'Valore',
+    },
 };
 
 export default translations;

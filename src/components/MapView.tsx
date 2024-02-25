@@ -174,6 +174,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 color: new Color([0, 0, 0, 0]),
                 fillOpacity: 0,
             },
+            padding: {
+                top: 70,
+                left: mapDivRef.current.clientWidth * 0.32,
+            },
         });
 
         const riverData = new FeatureLayer({
@@ -403,25 +407,28 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             portalItem: {
                 id: dataLayerId,
             },
-            title: getTranslationStatic('bioQuality'),
+            title: getTranslationStatic('landscapeEcology'),
             renderer: rendererLandscape,
+            outFields: ['*'],
         });
 
         const dataLayView = new FeatureLayer({
             portalItem: {
                 id: dataLayerViewId,
             },
-            title: getTranslationStatic('bioQuality'),
+            title: getTranslationStatic('landscapeEcology'),
             renderer: rendererLandscape,
+            outFields: ['*'],
         });
 
         const dataLayViewWater = new FeatureLayer({
             portalItem: {
                 id: dataLayerViewId,
             },
-            title: getTranslationStatic('waterQuality'),
+            title: getTranslationStatic('bioWaterQuality'),
             renderer: rendererWater,
             editingEnabled: false,
+            popupEnabled: false,
         });
 
         if (isLoggedIn) {
@@ -601,9 +608,9 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 const opts = {
                     include: riverData,
                 };
+                const tooltip = document.getElementById('tooltip');
                 if (view.zoom > 9) {
                     view.hitTest(event, opts).then(function (response) {
-                        const tooltip = document.getElementById('tooltip');
                         if (response.results.length) {
                             const temp = response.results.filter(function (
                                 result
@@ -626,6 +633,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                             tooltip.style.visibility = 'hidden';
                         }
                     });
+                } else {
+                    tooltip.style.visibility = 'hidden';
                 }
             });
         });
@@ -705,9 +714,9 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     useEffect(() => {
         if (mapView != null && dataLayer != null && dataLayerView != null) {
-            dataLayer.title = getTranslationStatic('bioQuality');
-            dataLayerView.title = getTranslationStatic('bioQuality');
-            waterLayer.title = getTranslationStatic('waterQuality');
+            dataLayer.title = getTranslationStatic('landscapeEcology');
+            dataLayerView.title = getTranslationStatic('landscapeEcology');
+            waterLayer.title = getTranslationStatic('bioWaterQuality');
             riverLayer.title = getTranslationStatic('riverData');
         }
     }, [language]);
