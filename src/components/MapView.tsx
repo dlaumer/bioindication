@@ -69,8 +69,6 @@ import {
 } from '@store/reducer';
 import { getTranslation, getTranslationStatic } from '@services/languageHelper';
 import Popup from './Popup';
-import PopupPortal from './PopupPortal';
-import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
 
 interface Props {
@@ -104,8 +102,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const attribute = useSelector(selectAttribute);
     const language = useSelector(selectLanguage);
 
-    const [popupData, setPopupData] = useState({});
-
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
     const [waterLayer, setWaterLayer] = useState<FeatureLayer>(null);
@@ -118,9 +114,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     const [sketchWidget, setSketchWidget] = useState<Sketch>(null);
     const [layerListWidget, setLayerListWidget] = useState<LayerList>(null);
-
-    const popupRoot = document.createElement('div');
-    popupRoot.id = 'popupRoot';
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
@@ -167,20 +160,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const template = new PopupTemplate({
             title: '{rivername}',
-            content: (feature: any) => {
-                // Create a container element for React to render into
-                const container = document.createElement('div');
-                const root = createRoot(container); // createRoot(container!) if you use TypeScript
-                // Render your React component into the container
-                root.render(
-                    <ReduxProvider store={store}>
-                        <Popup data={feature}></Popup>
-                    </ReduxProvider>
-                );
-
-                // Return the container element
-                return container;
-            },
+            content: setContentInfo,
         });
 
         // The view instance is the most important instance for ArcGIS, from here you can access almost all elements like layers, ui elements, widget, etc
@@ -888,11 +868,18 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     */
 
     const setContentInfo = (feature: any) => {
-        console.log(feature);
-        console.log(
-            ReactDOMServer.renderToStaticMarkup(<Popup data={feature}></Popup>)
+        // Create a container element for React to render into
+        const container = document.createElement('div');
+        const root = createRoot(container); // createRoot(container!) if you use TypeScript
+        // Render your React component into the container
+        root.render(
+            <ReduxProvider store={store}>
+                <Popup data={feature}></Popup>
+            </ReduxProvider>
         );
-        return popupRoot;
+
+        // Return the container element
+        return container;
     };
 
     const queryFeatures = (view: MapView) => {
