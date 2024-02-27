@@ -34,13 +34,13 @@ const SidePanelHeader: FC<
                 <div>{title}</div>
             </div>
             <div className="flex flex-row white">
-                <div className="p-1">v</div>
-                <button
-                    className="p-1"
+                <img
+                    className={`w-[25px] flex cursor-pointer`}
                     onClick={() => dispatch(setSidePanelContent('null'))}
-                >
-                    x
-                </button>
+                    src={
+                        'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/x-24.svg'
+                    }
+                ></img>
             </div>
         </div>
     );

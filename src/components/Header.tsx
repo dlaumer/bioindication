@@ -42,7 +42,10 @@ const Header = () => {
 
     useEffect(() => {
         setButtons(
-            <div className="flex flex-row h-[80%] items-center gap-2 mr-4 font-noigrotesk">
+            <div
+                id="panelButtons"
+                className="flex flex-row h-[80%] items-center gap-2 mr-4 font-noigrotesk"
+            >
                 <Button
                     titleKey="analyzeTitle"
                     onClick={() => dispatch(setSidePanelContent('analyze'))}

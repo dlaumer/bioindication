@@ -432,10 +432,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
 
         if (isLoggedIn) {
-            view.map.add(dataLay, 0);
+            view.map.add(dataLay, 1);
             setCurrentLayer(dataLay);
         } else {
-            view.map.add(dataLayView, 0);
+            view.map.add(dataLayView, 1);
             setCurrentLayer(dataLayView);
         }
 
@@ -507,9 +507,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         view.ui.add(layerList, 'top-right');
         setLayerListWidget(layList);
 
+        console.log(detectMobile());
         const legend = new Expand({
             view: view,
-            expanded: true,
+            expanded: detectMobile() ? false : true,
             content: new Legend({
                 view: view,
             }),
@@ -805,10 +806,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         if (mapView != null) {
             if (isLoggedIn) {
                 mapView.map.remove(dataLayerView);
-                mapView.map.add(dataLayer, 0);
+                mapView.map.add(dataLayer, 1);
                 setCurrentLayer(dataLayer);
             } else {
-                mapView.map.add(dataLayerView, 0);
+                mapView.map.add(dataLayerView, 1);
                 setCurrentLayer(dataLayerView);
             }
         }
@@ -990,6 +991,10 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     };
 
     const handleSignedOut = () => {};
+
+    const detectMobile = () => {
+        return window.innerWidth <= 600;
+    };
 
     const debounce = (func: any, delay: any) => {
         let timeoutId: any;

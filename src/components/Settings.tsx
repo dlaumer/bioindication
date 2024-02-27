@@ -144,7 +144,10 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
                 settingsOpen ? '' : 'hidden'
             } absolute top-0 w-full bg-black bg-opacity-50 h-full z-[100] pointer-events-none`}
         >
-            <div className="absolute left-[calc(50%-300px)] top-[calc(50%-200px)] h-[400px] w-[600px] bg-backgroundgray p-3 overflow-auto pointer-events-auto">
+            <div
+                id="settings"
+                className="absolute left-[calc(50%-300px)] top-[calc(50%-200px)] h-[400px] w-[600px] bg-backgroundgray p-3 overflow-auto pointer-events-auto"
+            >
                 <div
                     id="settingsHeader"
                     className="flex flex-row justify-between w-full h-[10%]"

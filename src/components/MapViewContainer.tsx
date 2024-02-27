@@ -6,6 +6,7 @@ import { getTranslation } from '../services/languageHelper';
 import Header from './Header';
 import SidePanel from './SidePanel';
 import Settings from './Settings';
+import MobileInfo from './MobileInfo';
 
 const MapViewContainer = () => {
     return (
@@ -14,7 +15,7 @@ const MapViewContainer = () => {
             <MapView />
             <SidePanel title="chartTitle"></SidePanel>
             <Settings></Settings>
-
+            <MobileInfo></MobileInfo>
             <div id="timeSlider"></div>
         </div>
     );

@@ -241,6 +241,12 @@ const translations = {
         fr: 'Valeur',
         it: 'Valore',
     },
+    mobileInfo: {
+        en: 'This mobile version is reduced and can only be used as a viewer. If you want to do analysis or edit the data, open this website on a screen that is wider than 600px.',
+        de: 'Diese mobile Version ist reduziert und kann nur als Viewer verwendet werden. Wenn Sie Analysen durchführen oder Daten bearbeiten möchten, öffnen Sie diese Website auf einem Bildschirm, der breiter als 600px ist.',
+        fr: 'Cette version mobile est réduite et ne peut être utilisée que comme visionneuse. Si vous souhaitez effectuer une analyse ou éditer les données, ouvrez ce site sur un écran plus large que 600px.',
+        it: 'Questa versione mobile è ridotta e può essere utilizzata solo come visualizzatore. Se vuoi fare analisi o modificare i dati, apri questo sito su uno schermo più ampio di 600px.',
+    },
 };
 
 export default translations;

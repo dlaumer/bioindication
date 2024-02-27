@@ -35,7 +35,7 @@ const PanelProcess: FC<PanelProcessProps & React.ComponentProps<'div'>> = ({
                 {text}
             </div>
             <div className="p-2 flex flex-col items-center">
-                <div className="w-[40%] m-2">
+                <div className="m-2">
                     <Button
                         titleKey="openMapViewer"
                         onClick={() => {
@@ -46,7 +46,7 @@ const PanelProcess: FC<PanelProcessProps & React.ComponentProps<'div'>> = ({
                         }}
                     ></Button>
                 </div>
-                <div className="w-[4 0%] m-2">
+                <div className="m-2">
                     <Button
                         titleKey="openSceneViewer"
                         onClick={() => {
