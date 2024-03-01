@@ -37,6 +37,7 @@ import TimeExtent from '@arcgis/core/TimeExtent';
 import FeatureEffect from '@arcgis/core/layers/support/FeatureEffect';
 import FeatureFilter from '@arcgis/core/layers/support/FeatureFilter';
 import Print from '@arcgis/core/widgets/Print';
+import FeatureTemplate from '@arcgis/core/layers/support/FeatureTemplate';
 
 import {
     selectAttribute,
@@ -282,6 +283,25 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             ],
         };
 
+        const formTemplate = [
+            new FeatureTemplate({
+                name: 'artificial (2.5 - 3.0)',
+                prototype: {
+                    attributes: {
+                        Labels: 'artificial (2.5 - 3.0)',
+                    },
+                },
+            }),
+            new FeatureTemplate({
+                name: 'strongly obstructed (2.0 - 2.4)',
+                prototype: {
+                    attributes: {
+                        Labels: 'strongly obstructed (2.0 - 2.4)',
+                    },
+                },
+            }),
+        ];
+
         const rendererWater: any = {
             type: 'unique-value', // autocasts as new UniqueValueRenderer()
             field: 'BioWaterQuality',
@@ -493,6 +513,18 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const edit = new Editor({
             view: view,
+            layerInfos: [
+                {
+                    layer: riverData,
+                    enabled: false,
+                },
+                {
+                    layer: dataLayViewWater,
+                    enabled: false,
+                    updateEnabled: false,
+                    attributeUpdatesEnabled: false,
+                },
+            ],
         });
 
         setEditor(edit);

@@ -77,7 +77,9 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         content.push(
             <div
                 key="print"
-                className={`${sidePanelContent == 'print' ? '' : 'hidden'} `}
+                className={`${
+                    sidePanelContent == 'print' ? '' : 'hidden'
+                }  h-full`}
             >
                 <SidePanelHeader
                     title="printTitle"
@@ -89,7 +91,9 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         content.push(
             <div
                 key="edit"
-                className={`${sidePanelContent == 'edit' ? '' : 'hidden'} `}
+                className={`${
+                    sidePanelContent == 'edit' ? '' : 'hidden'
+                }  h-full`}
             >
                 <SidePanelHeader
                     title="editTitle"

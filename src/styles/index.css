@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "https://js.arcgis.com/4.27/@arcgis/core/assets/esri/themes/light/main.css";
+@import "https://js.arcgis.com/4.28/@arcgis/core/assets/esri/themes/light/main.css";
 @import "@esri/calcite-components/dist/calcite/calcite.css";
 
 
@@ -47,7 +47,7 @@ input[type='checkbox'] {
 
 }
 
-.esri-button {
+.esri-print__export-button.esri-button {
     background-color: #0079c1;
 }
 
