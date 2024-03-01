@@ -10,7 +10,14 @@
     inset: 0px 15px 30px 0px !important
 }
 
+.esri-compass {
+    border-radius: 0 !important
+}
 
+.esri-compass__icon-container {
+    display: flex;
+    justify-content: center;
+}
 .esri-time-slider {
     min-width: unset;
 }
@@ -38,6 +45,10 @@
 input[type='checkbox'] {
     accent-color: #7b944d;
 
+}
+
+.esri-button {
+    background-color: #0079c1;
 }
 
 #mobileInfo {
@@ -68,5 +79,9 @@ input[type='checkbox'] {
 
     #mobileInfo {
         display: block;
+    }
+
+    #tooltip {
+        display: none;
     }
 }

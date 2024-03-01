@@ -1,9 +1,15 @@
 const translations = {
     title: {
-        de: 'Bioindikatoren',
-        en: 'Bioindicators',
-        fr: 'Bioindicateurs',
-        it: 'Bioindicatori',
+        de: 'Bioindikation',
+        en: 'Bioindikation',
+        fr: 'Bioindication',
+        it: 'Bioindicazione',
+    },
+    subTitle: {
+        en: 'in watercourses',
+        de: 'in Fließgewässern',
+        fr: "dans les cours d'eau",
+        it: "nei corsi d'acqua",
     },
     en: {
         de: 'Englisch',
@@ -84,7 +90,7 @@ const translations = {
         it: 'Filtra per spazio',
     },
     filterTopicTitle: {
-        de: 'Themen filtern',
+        de: 'Diagramm Kategorien',
         en: 'Chart Categories',
         fr: 'Catégories de graphiques',
         it: 'Categorie di grafici',
@@ -118,6 +124,12 @@ const translations = {
         en: 'Select area',
         fr: 'Sélectionner une zone',
         it: 'Seleziona zona',
+    },
+    selectPeriod: {
+        en: 'Select Period',
+        de: 'Periode auswählen',
+        fr: 'Sélectionner la période',
+        it: 'Seleziona periodo',
     },
     clear: {
         de: 'Löschen',
@@ -246,6 +258,42 @@ const translations = {
         de: 'Diese mobile Version ist reduziert und kann nur als Viewer verwendet werden. Wenn Sie Analysen durchführen oder Daten bearbeiten möchten, öffnen Sie diese Website auf einem Bildschirm, der breiter als 600px ist.',
         fr: 'Cette version mobile est réduite et ne peut être utilisée que comme visionneuse. Si vous souhaitez effectuer une analyse ou éditer les données, ouvrez ce site sur un écran plus large que 600px.',
         it: 'Questa versione mobile è ridotta e può essere utilizzata solo come visualizzatore. Se vuoi fare analisi o modificare i dati, apri questo sito su uno schermo più ampio di 600px.',
+    },
+    legend: {
+        en: 'Legend',
+        de: 'Legende',
+        fr: 'Légende',
+        it: 'Legenda',
+    },
+    elevationProfile: {
+        en: 'Elevation Profile',
+        de: 'Höhenprofil',
+        fr: "Profil d'élévation",
+        it: 'Profilo altimetrico',
+    },
+    measureArea: {
+        en: 'Measure Area',
+        de: 'Fläche messen',
+        fr: 'Mesurer la surface',
+        it: 'Misura area',
+    },
+    measureDistance: {
+        en: 'Measure Distance',
+        de: 'Entfernung messen',
+        fr: 'Mesurer la distance',
+        it: 'Misura distanza',
+    },
+    basemap: {
+        en: 'Basemap',
+        de: 'Grundkarte',
+        fr: 'Fond de carte',
+        it: 'Mappa di base',
+    },
+    layerList: {
+        en: 'Layer List',
+        de: 'Layer-Liste',
+        fr: 'Liste des couches',
+        it: 'Elenco layer',
     },
 };
 

@@ -27,6 +27,11 @@ import Dropdown from './Dropdown';
 import Button from './Button';
 import ExampleChart from './ExampleChart';
 
+import penTool from './../constants/pen-tool.svg';
+import clock from './../constants/clock.svg';
+import crop from './../constants/crop.svg';
+import sliders from './../constants/sliders.svg';
+
 type PanelAnalyzeProps = {
     title?: string;
     active?: boolean;
@@ -51,7 +56,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
             <div
                 id="filterTime"
                 className={`rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray  ${
-                    filterTimeActive ? 'cursor-pointer' : 'opacity-50'
+                    filterTimeActive ? '' : 'opacity-50'
                 }`}
             >
                 <div className="flex items-center justify-between ">
@@ -66,8 +71,14 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                             }}
                         />
 
-                        <div id="filterTimeTitle">
-                            {getTranslation('filterTimeTitle')}
+                        <div className="h-full flex items-center">
+                            <img
+                                src={clock}
+                                className="h-[20px] px-[10px]"
+                            ></img>
+                            <div id="filterTimeTitle" className="font-bold">
+                                {getTranslation('selectPeriod')}
+                            </div>
                         </div>
                     </div>
 
@@ -92,7 +103,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
             <div
                 id="filterSpace"
                 className={`rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray ${
-                    filterSpaceActive ? 'cursor-pointer' : 'opacity-50'
+                    filterSpaceActive ? '' : 'opacity-50'
                 }`}
             >
                 <div className="flex items-center justify-between ">
@@ -106,14 +117,22 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                                 dispatch(setFilterSpaceActive());
                             }}
                         />
-                        <div id="filterSpaceTitle">
-                            {getTranslation('filterSpaceTitle')}
+
+                        <div className="h-full flex items-center">
+                            <img
+                                src={crop}
+                                className="h-[20px] px-[10px]"
+                            ></img>
+                            <div id="filterSpaceTitle" className="font-bold">
+                                {getTranslation('selectArea')}
+                            </div>
                         </div>
                     </div>
 
-                    <div>
+                    <div className="flex items-center">
                         <Button
-                            titleKey="selectArea"
+                            icon={penTool}
+                            title=""
                             onClick={(event: any) => {
                                 dispatch(
                                     setFilterSpaceDrawing(!filterSpaceDrawing)
@@ -145,9 +164,13 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                 className="flex-1 rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray overflow-auto"
             >
                 <div className="flex items-center justify-between ">
-                    <div id="filterTopicTitle">
-                        {getTranslation('filterTopicTitle')}
+                    <div className="h-full flex items-center">
+                        <img src={sliders} className="h-[20px] px-[10px]"></img>
+                        <div id="filterTopicTitle" className="font-bold">
+                            {getTranslation('filterTopicTitle')}
+                        </div>
                     </div>
+
                     <Dropdown
                         tag="categories"
                         options={['bioQuality', 'waterQuality']}

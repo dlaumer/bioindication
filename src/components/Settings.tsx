@@ -22,6 +22,7 @@ import {
 } from '@store/reducer';
 import Button from './Button';
 import { getTranslation } from '@services/languageHelper';
+import close from './../constants/x_black.svg';
 
 const Settings: FC<React.ComponentProps<'div'>> = () => {
     const dispatch = useDispatch();
@@ -142,7 +143,7 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
             id={'settingsWindow'}
             className={`${
                 settingsOpen ? '' : 'hidden'
-            } absolute top-0 w-full bg-black bg-opacity-50 h-full z-[100] pointer-events-none`}
+            } absolute top-0 w-full bg-black bg-opacity-50 h-full z-[100]`}
         >
             <div
                 id="settings"
@@ -161,12 +162,7 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
                             dispatch(toggleSettingsOpen());
                         }}
                     >
-                        <img
-                            className={`w-[25px] flex`}
-                            src={
-                                'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/x-24.svg'
-                            }
-                        ></img>
+                        <img className={`w-[25px] flex`} src={close}></img>
                     </button>
                 </div>
                 <div className="flex w-full h-[90%] py-3">

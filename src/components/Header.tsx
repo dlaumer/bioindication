@@ -22,11 +22,14 @@ import {
     setLogInAttempt,
     toggleSettingsOpen,
 } from '@store/reducer';
+import { getTranslation } from '@services/languageHelper';
+
 import settings from './../constants/Settings.svg';
 import edit from './../constants/Edit.svg';
 import analyze from './../constants/pie-chart.svg';
 import process from './../constants/refresh-cw.svg';
 import print from './../constants/printer.svg';
+import logoGlobe from './../constants/logoGlobe.png';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -92,10 +95,17 @@ const Header = () => {
             className="absolute flex flex-row flex-none justify-between z-30 w-full h-[60px] py-1 bg-headergreen px-[15px]"
         >
             <div className="h-full flex flex-row items-center gap-2 mr-4 font-noigrotesk">
-                <Button
-                    className="leading-snug xxl:text-xxl text-navyblue hover:text-hoverblue font-noigrotesk"
-                    titleKey="title"
-                ></Button>
+                <img src={logoGlobe} className="h-full p-[10px]"></img>
+
+                <div>
+                    <div className="leading-snug text-base font-bold">
+                        {getTranslation('title')}
+                    </div>
+                    <div className="leading-snug text-xs font-bold">
+                        {getTranslation('subTitle')}
+                    </div>
+                </div>
+
                 {buttons}
             </div>
             <div className="flex flex-row h-full items-center gap-2 mr-4 font-noigrotesk">

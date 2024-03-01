@@ -79,6 +79,12 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
         parseData(features);
     }, [features]);
 
+    const tickFormatter = (value: string, index: number) => {
+        const limit = 10; // put your maximum character
+        if (value.length < limit) return value;
+        return `${value.substring(0, limit)}...`;
+    };
+
     const parseData = (features: any) => {
         const dataTemp = [];
         for (const i in features) {
@@ -107,10 +113,9 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="name" tickFormatter={tickFormatter} />
                 <YAxis />
                 <Tooltip />
-                <Legend />
                 <Bar
                     dataKey="value"
                     fill="#A2C367"

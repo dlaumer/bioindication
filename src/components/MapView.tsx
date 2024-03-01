@@ -36,6 +36,7 @@ import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
 import TimeExtent from '@arcgis/core/TimeExtent';
 import FeatureEffect from '@arcgis/core/layers/support/FeatureEffect';
 import FeatureFilter from '@arcgis/core/layers/support/FeatureFilter';
+import Print from '@arcgis/core/widgets/Print';
 
 import {
     selectAttribute,
@@ -86,6 +87,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const [mapView, setMapView] = useState<MapView>(null);
     const [timeSlider, setTimeSlider] = useState<TimeSlider>(null);
     const [editor, setEditor] = useState<Editor>(null);
+    const [print, setPrint] = useState<Print>(null);
 
     const filterTimeActive = useSelector(selectFilterTimeActive);
     const filterSpaceActive = useSelector(selectFilterSpaceActive);
@@ -168,7 +170,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             popupEnabled: true,
             container: mapDivRef.current,
             map: map,
-            center: [8.331, 46.946],
+            center: [8.831, 46.946],
             zoom: 8,
             highlightOptions: {
                 color: new Color([0, 0, 0, 0]),
@@ -494,32 +496,43 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
 
         setEditor(edit);
-        //view.ui.add(editor, 'top-right');
+
+        const print = new Print({
+            view: view,
+        });
+
+        setPrint(print);
 
         const layList = new LayerList({
             view: view,
         });
         const layerList = new Expand({
             view: view,
+            expandTooltip: getTranslationStatic('layerList'),
+            collapseTooltip: getTranslationStatic('layerList'),
             content: layList,
             group: 'top-right',
         });
         view.ui.add(layerList, 'top-right');
         setLayerListWidget(layList);
 
-        console.log(detectMobile());
+        const leg = new Legend({
+            view: view,
+        });
         const legend = new Expand({
             view: view,
+            expandTooltip: getTranslationStatic('legend'),
+            collapseTooltip: getTranslationStatic('legend'),
             expanded: detectMobile() ? false : true,
-            content: new Legend({
-                view: view,
-            }),
+            content: leg,
             group: 'top-right',
         });
         view.ui.add(legend, 'bottom-right');
 
         const basemapGallery = new Expand({
             view: view,
+            expandTooltip: getTranslationStatic('basemap'),
+            collapseTooltip: getTranslationStatic('basemap'),
             content: new BasemapGallery({
                 view: view,
             }),
@@ -529,6 +542,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const measure = new Expand({
             view: view,
+            expandTooltip: getTranslationStatic('measureDistance'),
+            collapseTooltip: getTranslationStatic('measureDistance'),
             content: new DistanceMeasurement2D({
                 view: view,
             }),
@@ -538,6 +553,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const measureArea = new Expand({
             view: view,
+            expandTooltip: getTranslationStatic('measureArea'),
+            collapseTooltip: getTranslationStatic('measureArea'),
             content: new AreaMeasurement2D({
                 view: view,
             }),
@@ -547,6 +564,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const elevatonProfile = new Expand({
             view: view,
+            expandTooltip: getTranslationStatic('elevationProfile'),
+            collapseTooltip: getTranslationStatic('elevationProfile'),
             content: new ElevationProfile({
                 view: view,
             }),
@@ -818,6 +837,22 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     useEffect(() => {
         if (sidePanelContent == 'edit' && editor != null) {
             editor.container = 'editTitle';
+        }
+        if (sidePanelContent == 'print' && print != null) {
+            print.container = 'printTitle';
+        }
+        if (mapView != null) {
+            if (sidePanelContent == 'null') {
+                mapView.padding = {
+                    top: 70,
+                    left: 20,
+                };
+            } else {
+                mapView.padding = {
+                    top: 70,
+                    left: mapDivRef.current.clientWidth * 0.32,
+                };
+            }
         }
     }, [sidePanelContent]);
 
