@@ -295,6 +295,72 @@ const translations = {
         fr: 'Liste des couches',
         it: 'Elenco layer',
     },
+    'natural (1.0 - 1.4)': {
+        en: 'natural (1.0 - 1.4)',
+        de: 'natürlich, naturnah verbaut (1,0 - 1,4)',
+        fr: 'naturel (1,0 - 1,4)',
+        it: 'naturale (1,0 - 1,4)',
+    },
+    'obstructed (1.5 - 1.9)': {
+        en: 'obstructed (1.5 - 1.9)',
+        de: 'verbaut (1.5 - 1.9)',
+        fr: 'aménagé (1.5 - 1.9)',
+        it: 'edificato (1.5 - 1.9)',
+    },
+    'strongly obstructed (2.0 - 2.4)': {
+        en: 'strongly obstructed (2.0 - 2.4)',
+        de: 'stark verbaut (2.0 - 2.4)',
+        fr: 'fortement aménagé (2.0 - 2.4)',
+        it: 'densamento edificato (2.0 - 2.4)',
+    },
+    'artificial (2.5 - 3.0)': {
+        en: 'artificial (2.5 - 3.0)',
+        de: 'total verbaut, naturfremd (2.5 - 3.0)',
+        fr: 'artificiel (2.5 - 3.0)',
+        it: 'artificiale (2.5 - 3.0)',
+    },
+    'unpolluted - I': {
+        en: 'unpolluted - I',
+        de: 'unbelastet - I',
+        fr: 'non polluée - I',
+        it: 'non inquinato - I',
+    },
+    'slightly polluted - I-II': {
+        en: 'slightly polluted - I-II',
+        de: 'gering belastet - I-II',
+        fr: 'peu polluée - I-II',
+        it: 'poco inquinato - I-II',
+    },
+    'moderately polluted - II': {
+        en: 'moderately polluted - II',
+        de: 'mässig belastet - II',
+        fr: 'moyennement polluée - II',
+        it: 'moderatamente inquinato - II',
+    },
+    'seriously polluted - II-III': {
+        en: 'seriously polluted - II-III',
+        de: 'kritisch belastet - II-III',
+        fr: 'pollution grave - II-III',
+        it: 'da moderatamente a molto inquinato - II-III',
+    },
+    'heavily polluted - III': {
+        en: 'heavily polluted - III',
+        de: 'stark verschmutzt - III',
+        fr: 'fortement polluée - III',
+        it: 'molto inquinato - III',
+    },
+    'very heavily polluted - III-IV': {
+        en: 'very heavily polluted - III-IV',
+        de: 'sehr stark verschmutzt - III-IV',
+        fr: 'très fortement polluée - III-IV',
+        it: 'fortemente inquinato - III-IV',
+    },
+    'excessively polluted - IV': {
+        en: 'excessively polluted - IV',
+        de: 'übermässig verschmutzt - IV',
+        fr: 'excessivement polluée - IV',
+        it: 'eccessivamente inquinato - IV',
+    },
 };
 
 export default translations;

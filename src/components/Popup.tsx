@@ -29,7 +29,11 @@ const Popup: FC<PopupProps & React.ComponentProps<'div'>> = ({
                     <div className="font-bold">
                         {getTranslation('bioWaterQuality') + ': '}
                     </div>
-                    <div>{data.graphic.attributes['BioWaterQuality']}</div>
+                    <div>
+                        {getTranslation(
+                            data.graphic.attributes['BioWaterQuality']
+                        )}
+                    </div>
                 </div>
 
                 <div id="landscapeEcology" className="mb-2">

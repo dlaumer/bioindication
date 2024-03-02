@@ -223,6 +223,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "North" will be blue
                     value: 'natural (1.0 - 1.4)',
+                    label: getTranslationStatic('natural (1.0 - 1.4)'),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'circle',
@@ -238,6 +239,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "East" will be green
                     value: 'obstructed (1.5 - 1.9)',
+                    label: getTranslationStatic('obstructed (1.5 - 1.9)'),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'circle',
@@ -253,6 +255,9 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "South" will be red
                     value: 'strongly obstructed (2.0 - 2.4)',
+                    label: getTranslationStatic(
+                        'strongly obstructed (2.0 - 2.4)'
+                    ),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'circle',
@@ -268,6 +273,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "West" will be yellow
                     value: 'artificial (2.5 - 3.0)',
+                    label: getTranslationStatic('artificial (2.5 - 3.0)'),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'circle',
@@ -282,25 +288,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 },
             ],
         };
-
-        const formTemplate = [
-            new FeatureTemplate({
-                name: 'artificial (2.5 - 3.0)',
-                prototype: {
-                    attributes: {
-                        Labels: 'artificial (2.5 - 3.0)',
-                    },
-                },
-            }),
-            new FeatureTemplate({
-                name: 'strongly obstructed (2.0 - 2.4)',
-                prototype: {
-                    attributes: {
-                        Labels: 'strongly obstructed (2.0 - 2.4)',
-                    },
-                },
-            }),
-        ];
 
         const rendererWater: any = {
             type: 'unique-value', // autocasts as new UniqueValueRenderer()
@@ -320,6 +307,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "North" will be blue
                     value: 'unpolluted - I',
+                    label: getTranslationStatic('unpolluted - I'),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'diamond',
@@ -335,6 +323,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "East" will be green
                     value: 'slightly polluted - I-II',
+                    label: getTranslationStatic('slightly polluted - I-II'),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'diamond',
@@ -350,6 +339,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "South" will be red
                     value: 'moderately polluted - II',
+                    label: getTranslationStatic('moderately polluted - II'),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'diamond',
@@ -365,6 +355,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "West" will be yellow
                     value: 'seriously polluted - II-III',
+                    label: getTranslationStatic('seriously polluted - II-III'),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'diamond',
@@ -380,6 +371,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "West" will be yellow
                     value: 'heavily polluted - III',
+                    label: getTranslationStatic('heavily polluted - III'),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'diamond',
@@ -395,6 +387,9 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "West" will be yellow
                     value: 'very heavily polluted - III-IV',
+                    label: getTranslationStatic(
+                        'very heavily polluted - III-IV'
+                    ),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'diamond',
@@ -410,6 +405,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 {
                     // All features with value of "West" will be yellow
                     value: 'excessively polluted - IV',
+                    label: getTranslationStatic('excessively polluted - IV'),
                     symbol: {
                         type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                         style: 'diamond',
