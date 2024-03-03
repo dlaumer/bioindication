@@ -1,3 +1,4 @@
+import { getTranslation, getTranslationStatic } from '@services/languageHelper';
 import { setHoverFeatures } from '@store/reducer';
 import { selectAttribute, selectFeatures } from '@store/selectors';
 import React, { FC, PureComponent, useEffect, useState } from 'react';
@@ -93,7 +94,9 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
                 features[i].attributes[attribute] != ''
             ) {
                 dataTemp.push({
-                    name: features[i].attributes[attribute],
+                    name: getTranslationStatic(
+                        features[i].attributes[attribute]
+                    ),
                     value: features[i].attributes.count_Attribute,
                 });
             }

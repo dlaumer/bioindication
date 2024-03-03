@@ -531,6 +531,19 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         setPrint(print);
 
+        const leg = new Legend({
+            view: view,
+        });
+        const legend = new Expand({
+            view: view,
+            expandTooltip: getTranslationStatic('legend'),
+            collapseTooltip: getTranslationStatic('legend'),
+            expanded: detectMobile() ? false : true,
+            content: leg,
+            group: 'top-right',
+        });
+        view.ui.add(legend, 'top-right');
+
         const layList = new LayerList({
             view: view,
         });
@@ -543,19 +556,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
         view.ui.add(layerList, 'top-right');
         setLayerListWidget(layList);
-
-        const leg = new Legend({
-            view: view,
-        });
-        const legend = new Expand({
-            view: view,
-            expandTooltip: getTranslationStatic('legend'),
-            collapseTooltip: getTranslationStatic('legend'),
-            expanded: detectMobile() ? false : true,
-            content: leg,
-            group: 'top-right',
-        });
-        view.ui.add(legend, 'bottom-right');
 
         const basemapGallery = new Expand({
             view: view,

@@ -102,10 +102,10 @@ const translations = {
         it: "Distribuzione della qualità biologica dell'acqua",
     },
     bioQuality: {
-        en: 'Distribution of landscape ecology',
-        de: 'Verteilung der Landschaftsökologie',
-        fr: "Distribution de l'écologie du paysage",
-        it: "Distribuzione dell'ecologia del paesaggio",
+        en: 'Distribution of Habitat Quality',
+        de: 'Verteilung der Lebensraumqualität',
+        fr: "Distribution de la qualité de l'habitat",
+        it: "Distribuzione della qualità dell'habitat",
     },
     riverData: {
         en: 'Rivers',
@@ -230,10 +230,10 @@ const translations = {
     },
 
     landscapeEcology: {
-        en: 'Landscape Ecology',
-        de: 'Landschaftsökologie',
-        fr: 'Écologie du paysage',
-        it: 'Ecologia del paesaggio',
+        en: 'Habitat Quality',
+        de: 'Lebensraumqualität',
+        fr: "Qualité de l'habitat",
+        it: "Qualità dell'habitat",
     },
     physioChemicalProperties: {
         en: 'Physicochemical Properties',
