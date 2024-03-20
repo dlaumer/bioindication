@@ -95,6 +95,7 @@ const translations = {
         fr: 'Catégories de graphiques',
         it: 'Categorie di grafici',
     },
+    // CHARTS CATEGORIES
     waterQuality: {
         en: 'Distribution of biological water quality',
         de: 'Verteilung der biologischen Wasserqualität',
@@ -106,6 +107,12 @@ const translations = {
         de: 'Verteilung der Lebensraumqualität',
         fr: "Distribution de la qualité de l'habitat",
         it: "Distribuzione della qualità dell'habitat",
+    },
+    waterToBio: {
+        en: 'Biological water quality in relation to habitat quality',
+        de: 'Wasserqualität in Abhängigkeit der Lebensraumqualität',
+        fr: '[FR]Biological water quality in relation to habitat quality',
+        it: '[IT]Biological water quality in relation to habitat quality',
     },
     riverData: {
         en: 'Rivers',

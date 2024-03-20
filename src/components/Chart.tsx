@@ -63,10 +63,10 @@ const exampleData = [
     },
 ];
 
-type ExampleChartProps = {
+type ChartProps = {
     title?: string;
 };
-const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
+const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
     title = 'Default',
     ...props
 }) => {
@@ -97,7 +97,10 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
                     name: getTranslationStatic(
                         features[i].attributes[attribute]
                     ),
-                    value: features[i].attributes.count_Attribute,
+                    value:
+                        Math.round(
+                            features[i].attributes.count_Attribute * 100
+                        ) / 100,
                 });
             }
         }
@@ -134,4 +137,4 @@ const ExampleChart: FC<ExampleChartProps & React.ComponentProps<'button'>> = ({
         </ResponsiveContainer>
     );
 };
-export default ExampleChart;
+export default Chart;
