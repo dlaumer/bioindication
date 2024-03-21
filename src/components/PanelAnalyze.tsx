@@ -25,7 +25,7 @@ import {
 } from '@store/selectors';
 import Dropdown from './Dropdown';
 import Button from './Button';
-import ExampleChart from './ExampleChart';
+import Chart from './Chart';
 
 import penTool from './../constants/pen-tool.svg';
 import clock from './../constants/clock.svg';
@@ -173,10 +173,10 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
 
                     <Dropdown
                         tag="categories"
-                        options={['bioQuality', 'waterQuality']}
+                        options={['bioQuality', 'waterQuality', 'waterToBio']}
                     />
                 </div>
-                <ExampleChart />
+                <Chart />
             </div>
         </div>
     );
