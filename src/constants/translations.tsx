@@ -7,7 +7,7 @@ const translations = {
     },
     subTitle: {
         en: 'in watercourses',
-        de: 'in Fließgewässern',
+        de: 'in Fliessgewässern',
         fr: "dans les cours d'eau",
         it: "nei corsi d'acqua",
     },
