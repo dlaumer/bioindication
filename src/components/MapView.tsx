@@ -428,6 +428,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             title: getTranslationStatic('landscapeEcology'),
             renderer: rendererLandscape,
             outFields: ['*'],
+            formTemplate: getFormTemplate(),
         });
 
         const dataLayView = new FeatureLayer({
@@ -516,9 +517,14 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 },
                 {
                     layer: dataLayViewWater,
-                    enabled: false,
-                    updateEnabled: false,
-                    attributeUpdatesEnabled: false,
+                    enabled: true, // Default is true, set to false to disable editing functionality.
+                    addEnabled: false, // Default is true, set to false to disable the ability to add a new feature.
+                    updateEnabled: false, // Default is true, set to false to disable the ability to edit an existing feature.
+                    deleteEnabled: false, // Default is true, set to false to disable the ability to delete features.
+                    attributeUpdatesEnabled: false, // Default is true, set to false to disable the ability to edit attributes in the update workflow.
+                    geometryUpdatesEnabled: false, // Default is true, set to false to disable the ability to edit feature geometries in the update workflow.
+                    attachmentsOnCreateEnabled: false, //Default is true, set to false to disable the ability to work with attachments while creating features.
+                    attachmentsOnUpdateEnabled: false,
                 },
             ],
         });
@@ -766,6 +772,26 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             dataLayerView.title = getTranslationStatic('landscapeEcology');
             waterLayer.title = getTranslationStatic('bioWaterQuality');
             riverLayer.title = getTranslationStatic('riverData');
+            (dataLayer as any).formTemplate = getFormTemplate();
+            for (const i in (dataLayer.renderer as any).uniqueValueInfos) {
+                (dataLayer.renderer as any).uniqueValueInfos[i].label =
+                    getTranslationStatic(
+                        (dataLayer.renderer as any).uniqueValueInfos[i].value
+                    );
+            }
+            for (const i in (dataLayerView.renderer as any).uniqueValueInfos) {
+                (dataLayerView.renderer as any).uniqueValueInfos[i].label =
+                    getTranslationStatic(
+                        (dataLayerView.renderer as any).uniqueValueInfos[i]
+                            .value
+                    );
+            }
+            for (const i in (waterLayer.renderer as any).uniqueValueInfos) {
+                (waterLayer.renderer as any).uniqueValueInfos[i].label =
+                    getTranslationStatic(
+                        (waterLayer.renderer as any).uniqueValueInfos[i].value
+                    );
+            }
         }
     }, [language]);
 
@@ -939,6 +965,83 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
  
     }
     */
+
+    const getFormTemplate = () => {
+        const formTemplate = {
+            // Autocasts to new FormTemplate
+            title: 'Damage assessments',
+            elements: [
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'BioWaterQuality',
+                    label: getTranslationStatic('bioWaterQuality'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'LandscapeEcology',
+                    label: getTranslationStatic('landscapeEcology'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'landscape_eco_number',
+                    label: getTranslationStatic('landscape_eco_number'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'water_temp',
+                    label: getTranslationStatic('waterTemperature'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'water_O2',
+                    label: getTranslationStatic('oxygen'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'water_nitr',
+                    label: getTranslationStatic('nitrate'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'water_cond',
+                    label: getTranslationStatic('conductivity'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'water_ph',
+                    label: getTranslationStatic('ph'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'water_alka',
+                    label: getTranslationStatic('alkalinity'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'water_turb',
+                    label: getTranslationStatic('flowVelocity'),
+                },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'comments',
+                    label: getTranslationStatic('remarks'),
+                },
+            ],
+        }; // end of form template elements
+
+        return formTemplate;
+    };
 
     const setContentInfo = (feature: any) => {
         // Create a container element for React to render into

@@ -98,11 +98,11 @@ const Header = () => {
                 <img src={logoGlobe} className="h-full p-[10px]"></img>
 
                 <div>
-                    <div className="leading-snug text-base font-bold">
-                        {getTranslation('title')}
-                    </div>
                     <div className="leading-snug text-xs font-bold">
                         {getTranslation('subTitle')}
+                    </div>
+                    <div className="leading-snug text-base font-bold">
+                        {getTranslation('title')}
                     </div>
                 </div>
 

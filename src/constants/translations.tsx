@@ -1,15 +1,27 @@
 const translations = {
-    title: {
+    title2: {
         de: 'Bioindikation',
         en: 'Bioindikation',
         fr: 'Bioindication',
         it: 'Bioindicazione',
     },
-    subTitle: {
+    subTitle2: {
         en: 'in watercourses',
         de: 'in Fliessgewässern',
         fr: "dans les cours d'eau",
         it: "nei corsi d'acqua",
+    },
+    title: {
+        en: 'River Water Quality',
+        de: 'Fließgewässerqualität',
+        fr: "qualité de l'eau des cours d'eau",
+        it: "acqua dei corsi d'acqua",
+    },
+    subTitle: {
+        en: 'Investigation and Analysis of',
+        de: 'Untersuchung und Analyse der',
+        fr: 'Étude et analyse de la',
+        it: 'Indagine e analisi della',
     },
     en: {
         de: 'Englisch',
@@ -241,6 +253,13 @@ const translations = {
         de: 'Lebensraumqualität',
         fr: "Qualité de l'habitat",
         it: "Qualità dell'habitat",
+    },
+
+    landscape_eco_number: {
+        en: 'Habitat Quality as a Number',
+        de: 'Lebensraumqualität als Nummer',
+        fr: "Qualité de l'habitat en tant que numéro",
+        it: "Qualità dell'habitat come numero",
     },
     physioChemicalProperties: {
         en: 'Physicochemical Properties',
