@@ -121,10 +121,10 @@ const translations = {
         it: "Distribuzione della qualità dell'habitat",
     },
     waterToBio: {
-        en: 'Biological water quality in relation to habitat quality',
-        de: 'Wasserqualität in Abhängigkeit der Lebensraumqualität',
-        fr: '[FR]Biological water quality in relation to habitat quality',
-        it: '[IT]Biological water quality in relation to habitat quality',
+        en: 'Habitat Quality in Relation to Biological Water Quality',
+        de: 'Lebensraumqualität in Abhängigkeit der biologischen Wasserqualität',
+        fr: "Qualité de l'habitat en fonction de la qualité biologique de l'eau",
+        it: "Qualità dell'habitat in relazione alla qualità biologica dell'acqua",
     },
     riverData: {
         en: 'Rivers',
@@ -247,7 +247,31 @@ const translations = {
         fr: 'Remarques',
         it: 'Osservazioni',
     },
+    newMeasurement: {
+        en: 'Measure new distance',
+        de: 'Neue Entfernung messen',
+        fr: 'Mesurer une nouvelle distance',
+        it: 'Misura nuova distanza',
+    },
+    newAreaMeasurement: {
+        en: 'Measure new area',
+        de: 'Neue Fläche messen',
+        fr: 'Mesurer une nouvelle superficie',
+        it: 'Misura nuova area',
+    },
+    statistics: {
+        en: 'Statistics',
+        de: 'Statistik',
+        fr: 'Statistiques',
+        it: 'Statistiche',
+    },
 
+    measurements: {
+        en: 'Measurements',
+        de: 'Messungen',
+        fr: 'Mesures',
+        it: 'Misure',
+    },
     landscapeEcology: {
         en: 'Habitat Quality',
         de: 'Lebensraumqualität',

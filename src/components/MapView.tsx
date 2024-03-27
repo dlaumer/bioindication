@@ -117,6 +117,12 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     const [sketchWidget, setSketchWidget] = useState<Sketch>(null);
     const [layerListWidget, setLayerListWidget] = useState<LayerList>(null);
+    const [measureWidget, setMeasureWidget] =
+        useState<DistanceMeasurement2D>(null);
+    const [measureAreaWidget, setMeasureAreaWidget] =
+        useState<AreaMeasurement2D>(null);
+    const [elevationProfileWidget, setElevationProfileWidget] =
+        useState<ElevationProfile>(null);
 
     const dataLayerId = '665046b6489f4feaa1e25b379cb3f70c';
     const dataLayerViewId = '014ebd4120354d9bb3795be9276b40b9';
@@ -468,7 +474,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         dataLayView.popupTemplate = template;
 
         const slider = new TimeSlider({
-            view: view,
+            //view: view,
             mode: 'time-window',
             fullTimeExtent: {
                 start: new Date(2000, 1, 1),
@@ -574,37 +580,48 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
         view.ui.add(basemapGallery, 'top-right');
 
+        const meas = new DistanceMeasurement2D({
+            view: view,
+        });
+        setMeasureWidget(meas);
         const measure = new Expand({
             view: view,
             expandTooltip: getTranslationStatic('measureDistance'),
             collapseTooltip: getTranslationStatic('measureDistance'),
-            content: new DistanceMeasurement2D({
-                view: view,
-            }),
+            content: meas,
             group: 'top-right',
         });
+
         view.ui.add(measure, 'top-right');
+
+        const measArea = new AreaMeasurement2D({
+            view: view,
+        });
+        setMeasureAreaWidget(measArea);
 
         const measureArea = new Expand({
             view: view,
             expandTooltip: getTranslationStatic('measureArea'),
             collapseTooltip: getTranslationStatic('measureArea'),
-            content: new AreaMeasurement2D({
-                view: view,
-            }),
+            content: measArea,
             group: 'top-right',
         });
         view.ui.add(measureArea, 'top-right');
 
+        const elevProfile = new ElevationProfile({
+            view: view,
+        });
         const elevatonProfile = new Expand({
             view: view,
             expandTooltip: getTranslationStatic('elevationProfile'),
             collapseTooltip: getTranslationStatic('elevationProfile'),
-            content: new ElevationProfile({
-                view: view,
-            }),
+            content: elevProfile,
             group: 'top-right',
         });
+
+        setElevationProfileWidget(elevProfile);
+        setWidgetStrings(meas, measArea, elevProfile);
+
         view.ui.add(elevatonProfile, 'top-right');
 
         // Create a Sketch widget without adding it to the view
@@ -773,6 +790,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             waterLayer.title = getTranslationStatic('bioWaterQuality');
             riverLayer.title = getTranslationStatic('riverData');
             (dataLayer as any).formTemplate = getFormTemplate();
+            setWidgetStrings(
+                measureWidget,
+                measureAreaWidget,
+                elevationProfileWidget
+            );
             for (const i in (dataLayer.renderer as any).uniqueValueInfos) {
                 (dataLayer.renderer as any).uniqueValueInfos[i].label =
                     getTranslationStatic(
@@ -966,10 +988,38 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     }
     */
 
+    const setWidgetStrings = (
+        meas: DistanceMeasurement2D,
+        measArea: AreaMeasurement2D,
+        elevProfile: ElevationProfile
+    ) => {
+        (meas as any).loadLocale = () => {
+            (meas as any).messages = {
+                ...(meas as any).messages,
+                newMeasurement: getTranslationStatic('newMeasurement'),
+            };
+        };
+
+        (measArea as any).loadLocale = () => {
+            (measArea as any).messages = {
+                ...(measArea as any).messages,
+                newMeasurement: getTranslationStatic('newAreaMeasurement'),
+            };
+        };
+
+        (elevProfile as any).loadLocale = () => {
+            console.log((elevProfile as any).messages.profiles);
+            (elevProfile as any).messages.profiles = {
+                ...(elevProfile as any).messages.profiles,
+                ground: getTranslationStatic('statistics'),
+            };
+        };
+    };
+
     const getFormTemplate = () => {
         const formTemplate = {
             // Autocasts to new FormTemplate
-            title: 'Damage assessments',
+            title: getTranslationStatic('measurements'),
             elements: [
                 {
                     // Autocasts to new FieldElement

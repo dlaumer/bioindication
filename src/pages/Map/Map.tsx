@@ -21,7 +21,18 @@ export const Map = () => {
         // Construct URLSearchParams object instance from current URL querystring.
         const queryParams = new URLSearchParams(window.location.search);
         // Set new or modify existing parameter value.
-        queryParams.set('lang', 'en');
+
+        const userLang = navigator.language;
+        console.log(userLang);
+        let lang = 'en';
+        if (userLang.substring(0, 2) == 'fr') {
+            lang = 'fr';
+        } else if (userLang.substring(0, 2) == 'de') {
+            lang = 'de';
+        } else if (userLang.substring(0, 2) == 'it') {
+            lang = 'it';
+        }
+        queryParams.set('lang', lang);
         // Replace current querystring with the new one.
         history.replaceState(null, null, '?' + queryParams.toString());
     }
