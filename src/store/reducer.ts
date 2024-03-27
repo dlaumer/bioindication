@@ -17,7 +17,7 @@ export type AppState = {
     filterSpaceActive?: boolean;
     category?: string;
 
-    filterTime?: any;
+    filterTime?: string;
     filterTimeStart?: Date;
     filterTimeEnd?: Date;
 
@@ -48,7 +48,7 @@ export const initialAppState: AppState = {
     filterTimeStart: null,
     filterTimeEnd: null,
 
-    filterSpace: [],
+    filterSpace: null,
     filterSpaceDrawing: false,
 
     features: null,
@@ -86,7 +86,7 @@ const slice = createSlice({
         setCategory: (state, action: PayloadAction<string>) => {
             state.category = action.payload;
         },
-        setFilterTime: (state, action: PayloadAction<any>) => {
+        setFilterTime: (state, action: PayloadAction<string>) => {
             state.filterTime = action.payload;
         },
         setFilterTimeStart: (state, action: PayloadAction<Date>) => {
@@ -95,10 +95,7 @@ const slice = createSlice({
         setFilterTimeEnd: (state, action: PayloadAction<Date>) => {
             state.filterTimeEnd = action.payload;
         },
-        addFilterSpace: (state, action: PayloadAction<any>) => {
-            state.filterSpace.push(action.payload);
-        },
-        setFilterSpace: (state, action: PayloadAction<Array<any>>) => {
+        setFilterSpace: (state, action: PayloadAction<any>) => {
             state.filterSpace = action.payload;
         },
         setFilterSpaceDrawing: (state, action: PayloadAction<boolean>) => {
@@ -143,7 +140,6 @@ export const {
     setFilterTime,
     setFilterTimeStart,
     setFilterTimeEnd,
-    addFilterSpace,
     setFilterSpace,
     setFilterSpaceDrawing,
     setFeatures,

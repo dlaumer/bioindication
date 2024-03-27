@@ -57,7 +57,6 @@ import {
 } from '@store/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    addFilterSpace,
     setAttribute,
     setFeatures,
     setFilterSpace,
@@ -66,6 +65,7 @@ import {
     setFilterTimeEnd,
     setFilterTimeStart,
     setIsLoggedIn,
+    setLanguage,
     setLogInAttempt,
     setUsernameEsri,
 } from '@store/reducer';
@@ -197,6 +197,16 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             popupEnabled: false,
             title: getTranslationStatic('riverData'),
             editingEnabled: false,
+        });
+
+        // Features in the layerview will be highlighted with bright
+        // yellow colors in the map.
+        view.whenLayerView(riverData).then(function (layerView: any) {
+            layerView.highlightOptions = {
+                color: [0, 0, 255, 0.5],
+                haloOpacity: 0.9,
+                fillOpacity: 0.2,
+            };
         });
 
         view.map.add(riverData);
@@ -474,7 +484,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         dataLayView.popupTemplate = template;
 
         const slider = new TimeSlider({
-            //view: view,
+            view: view,
             mode: 'time-window',
             fullTimeExtent: {
                 start: new Date(2000, 1, 1),
@@ -648,8 +658,9 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 dispatch(setFilterSpaceDrawing(false));
 
                 // Get the polygon geometry
-                const lassoPolygon = event.graphic.geometry;
+                const lassoPolygon = event.graphic.geometry.clone();
                 dispatch(setFilterSpace(lassoPolygon));
+                dispatch(setFilterTime('Test'));
             }
         });
         sketch.on('update', function (event: any) {
@@ -661,7 +672,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     event.toolEventInfo.type == 'rotate-stop')
             ) {
                 // Get the polygon geometry
-                const lassoPolygon = event.graphics[0].geometry;
+                const lassoPolygon = event.graphics[0].geometry.clone();
 
                 dispatch(setFilterSpace(lassoPolygon));
             }
@@ -673,6 +684,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         view.when(() => {
             setMapView(view);
+
+            let highlight: any = null;
 
             view.on('pointer-move', function (event) {
                 // only include graphics from hurricanesLayer in the hitTest
@@ -699,8 +712,19 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                                 tooltip.style.left = x + 'px';
                                 tooltip.style.top = y + 'px';
                                 tooltip.style.visibility = 'visible';
+                                view.whenLayerView(riverData).then(function (
+                                    layerView: any
+                                ) {
+                                    if (highlight != null) {
+                                        highlight.remove();
+                                    }
+                                    highlight = layerView.highlight(graphic);
+                                });
                             }
                         } else {
+                            if (highlight != null) {
+                                highlight.remove();
+                            }
                             tooltip.style.visibility = 'hidden';
                         }
                     });
@@ -738,7 +762,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 // Your logic here, e.g., calling the backend
                 dispatch(setFilterTimeStart(timeSlider.timeExtent.start));
                 dispatch(setFilterTimeEnd(timeSlider.timeExtent.end));
-                queryFeatures(mapView);
             };
 
             // Set up a debounced version of your event handler
@@ -755,7 +778,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     useEffect(() => {
         if (mapView != null) {
-            console.log(filterTimeStart);
             if (!filterTimeActive) {
                 const timeExtent = timeSlider.timeExtent;
                 timeSlider.timeExtent = new TimeExtent({
@@ -768,7 +790,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     dispatch(setFilterTimeEnd(timeExtent.end));
                 }, 1000);
             } else {
-                console.log(filterTimeStart);
                 timeSlider.timeExtent = new TimeExtent({
                     start: new Date(filterTimeStart),
                     end: new Date(filterTimeEnd),
@@ -781,7 +802,13 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         if (mapView != null && dataLayer != null && dataLayerView != null) {
             queryFeatures(mapView);
         }
-    }, [filterTimeActive, filterSpaceActive, category]);
+    }, [
+        filterTimeActive,
+        filterSpaceActive,
+        category,
+        filterTimeStart,
+        filterTimeEnd,
+    ]);
 
     useEffect(() => {
         if (mapView != null && dataLayer != null && dataLayerView != null) {
@@ -1123,6 +1150,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             if (filterTimeActive && view.timeExtent != null) {
                 query.timeExtent = view.timeExtent;
             }
+            console.log(filterTime);
             if (filterSpaceActive && filterSpace != null) {
                 query.geometry = filterSpace;
             }

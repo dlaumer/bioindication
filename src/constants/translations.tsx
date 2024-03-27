@@ -126,6 +126,13 @@ const translations = {
         fr: "Qualité de l'habitat en fonction de la qualité biologique de l'eau",
         it: "Qualità dell'habitat in relazione alla qualità biologica dell'acqua",
     },
+
+    amount: {
+        en: 'Amount',
+        de: 'Menge',
+        fr: 'Quantité',
+        it: 'Quantità',
+    },
     riverData: {
         en: 'Rivers',
         de: 'Flüsse',

@@ -1,6 +1,10 @@
 import { getTranslation, getTranslationStatic } from '@services/languageHelper';
 import { setHoverFeatures } from '@store/reducer';
-import { selectAttribute, selectFeatures } from '@store/selectors';
+import {
+    selectAttribute,
+    selectCategory,
+    selectFeatures,
+} from '@store/selectors';
 import React, { FC, PureComponent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -16,52 +20,9 @@ import {
     BarChart,
     Bar,
     Rectangle,
+    Label,
+    LabelList,
 } from 'recharts';
-
-const exampleData = [
-    {
-        name: 'Page A',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
-    },
-    {
-        name: 'Page B',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'Page C',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
-    },
-    {
-        name: 'Page D',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-    },
-    {
-        name: 'Page E',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
-    },
-    {
-        name: 'Page F',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
-    },
-    {
-        name: 'Page G',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-    },
-];
 
 type ChartProps = {
     title?: string;
@@ -73,8 +34,37 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
     const dispatch = useDispatch();
     const features = useSelector(selectFeatures);
     const attribute = useSelector(selectAttribute);
+    const category = useSelector(selectCategory);
 
     const [data, setData] = useState<any>(null);
+    const [translations, setTranslations] = useState<any>(null);
+
+    const orderArray: any = {
+        bioQuality: [
+            'natural (1.0 - 1.4)',
+            'obstructed (1.5 - 1.9)',
+            'strongly obstructed (2.0 - 2.4)',
+            'artificial (2.5 - 3.0)',
+        ],
+        waterQuality: [
+            'unpolluted - I',
+            'slightly polluted - I-II',
+            'moderately polluted - II',
+            'seriously polluted - II-III',
+            'heavily polluted - III',
+            'very heavily polluted - III-IV',
+            'excessively polluted - IV',
+        ],
+        waterToBio: [
+            'unpolluted - I',
+            'slightly polluted - I-II',
+            'moderately polluted - II',
+            'seriously polluted - II-III',
+            'heavily polluted - III',
+            'very heavily polluted - III-IV',
+            'excessively polluted - IV',
+        ],
+    };
 
     useEffect(() => {
         parseData(features);
@@ -88,11 +78,16 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
 
     const parseData = (features: any) => {
         const dataTemp = [];
+        const translationsTemp: any = {};
+
         for (const i in features) {
             if (
                 features[i].attributes[attribute] != null &&
                 features[i].attributes[attribute] != ''
             ) {
+                translationsTemp[
+                    getTranslationStatic(features[i].attributes[attribute])
+                ] = features[i].attributes[attribute];
                 dataTemp.push({
                     name: getTranslationStatic(
                         features[i].attributes[attribute]
@@ -104,11 +99,23 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
                 });
             }
         }
-        setData(dataTemp);
+
+        // Custom sorting function based on the orderArray
+        const customSort = (a: any, b: any) => {
+            return (
+                orderArray[category].indexOf(translationsTemp[a.name]) -
+                orderArray[category].indexOf(translationsTemp[b.name])
+            );
+        };
+
+        // Sort the data based on the customSort function
+        const sortedData = [...dataTemp].sort(customSort);
+        setData(sortedData);
+        setTranslations(translationsTemp);
     };
 
     return (
-        <ResponsiveContainer width="100%" height="85%">
+        <ResponsiveContainer width="100%" height="80%">
             <BarChart
                 data={data}
                 margin={{
@@ -119,20 +126,29 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" tickFormatter={tickFormatter} />
-                <YAxis />
+                <XAxis dataKey="name" tickFormatter={tickFormatter}></XAxis>
+                <YAxis>
+                    <Label
+                        value={getTranslation('amount')}
+                        offset={0}
+                        position="insideLeft"
+                        angle={-90}
+                    />
+                </YAxis>
                 <Tooltip />
                 <Bar
                     dataKey="value"
                     fill="#A2C367"
                     onMouseOver={(event) => {
-                        dispatch(setHoverFeatures(event.name));
+                        dispatch(setHoverFeatures(translations[event.name]));
                     }}
                     onMouseOut={(event) => {
                         dispatch(setHoverFeatures(null));
                     }}
                     activeBar={<Rectangle fill="#79924e" />}
-                />
+                >
+                    <LabelList dataKey="value" position="top" />
+                </Bar>
             </BarChart>
         </ResponsiveContainer>
     );
