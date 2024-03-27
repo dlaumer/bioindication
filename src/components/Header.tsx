@@ -12,10 +12,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from './Button';
 import Dropdown from './Dropdown';
 import {
-    selectUsernameEsri,
     selectIsLoggedIn,
     selectSidePanelContent,
     selectSettingsOpen,
+    selectUserInfos,
 } from '../store/selectors';
 import {
     setSidePanelContent,
@@ -37,7 +37,7 @@ const Header = () => {
 
     const sidePanelContent = useSelector(selectSidePanelContent);
     const isLoggedIn = useSelector(selectIsLoggedIn);
-    const username = useSelector(selectUsernameEsri);
+    const userInfos = useSelector(selectUserInfos);
     const settingsOpen = useSelector(selectSettingsOpen);
 
     const [buttons, setButtons] = useState(null);
@@ -83,20 +83,18 @@ const Header = () => {
         setLoginButton(
             <Button
                 titleKey="login"
-                username={username}
+                username={userInfos.username}
                 onClick={() => dispatch(setLogInAttempt(true))}
             />
         );
-    }, [username]);
+    }, [userInfos]);
 
     return (
         <div
             id="header"
-            className="absolute flex flex-row flex-none justify-between z-30 w-full h-[60px] py-1 bg-headergreen px-[15px]"
+            className="absolute flex flex-row flex-none z-30 w-full h-[60px] py-1 bg-headerwhite px-[15px]"
         >
-            <div className="h-full flex flex-row items-center gap-2 mr-4 font-noigrotesk">
-                <img src={logoGlobe} className="h-full p-[10px]"></img>
-
+            <div className="h-full w-[30%] flex flex-row items-center gap-2 mr-4 font-noigrotesk">
                 <div>
                     <div className="leading-snug text-xs font-bold">
                         {getTranslation('subTitle')}
@@ -105,10 +103,11 @@ const Header = () => {
                         {getTranslation('title')}
                     </div>
                 </div>
-
-                {buttons}
             </div>
-            <div className="flex flex-row h-full items-center gap-2 mr-4 font-noigrotesk">
+
+            <div className="flex flex-row w-[70%] h-full justify-between items-center gap-2 mr-4 font-noigrotesk">
+                {buttons}
+
                 <div className="flex flex-row h-[80%] items-center gap-2 font-noigrotesk">
                     <Button
                         titleKey=""

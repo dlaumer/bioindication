@@ -67,7 +67,7 @@ import {
     setIsLoggedIn,
     setLanguage,
     setLogInAttempt,
-    setUsernameEsri,
+    setUserInfos,
 } from '@store/reducer';
 import { getTranslation, getTranslationStatic } from '@services/languageHelper';
 import Popup from './Popup';
@@ -1233,9 +1233,14 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         portal
             .load()
             .then(() => {
-                console.log(portal.user.username);
                 dispatch(setIsLoggedIn(true));
-                dispatch(setUsernameEsri(portal.user.username));
+                dispatch(
+                    setUserInfos({
+                        username: portal.user.username,
+                        fullName: portal.user.fullName,
+                        email: portal.user.email,
+                    })
+                );
             })
             .catch(() => {
                 esriId.destroyCredentials();

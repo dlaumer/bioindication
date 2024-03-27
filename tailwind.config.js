@@ -18,7 +18,8 @@ module.exports = {
           midgrey: '#e9e9e9',
           darkergrey: '#d5d5d5',
           infoPanel: '#ffd900',
-          headergreen: '#8dac5665',
+          headerwhite: '#e9e9e999',
+          headergreen: '#ccf585',
           projectgreen: '#A2C367',
           activeBlue: '#6c93ff8b'
       },

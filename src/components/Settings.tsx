@@ -147,7 +147,7 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
         >
             <div
                 id="settings"
-                className="absolute left-[calc(50%-300px)] top-[calc(50%-200px)] h-[400px] w-[600px] bg-backgroundgray p-3 overflow-auto pointer-events-auto"
+                className="absolute left-[calc(50%-300px)] top-[calc(50%-200px)] h-[400px] w-[600px] bg-white p-3 overflow-auto pointer-events-auto"
             >
                 <div
                     id="settingsHeader"

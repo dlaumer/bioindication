@@ -139,7 +139,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                                 );
                                 event.stopPropagation();
                             }}
-                            isActive={!filterSpaceDrawing}
+                            isActive={filterSpaceDrawing}
                             isDisabled={!filterSpaceActive}
                         ></Button>
                         <button

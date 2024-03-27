@@ -8,6 +8,11 @@ import {
 import { setLocale } from '@arcgis/core/intl';
 
 // import { RootState, StoreDispatch, StoreGetState } from '../configureStore';
+export type userInfos = {
+    username?: string;
+    fullName?: string;
+    email?: string;
+};
 
 export type AppState = {
     language?: string;
@@ -30,7 +35,7 @@ export type AppState = {
 
     isLoggedIn?: boolean;
     logInAttempt?: boolean;
-    usernameEsri?: string;
+    userInfos?: userInfos;
 
     settingsContent?: string;
     settingsOpen?: boolean;
@@ -57,7 +62,7 @@ export const initialAppState: AppState = {
 
     isLoggedIn: false,
     logInAttempt: false,
-    usernameEsri: 'login',
+    userInfos: {},
 
     settingsContent: 'languages',
     settingsOpen: false,
@@ -116,8 +121,8 @@ const slice = createSlice({
         setLogInAttempt: (state, action: PayloadAction<boolean>) => {
             state.logInAttempt = action.payload;
         },
-        setUsernameEsri: (state, action: PayloadAction<string>) => {
-            state.usernameEsri = action.payload;
+        setUserInfos: (state, action: PayloadAction<userInfos>) => {
+            state.userInfos = action.payload;
         },
         setSettingsContent: (state, action: PayloadAction<string>) => {
             state.settingsContent = action.payload;
@@ -147,7 +152,7 @@ export const {
     setHoverFeatures,
     setIsLoggedIn,
     setLogInAttempt,
-    setUsernameEsri,
+    setUserInfos,
     setSettingsContent,
     toggleSettingsOpen,
 } = slice.actions;

@@ -80,9 +80,9 @@ export const selectLogInAttempt = createSelector(
     (logInAttempt) => logInAttempt
 );
 
-export const selectUsernameEsri = createSelector(
-    (state: RootState) => state.App.usernameEsri,
-    (usernameEsri) => usernameEsri
+export const selectUserInfos = createSelector(
+    (state: RootState) => state.App.userInfos,
+    (userInfos) => userInfos
 );
 
 export const selectSettingsContent = createSelector(

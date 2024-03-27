@@ -112,7 +112,7 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
                 id="sidePanel"
                 className={`${
                     sidePanelContent == 'null' ? 'hidden' : ''
-                } absolute rounded-xl flex flex-col flex-none justify-between z-30 w-[30%]  h-[calc(100%_-_120px)] bg-white top-[70px] left-[10px]`}
+                } absolute rounded-xl flex flex-col flex-none justify-between z-30 w-[30%]  h-[calc(100%_-_120px)] bg-backgroundgray top-[70px] left-[10px]`}
             >
                 {content}
             </div>
