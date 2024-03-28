@@ -1210,6 +1210,17 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     query.groupByFieldsForStatistics = ['BioWaterQuality'];
                     dispatch(setAttribute('BioWaterQuality'));
                     break;
+                case 'waterToNitrate':
+                    query.outStatistics = [
+                        {
+                            statisticType: 'avg',
+                            onStatisticField: 'water_nitr',
+                            outStatisticFieldName: 'count_Attribute',
+                        },
+                    ];
+                    query.groupByFieldsForStatistics = ['BioWaterQuality'];
+                    dispatch(setAttribute('BioWaterQuality'));
+                    break;
             }
 
             // Perform the query on the feature layer

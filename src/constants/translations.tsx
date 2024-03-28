@@ -132,6 +132,12 @@ const translations = {
         fr: 'TODO Oxygen content in Relation to Biological Water Quality',
         it: 'TODO Oxygen content in Relation to Biological Water Quality',
     },
+    waterToNitrate: {
+        en: 'Nitrate content in Relation to Biological Water Quality',
+        de: 'TOCHECK Nitratgehalt in Abhängigkeit der biologischen Wasserqualität',
+        fr: 'TODO Nitrate content in Relation to Biological Water Quality',
+        it: 'TODO Nitrate content in Relation to Biological Water Quality',
+    },
 
     amount: {
         en: 'Amount',
