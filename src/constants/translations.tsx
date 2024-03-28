@@ -126,6 +126,12 @@ const translations = {
         fr: "Qualité de l'habitat en fonction de la qualité biologique de l'eau",
         it: "Qualità dell'habitat in relazione alla qualità biologica dell'acqua",
     },
+    waterToOxygen: {
+        en: 'Oxygen content in Relation to Biological Water Quality',
+        de: 'TOCHECK Sauerstoffgehalt in Abhängigkeit der biologischen Wasserqualität',
+        fr: 'TODO Oxygen content in Relation to Biological Water Quality',
+        it: 'TODO Oxygen content in Relation to Biological Water Quality',
+    },
 
     amount: {
         en: 'Amount',

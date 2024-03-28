@@ -173,7 +173,12 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
 
                     <Dropdown
                         tag="categories"
-                        options={['bioQuality', 'waterQuality', 'waterToBio']}
+                        options={[
+                            'bioQuality',
+                            'waterQuality',
+                            'waterToBio',
+                            'waterToOxygen',
+                        ]}
                     />
                 </div>
                 <Chart />

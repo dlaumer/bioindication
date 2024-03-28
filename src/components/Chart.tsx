@@ -39,37 +39,25 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
     const [data, setData] = useState<any>(null);
     const [translations, setTranslations] = useState<any>(null);
 
-    const orderArray: any = {
-        bioQuality: [
-            'natural (1.0 - 1.4)',
-            'obstructed (1.5 - 1.9)',
-            'strongly obstructed (2.0 - 2.4)',
-            'artificial (2.5 - 3.0)',
-        ],
-        waterQuality: [
-            'unpolluted - I',
-            'slightly polluted - I-II',
-            'moderately polluted - II',
-            'seriously polluted - II-III',
-            'heavily polluted - III',
-            'very heavily polluted - III-IV',
-            'excessively polluted - IV',
-        ],
-        waterToBio: [
-            'unpolluted - I',
-            'slightly polluted - I-II',
-            'moderately polluted - II',
-            'seriously polluted - II-III',
-            'heavily polluted - III',
-            'very heavily polluted - III-IV',
-            'excessively polluted - IV',
-        ],
-    };
+    const orderArray: any = [
+        'natural (1.0 - 1.4)',
+        'obstructed (1.5 - 1.9)',
+        'strongly obstructed (2.0 - 2.4)',
+        'artificial (2.5 - 3.0)',
+        'unpolluted - I',
+        'slightly polluted - I-II',
+        'moderately polluted - II',
+        'seriously polluted - II-III',
+        'heavily polluted - III',
+        'very heavily polluted - III-IV',
+        'excessively polluted - IV',
+    ];
 
     const categoryToCharType: any = {
         bioQuality: 'bar',
         waterQuality: 'bar',
         waterToBio: 'line',
+        waterToOxygen: 'line',
     };
 
     useEffect(() => {
@@ -109,8 +97,8 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
         // Custom sorting function based on the orderArray
         const customSort = (a: any, b: any) => {
             return (
-                orderArray[category].indexOf(translationsTemp[a.name]) -
-                orderArray[category].indexOf(translationsTemp[b.name])
+                orderArray.indexOf(translationsTemp[a.name]) -
+                orderArray.indexOf(translationsTemp[b.name])
             );
         };
 
