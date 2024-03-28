@@ -59,6 +59,8 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
         waterToBio: 'line',
         waterToOxygen: 'line',
         waterToNitrate: 'line',
+        bioToOxygen: 'line',
+        bioToNitrate: 'line',
     };
 
     useEffect(() => {

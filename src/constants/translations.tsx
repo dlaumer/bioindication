@@ -138,6 +138,18 @@ const translations = {
         fr: 'TODO Nitrate content in Relation to Biological Water Quality',
         it: 'TODO Nitrate content in Relation to Biological Water Quality',
     },
+    bioToOxygen: {
+        en: 'Oxygen content in Relation to Habitat Quality',
+        de: 'TOCHECK Sauerstoffgehalt in Abhängigkeit der Lebensraumqualität',
+        fr: 'TODO Oxygen content in Relation to Habitat Quality',
+        it: 'TODO Oxygen content in Relation to Habitat Quality',
+    },
+    bioToNitrate: {
+        en: 'Nitrate content in Relation to Habitat Quality',
+        de: 'TOCHECK Nitratgehalt in Abhängigkeit der Lebensraumqualität',
+        fr: 'TODO Nitrate content in Relation to Habitat Quality',
+        it: 'TODO Nitrate content in Relation to Habitat Quality',
+    },
 
     amount: {
         en: 'Amount',
