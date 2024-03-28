@@ -30,6 +30,7 @@ import analyze from './../constants/pie-chart.svg';
 import process from './../constants/refresh-cw.svg';
 import print from './../constants/printer.svg';
 import logoGlobe from './../constants/logoGlobe.png';
+import ButtonLogin from './ButtonLogin';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -81,7 +82,7 @@ const Header = () => {
 
     useEffect(() => {
         setLoginButton(
-            <Button
+            <ButtonLogin
                 titleKey="login"
                 username={userInfos.username}
                 onClick={() => dispatch(setLogInAttempt(true))}

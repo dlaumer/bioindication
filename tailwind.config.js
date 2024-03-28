@@ -21,7 +21,8 @@ module.exports = {
           headerwhite: '#e9e9e999',
           headergreen: '#ccf585',
           projectgreen: '#A2C367',
-          activeBlue: '#6c93ff8b'
+          activeBlue: '#6c93ff8b',
+          whiteTransparent: '#ffffffaa'
       },
   },
   },
