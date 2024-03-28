@@ -66,6 +66,12 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
         ],
     };
 
+    const categoryToCharType: any = {
+        bioQuality: 'bar',
+        waterQuality: 'bar',
+        waterToBio: 'line',
+    };
+
     useEffect(() => {
         parseData(features);
     }, [features]);
@@ -114,8 +120,9 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
         setTranslations(translationsTemp);
     };
 
-    return (
-        <ResponsiveContainer width="100%" height="80%">
+    let chart;
+    if (categoryToCharType[category] == 'bar') {
+        chart = (
             <BarChart
                 data={data}
                 margin={{
@@ -150,6 +157,39 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
                     <LabelList dataKey="value" position="top" />
                 </Bar>
             </BarChart>
+        );
+    } else if (categoryToCharType[category] == 'line') {
+        chart = (
+            <LineChart
+                data={data}
+                margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" tickFormatter={tickFormatter}></XAxis>
+                <YAxis>
+                    <Label
+                        value={getTranslation('amount')}
+                        offset={0}
+                        position="insideLeft"
+                        angle={-90}
+                    />
+                </YAxis>
+                <Tooltip />
+                <Line dataKey="value" fill="#A2C367">
+                    <LabelList dataKey="value" position="top" />
+                </Line>
+            </LineChart>
+        );
+    }
+
+    return (
+        <ResponsiveContainer width="100%" height="80%">
+            {chart}
         </ResponsiveContainer>
     );
 };
