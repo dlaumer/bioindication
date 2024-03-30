@@ -965,7 +965,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         }
     }, [filterTimeActive]);
 
-    const firstTime = true;
     useEffect(() => {
         if (logInAttempt) {
             handleSignInOut();

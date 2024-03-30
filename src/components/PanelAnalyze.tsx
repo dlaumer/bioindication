@@ -84,7 +84,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
 
                     <button
                         id="filterTimeClear"
-                        className={`${
+                        className={`mx-[10px] underline ${
                             !filterTimeActive
                                 ? 'cursor-not-allowed opacity-50'
                                 : 'cursor-pointer'
@@ -144,7 +144,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                         ></Button>
                         <button
                             id="filterSpaceClear"
-                            className={`mx-[10px] ${
+                            className={`mx-[10px] underline ${
                                 !filterSpaceActive
                                     ? 'cursor-not-allowed opacity-50'
                                     : 'cursor-pointer'

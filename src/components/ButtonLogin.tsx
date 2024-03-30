@@ -20,6 +20,7 @@ type ButtonProps = {
     hoverStyle?: React.CSSProperties;
     icon?: any;
     isVisible?: boolean;
+    username?: string;
 };
 const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     title = 'Default',
@@ -29,6 +30,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     hoverTitle = title,
     icon = null,
     isVisible = true,
+    username = '',
     ...props
 }) => {
     const [isHover, setIsHovered] = useState(false);
@@ -40,6 +42,10 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     const handleMouseLeave = () => {
         setIsHovered(false);
     };
+
+    if (username != '') {
+        titleKey = username[0];
+    }
     title = titleKey != null ? getTranslation(titleKey) : title;
 
     hoverTitle = title;
@@ -60,10 +66,14 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
             className={`h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
                 isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
             }
-           
-            ${isActive ? 'bg-headergreen shadow-sm text-black' : 'bg-white'}
-            ${isVisible ? '' : 'hidden'}
-            `}
+        ${
+            username != ''
+                ? '!bg-headergreen !w-[56px] !h-[56px] !border-[8px] !border-whiteTransparent !border-solid !rounded-full !font-bold '
+                : ''
+        }
+        ${isActive ? 'bg-headergreen shadow-sm text-black' : 'bg-white'}
+        ${isVisible ? '' : 'hidden'}
+        `}
             onMouseEnter={handleHover}
             onMouseLeave={handleMouseLeave}
             disabled={isDisabled}
