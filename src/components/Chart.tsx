@@ -5,7 +5,7 @@ import {
     selectCategory,
     selectFeatures,
 } from '@store/selectors';
-import React, { FC, PureComponent, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import {
@@ -15,13 +15,14 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend,
     ResponsiveContainer,
     BarChart,
     Bar,
     Rectangle,
     Label,
     LabelList,
+    ScatterChart,
+    Scatter,
 } from 'recharts';
 
 type ChartProps = {
@@ -61,6 +62,7 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
         waterToNitrate: 'line',
         bioToOxygen: 'line',
         bioToNitrate: 'line',
+        oxygenToTemp: 'point',
     };
 
     useEffect(() => {
@@ -78,7 +80,13 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
         const translationsTemp: any = {};
 
         for (const i in features) {
-            if (
+            if (['oxygenToTemp'].includes(category)) {
+                const tempValues = Object.values(features[i].attributes);
+                dataTemp.push({
+                    x: tempValues[0],
+                    y: tempValues[1],
+                });
+            } else if (
                 features[i].attributes[attribute] != null &&
                 features[i].attributes[attribute] != ''
             ) {
@@ -175,6 +183,31 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
                     <LabelList dataKey="value" position="top" />
                 </Line>
             </LineChart>
+        );
+    } else if (categoryToCharType[category] == 'point') {
+        chart = (
+            <ScatterChart
+                data={data}
+                margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="x"></XAxis>
+                <YAxis>
+                    <Label
+                        value={getTranslation('amount')}
+                        offset={0}
+                        position="insideLeft"
+                        angle={-90}
+                    />
+                </YAxis>
+                <Tooltip />
+                <Scatter dataKey="y" fill="#A2C367" />
+            </ScatterChart>
         );
     }
 
