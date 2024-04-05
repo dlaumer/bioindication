@@ -70,6 +70,10 @@ export const selectHoverFeatures = createSelector(
     (hoverFeatures) => hoverFeatures
 );
 
+export const selectLoginClicked = createSelector(
+    (state: RootState) => state.App.loginClicked,
+    (loginClicked) => loginClicked
+);
 export const selectIsLoggedIn = createSelector(
     (state: RootState) => state.App.isLoggedIn,
     (isLoggedIn) => isLoggedIn

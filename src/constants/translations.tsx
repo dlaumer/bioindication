@@ -53,6 +53,19 @@ const translations = {
         fr: 'Connexion',
         it: 'Accesso',
     },
+    logout: {
+        en: 'Logout',
+        de: 'Abmelden',
+        fr: 'Déconnexion',
+        it: 'Disconnettersi',
+    },
+
+    infoText: {
+        en: "In this Globe offering 'Bioindication in flowing waters,' students explore the ecosystem of a stream or river. They assess the habitat in terms of its landscape ecology as well as its biological water quality and derive connections. The results of the investigations and observations can be captured, analyzed, and visualized in this web application.",
+        de: "In diesem Globe-Angebot 'Bioindikation im Fliessgewässer' erforschen Schüler*­innen das Ökosystem eines Bachs oder eines Flusses. Sie beurteilen den Lebensraum hinsichtlich seiner Landschaftsökologie sowie seiner biologischen Gewässergüte und leiten Zusammenhänge ab. Die Resultate der Untersuchungen und Beobachtungen können in diese Webapplikation erfasst, analysiert und visualisiert werden.",
+        fr: "Dans cette offre Globe 'Bioindication dans les eaux courantes', les élèves explorent l'écosystème d'un ruisseau ou d'une rivière. Ils évaluent l'habitat en termes d'écologie du paysage ainsi que de qualité biologique de l'eau et en déduisent des connexions. Les résultats des investigations et des observations peuvent être capturés, analysés et visualisés dans cette application web.",
+        it: "In questa offerta Globe 'Bioindicazione nelle acque correnti', gli studenti esplorano l'ecosistema di un ruscello o di un fiume. Valutano l'habitat in termini di ecologia del paesaggio e della qualità biologica dell'acqua e ne traggono connessioni. I risultati delle indagini e delle osservazioni possono essere catturati, analizzati e visualizzati in questa applicazione web.",
+    },
     analyzeTitle: {
         de: 'Analyse',
         en: 'Analyze',

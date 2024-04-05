@@ -9,7 +9,9 @@ Functionality for most of the basic buttons like disable, active, hover, etc.
 
 import React, { FC, useEffect, useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectIsLoggedIn, selectLoginClicked } from '@store/selectors';
+import { setLogInAttempt } from '@store/reducer';
 
 type ButtonProps = {
     title?: string;
@@ -33,6 +35,11 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     username = '',
     ...props
 }) => {
+    const dispatch = useDispatch();
+
+    const loginClicked = useSelector(selectLoginClicked);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+
     const [isHover, setIsHovered] = useState(false);
 
     const handleHover = () => {
@@ -42,6 +49,13 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     const handleMouseLeave = () => {
         setIsHovered(false);
     };
+    useEffect(() => {
+        if (loginClicked) {
+            if (!isLoggedIn) {
+                dispatch(setLogInAttempt(true));
+            }
+        }
+    }, [loginClicked]);
 
     if (username != '') {
         titleKey = username[0];
@@ -62,10 +76,13 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     }
 
     return (
-        <button
-            className={`h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
-                isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-            }
+        <div>
+            <button
+                className={`h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
+                    isDisabled
+                        ? 'cursor-not-allowed opacity-50'
+                        : 'cursor-pointer'
+                }
         ${
             username != ''
                 ? '!bg-headergreen !w-[56px] !h-[56px] !border-[8px] !border-whiteTransparent !border-solid !rounded-full !font-bold '
@@ -74,13 +91,24 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
         ${isActive ? 'bg-headergreen shadow-sm text-black' : 'bg-white'}
         ${isVisible ? '' : 'hidden'}
         `}
-            onMouseEnter={handleHover}
-            onMouseLeave={handleMouseLeave}
-            disabled={isDisabled}
-            {...props}
-        >
-            {content}
-        </button>
+                onMouseEnter={handleHover}
+                onMouseLeave={handleMouseLeave}
+                disabled={isDisabled}
+                {...props}
+            >
+                {content}
+            </button>
+            <div
+                className={`absolute  ${
+                    loginClicked && isLoggedIn ? '' : 'hidden'
+                } 'bg-headergreen shadow-sm text-black' : 'bg-white'} drop-shadow-xl rounded-lg top-[65px] right-[5px] w-[200px] h-[100px] bg-white`}
+            >
+                <Button
+                    titleKey="logout"
+                    onClick={() => dispatch(setLogInAttempt(true))}
+                ></Button>
+            </div>
+        </div>
     );
 };
 export default Button;

@@ -21,6 +21,7 @@ import {
     setSidePanelContent,
     setLogInAttempt,
     toggleSettingsOpen,
+    setLoginClicked,
 } from '@store/reducer';
 import { getTranslation } from '@services/languageHelper';
 
@@ -85,7 +86,10 @@ const Header = () => {
             <ButtonLogin
                 titleKey="login"
                 username={userInfos.username}
-                onClick={() => dispatch(setLogInAttempt(true))}
+                onClick={() => {
+                    console.log('Wuhu');
+                    dispatch(setLoginClicked(true));
+                }}
             />
         );
     }, [userInfos]);

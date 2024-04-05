@@ -33,6 +33,7 @@ export type AppState = {
     attribute?: string;
     hoverFeatures?: any;
 
+    loginClicked?: boolean;
     isLoggedIn?: boolean;
     logInAttempt?: boolean;
     userInfos?: userInfos;
@@ -60,6 +61,7 @@ export const initialAppState: AppState = {
     attribute: null,
     hoverFeatures: null,
 
+    loginClicked: false,
     isLoggedIn: false,
     logInAttempt: false,
     userInfos: {},
@@ -115,6 +117,9 @@ const slice = createSlice({
         setHoverFeatures: (state, action: PayloadAction<any>) => {
             state.hoverFeatures = action.payload;
         },
+        setLoginClicked: (state, action: PayloadAction<boolean>) => {
+            state.loginClicked = action.payload;
+        },
         setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload;
         },
@@ -150,6 +155,7 @@ export const {
     setFeatures,
     setAttribute,
     setHoverFeatures,
+    setLoginClicked,
     setIsLoggedIn,
     setLogInAttempt,
     setUserInfos,

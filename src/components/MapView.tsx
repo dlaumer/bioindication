@@ -129,7 +129,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     const actualDate = new Date();
     const fullTimeExtent = new TimeExtent({
-        start: new Date(2000, 1, 1),
+        start: new Date(2000, 0, 1),
         end: actualDate,
     });
 
@@ -487,11 +487,11 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             view: view,
             mode: 'time-window',
             fullTimeExtent: {
-                start: new Date(2000, 1, 1),
+                start: new Date(2000, 0, 1),
                 end: actualDate,
             },
             timeExtent: {
-                start: new Date(2000, 1, 1),
+                start: new Date(2000, 0, 1),
                 end: actualDate,
             },
             stops: {
@@ -686,6 +686,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             setMapView(view);
 
             let highlight: any = null;
+            let highlightedGraphic: any = null;
 
             view.on('pointer-move', function (event) {
                 // only include graphics from hurricanesLayer in the hitTest
@@ -715,10 +716,15 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                                 view.whenLayerView(riverData).then(function (
                                     layerView: any
                                 ) {
-                                    if (highlight != null) {
-                                        highlight.remove();
+                                    if (highlightedGraphic != graphic) {
+                                        if (highlight != null) {
+                                            highlight.remove();
+                                            highlightedGraphic = null;
+                                        }
+                                        highlight =
+                                            layerView.highlight(graphic);
+                                        highlightedGraphic = graphic;
                                     }
-                                    highlight = layerView.highlight(graphic);
                                 });
                             }
                         } else {
@@ -781,7 +787,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             if (!filterTimeActive) {
                 const timeExtent = timeSlider.timeExtent;
                 timeSlider.timeExtent = new TimeExtent({
-                    start: new Date(2000, 1, 1),
+                    start: new Date(2000, 0, 1),
                     end: actualDate,
                 });
 
