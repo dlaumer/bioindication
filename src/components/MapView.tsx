@@ -38,6 +38,7 @@ import FeatureEffect from '@arcgis/core/layers/support/FeatureEffect';
 import FeatureFilter from '@arcgis/core/layers/support/FeatureFilter';
 import Print from '@arcgis/core/widgets/Print';
 import FeatureTemplate from '@arcgis/core/layers/support/FeatureTemplate';
+import Graphic from '@arcgis/core/Graphic';
 
 import {
     selectAttribute,
@@ -684,7 +685,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         view.when(() => {
             setMapView(view);
-
             let highlight: any = null;
             let highlightedGraphic: any = null;
 
@@ -936,6 +936,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 mapView.map.remove(dataLayerView);
                 mapView.map.add(dataLayer, 1);
                 setCurrentLayer(dataLayer);
+                updateFinalDate(mapView, dataLayer);
             } else {
                 mapView.map.add(dataLayerView, 1);
                 setCurrentLayer(dataLayerView);
@@ -1138,6 +1139,63 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         // Return the container element
         return container;
+    };
+
+    const updateFinalDate = (view: MapView, dataLay: FeatureLayer) => {
+        const myPromise: Promise<string> = new Promise((resolve, reject) => {
+            dataLay
+                .queryFeatures({
+                    where: "finalDate IS NULL OR finalDate = ''",
+                    outFields: ['*'],
+                    returnGeometry: false,
+                })
+                // then take re existing entry and edit it
+                .then((results) => {
+                    if (results.features.length > 0) {
+                        const updateFeatures = [];
+                        for (const i in results.features) {
+                            const editFeature = results.features[0];
+                            const { first_date, last_date, CreationDate } =
+                                editFeature.attributes;
+                            const finalDate =
+                                first_date || last_date || CreationDate;
+                            const update = new Graphic({
+                                attributes: {
+                                    OBJECTID: editFeature.attributes.OBJECTID, // Assuming OBJECTID is the unique identifier field
+                                    // Update only the attribute you want to change
+                                    finalDate: finalDate,
+                                },
+                            });
+                            updateFeatures.push(update);
+                        }
+
+                        // finally, upload the new data to ArcGIS Online
+                        dataLay
+                            .applyEdits({
+                                updateFeatures: updateFeatures,
+                            })
+                            .then((value) => {
+                                // ToDo: Check for errors!
+                                if (
+                                    (value.updateFeatureResults as any).error ==
+                                    null
+                                ) {
+                                    resolve('Resolved');
+                                } else {
+                                    reject(
+                                        (value.updateFeatureResults as any)
+                                            .error
+                                    );
+                                }
+                            })
+                            .catch((reason) => {
+                                reject(reason);
+                            });
+                    }
+                });
+        });
+
+        return myPromise;
     };
 
     const queryFeatures = (view: MapView) => {
