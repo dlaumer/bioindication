@@ -22,6 +22,7 @@ import {
     setLogInAttempt,
     toggleSettingsOpen,
     setLoginClicked,
+    toggleLoginClicked,
 } from '@store/reducer';
 import { getTranslation } from '@services/languageHelper';
 
@@ -87,8 +88,11 @@ const Header = () => {
                 titleKey="login"
                 username={userInfos.username}
                 onClick={() => {
-                    console.log('Wuhu');
-                    dispatch(setLoginClicked(true));
+                    if (isLoggedIn) {
+                        dispatch(toggleLoginClicked(true));
+                    } else {
+                        dispatch(setLoginClicked(true));
+                    }
                 }}
             />
         );

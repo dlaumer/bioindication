@@ -60,6 +60,13 @@ const translations = {
         it: 'Disconnettersi',
     },
 
+    account: {
+        en: 'Account',
+        de: 'Konto',
+        fr: 'Compte',
+        it: 'Account',
+    },
+
     infoText: {
         en: "In this Globe offering 'Bioindication in flowing waters,' students explore the ecosystem of a stream or river. They assess the habitat in terms of its landscape ecology as well as its biological water quality and derive connections. The results of the investigations and observations can be captured, analyzed, and visualized in this web application.",
         de: "In diesem Globe-Angebot 'Bioindikation im Fliessgewässer' erforschen Schüler*­innen das Ökosystem eines Bachs oder eines Flusses. Sie beurteilen den Lebensraum hinsichtlich seiner Landschaftsökologie sowie seiner biologischen Gewässergüte und leiten Zusammenhänge ab. Die Resultate der Untersuchungen und Beobachtungen können in diese Webapplikation erfasst, analysiert und visualisiert werden.",

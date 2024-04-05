@@ -120,6 +120,9 @@ const slice = createSlice({
         setLoginClicked: (state, action: PayloadAction<boolean>) => {
             state.loginClicked = action.payload;
         },
+        toggleLoginClicked: (state, action: PayloadAction<boolean>) => {
+            state.loginClicked = !state.loginClicked;
+        },
         setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload;
         },
@@ -155,6 +158,7 @@ export const {
     setFeatures,
     setAttribute,
     setHoverFeatures,
+    toggleLoginClicked,
     setLoginClicked,
     setIsLoggedIn,
     setLogInAttempt,

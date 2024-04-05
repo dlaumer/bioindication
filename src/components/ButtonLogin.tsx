@@ -10,7 +10,11 @@ Functionality for most of the basic buttons like disable, active, hover, etc.
 import React, { FC, useEffect, useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectIsLoggedIn, selectLoginClicked } from '@store/selectors';
+import {
+    selectIsLoggedIn,
+    selectLoginClicked,
+    selectUserInfos,
+} from '@store/selectors';
 import { setLogInAttempt } from '@store/reducer';
 
 type ButtonProps = {
@@ -39,6 +43,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
 
     const loginClicked = useSelector(selectLoginClicked);
     const isLoggedIn = useSelector(selectIsLoggedIn);
+    const userInfo = useSelector(selectUserInfos);
 
     const [isHover, setIsHovered] = useState(false);
 
@@ -88,7 +93,11 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
                 ? '!bg-headergreen !w-[56px] !h-[56px] !border-[8px] !border-whiteTransparent !border-solid !rounded-full !font-bold '
                 : ''
         }
-        ${isActive ? 'bg-headergreen shadow-sm text-black' : 'bg-white'}
+        ${
+            isActive
+                ? 'bg-headergreen shadow-sm text-black'
+                : 'bg-white hover:bg-backgroundgray'
+        }
         ${isVisible ? '' : 'hidden'}
         `}
                 onMouseEnter={handleHover}
@@ -101,12 +110,42 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
             <div
                 className={`absolute  ${
                     loginClicked && isLoggedIn ? '' : 'hidden'
-                } 'bg-headergreen shadow-sm text-black' : 'bg-white'} drop-shadow-xl rounded-lg top-[65px] right-[5px] w-[200px] h-[100px] bg-white`}
+                } drop-shadow-xl rounded-lg top-[65px] right-[5px] w-[250px] h-[150px] bg-white`}
             >
-                <Button
-                    titleKey="logout"
-                    onClick={() => dispatch(setLogInAttempt(true))}
-                ></Button>
+                <div className="font-bold h-1/4 w-full flex items-center justify-start p-2">
+                    {getTranslation('account')}
+                </div>
+                <div className="h-1/2 w-full flex items-center">
+                    <button
+                        className={`cursor-default h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap
+        ${
+            username != ''
+                ? '!bg-headergreen !w-[56px] !h-[56px] !border-[8px] !border-whiteTransparent !border-solid !rounded-full !font-bold '
+                : ''
+        }
+        ${isActive ? 'bg-headergreen shadow-sm text-black' : 'bg-white'}
+        ${isVisible ? '' : 'hidden'}
+        `}
+                        disabled={isDisabled}
+                        {...props}
+                    >
+                        {content}
+                    </button>
+                    <div>
+                        <div>{userInfo.fullName}</div>
+                        <div>{userInfo.email}</div>
+                    </div>
+                </div>
+
+                <button
+                    id="test"
+                    className=" h-1/4 w-full font-noigrotesk w-full whitespace-nowrap hover:bg-backgroundgray"
+                    onClick={() => {
+                        dispatch(setLogInAttempt(true));
+                    }}
+                >
+                    {getTranslation('logout')}
+                </button>
             </div>
         </div>
     );
