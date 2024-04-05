@@ -181,6 +181,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                             'waterToNitrate',
                             'bioToOxygen',
                             'bioToNitrate',
+                            'oxygenToTemp',
                         ]}
                     />
                 </div>

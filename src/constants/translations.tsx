@@ -170,6 +170,12 @@ const translations = {
         fr: "Contenu en nitrate en relation avec la qualité de l'habitat",
         it: "Contenuto di nitrati in relazione alla qualità dell'habitat",
     },
+    oxygenToTemp: {
+        en: 'Oxygen content in relation to water temperature',
+        de: 'TODO Oxygen content in relation to water temperature',
+        fr: 'TODO Oxygen content in relation to water temperature',
+        it: 'TODO Oxygen content in relation to water temperature',
+    },
 
     amount: {
         en: 'Amount',
