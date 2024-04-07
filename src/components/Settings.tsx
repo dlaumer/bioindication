@@ -21,8 +21,11 @@ import {
     toggleSettingsOpen,
 } from '@store/reducer';
 import Button from './Button';
-import { getTranslation } from '@services/languageHelper';
+import { getTranslation, getTranslationStatic } from '@services/languageHelper';
 import close from './../constants/x_black.svg';
+import logoGlobe from './../constants/logoGlobe.png';
+import logoSmartTrip from './../constants/logo_smarttrip_edu.png';
+import logoDaniel from './../constants/logoDaniel.png';
 
 const Settings: FC<React.ComponentProps<'div'>> = () => {
     const dispatch = useDispatch();
@@ -77,41 +80,85 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
         );
         content.push(
             <div
-                key="infp"
+                key="info"
                 className={`${settingsContent == 'info' ? '' : 'hidden'} `}
-            ></div>
+            >
+                <div className="p-6">
+                    <a
+                        href="https://www.globe-swiss.ch"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <img src={logoGlobe}></img>
+                    </a>
+                </div>
+                <div className="p-6">{getTranslationStatic('infoText')}</div>
+                <div className="p-6 flex align-center justify-center">
+                    <a
+                        className="w-1/2"
+                        href="http://smarttrip.ch"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <img src={logoSmartTrip}></img>
+                    </a>
+                </div>
+                <div className="p-6">
+                    {getTranslationStatic('infoTextSmartTrip')}
+                </div>
+                <div className="p-6 flex align-center justify-center">
+                    <img className="w-[80%]" src={logoDaniel}></img>
+                </div>
+                <div className="p-6">
+                    {getTranslationStatic('infoTextDaniel')}
+                </div>
+            </div>
         );
         content.push(
             <div
                 key="help"
                 className={`${settingsContent == 'help' ? '' : 'hidden'} `}
-            ></div>
+            >
+                <Button
+                    titleKey="ressources"
+                    onClick={() =>
+                        window.open(
+                            'https://globe-swiss.ch/de/Angebote/Bioindikation_im_Fliessgewaesser/',
+                            '_blank'
+                        )
+                    }
+                    isActive={language == 'it'}
+                ></Button>
+            </div>
         );
 
         setSettingsSidePanel(
-            <div id="settingsSidePanel" className="w-[30%] h-full">
-                <div className="h-[20%] w-full">
+            <div id="settingsSidePanel" className="w-[20%] h-full py-3">
+                <div className="w-full">
                     <Button
                         titleKey="languages"
                         onClick={() =>
                             dispatch(setSettingsContent('languages'))
                         }
                         isActive={settingsContent == 'languages'}
+                        activeType="side"
                     ></Button>
                 </div>
-                <div className="h-[20%] w-full">
+                <div className="w-full">
                     <Button
                         titleKey="info"
                         onClick={() => dispatch(setSettingsContent('info'))}
                         isActive={settingsContent == 'info'}
+                        activeType="side"
                     ></Button>
                 </div>
 
-                <div className="h-[20%] w-full">
+                <div className="w-full">
                     <Button
                         titleKey="help"
                         onClick={() => dispatch(setSettingsContent('help'))}
                         isActive={settingsContent == 'help'}
+                        activeType="side"
                     ></Button>
                 </div>
             </div>
@@ -147,17 +194,17 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
         >
             <div
                 id="settings"
-                className="absolute left-[calc(50%-300px)] top-[calc(50%-200px)] h-[400px] w-[600px] bg-white p-3 overflow-auto pointer-events-auto"
+                className="divide-y-2 absolute left-[calc(50%-300px)] top-[calc(50%-200px)] h-[400px] w-[600px] bg-white pointer-events-auto"
             >
                 <div
                     id="settingsHeader"
-                    className="flex flex-row justify-between w-full h-[10%]"
+                    className=" flex flex-row justify-center w-full h-[10%]"
                 >
-                    <div className="flex align-center justify-center flex-col">
+                    <div className="flex align-center justify-center flex-col font-bold">
                         <div>{title}</div>
                     </div>
                     <button
-                        className="top-2 right-2"
+                        className="absolute top-2 right-2"
                         onClick={() => {
                             dispatch(toggleSettingsOpen());
                         }}
@@ -165,9 +212,12 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
                         <img className={`w-[25px] flex`} src={close}></img>
                     </button>
                 </div>
-                <div className="flex w-full h-[90%] py-3">
+                <div className="divide-x-2 flex w-full h-[90%]">
                     {settingsSidePanel}
-                    <div id="settingsContent" className="h-full w-[70%]">
+                    <div
+                        id="settingsContent"
+                        className="text-justify h-full w-[80%] overflow-auto p-5"
+                    >
                         {settingsWindow}
                     </div>
                 </div>

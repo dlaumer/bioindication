@@ -68,10 +68,28 @@ const translations = {
     },
 
     infoText: {
-        en: "In this Globe offering 'Bioindication in flowing waters,' students explore the ecosystem of a stream or river. They assess the habitat in terms of its landscape ecology as well as its biological water quality and derive connections. The results of the investigations and observations can be captured, analyzed, and visualized in this web application.",
-        de: "In diesem Globe-Angebot 'Bioindikation im Fliessgewässer' erforschen Schüler*­innen das Ökosystem eines Bachs oder eines Flusses. Sie beurteilen den Lebensraum hinsichtlich seiner Landschaftsökologie sowie seiner biologischen Gewässergüte und leiten Zusammenhänge ab. Die Resultate der Untersuchungen und Beobachtungen können in diese Webapplikation erfasst, analysiert und visualisiert werden.",
-        fr: "Dans cette offre Globe 'Bioindication dans les eaux courantes', les élèves explorent l'écosystème d'un ruisseau ou d'une rivière. Ils évaluent l'habitat en termes d'écologie du paysage ainsi que de qualité biologique de l'eau et en déduisent des connexions. Les résultats des investigations et des observations peuvent être capturés, analysés et visualisés dans cette application web.",
-        it: "In questa offerta Globe 'Bioindicazione nelle acque correnti', gli studenti esplorano l'ecosistema di un ruscello o di un fiume. Valutano l'habitat in termini di ecologia del paesaggio e della qualità biologica dell'acqua e ne traggono connessioni. I risultati delle indagini e delle osservazioni possono essere catturati, analizzati e visualizzati in questa applicazione web.",
+        en: "In this Globe offering 'Investigation and Analysis of River Quality,' students explore the ecosystem of a stream or river. They assess the habitat in terms of its landscape ecology as well as its biological water quality and derive connections. The results of the investigations and observations can be captured, analyzed, and visualized in this web application.",
+        de: "In diesem Globe-Angebot 'Untersuchung und Analyse der Fliessgewässerqualität' erforschen Schüler­innen das Ökosystem eines Bachs oder eines Flusses. Sie beurteilen den Lebensraum hinsichtlich seiner Landschaftsökologie sowie seiner biologischen Gewässergüte und leiten Zusammenhänge ab. Die Resultate der Untersuchungen und Beobachtungen können in diese Webapplikation erfasst, analysiert und visualisiert werden.",
+        fr: "Dans cette offre Globe 'Investigation et analyse de la qualité des rivières', les élèves explorent l'écosystème d'un cours d'eau ou d'une rivière. Ils évaluent l'habitat en termes d'écologie du paysage ainsi que de qualité biologique de l'eau et en déduisent des connexions. Les résultats des investigations et des observations peuvent être capturés, analysés et visualisés dans cette application web.",
+        it: "In questa offerta Globe 'Indagine e analisi della qualità dei fiumi', gli studenti esplorano l'ecosistema di un corso d'acqua o di un fiume. Valutano l'habitat in termini di ecologia del paesaggio e della qualità biologica dell'acqua e ne traggono connessioni. I risultati delle indagini e delle osservazioni possono essere catturati, analizzati e visualizzati in questa applicazione web.",
+    },
+    infoTextSmartTrip: {
+        en: 'Smarttrip aims to provide computer services in the areas of Geographic Information Systems (GIS) and mobile applications for the education sector.',
+        de: 'Smarttrip bezweckt die Erbringung von Informatikdienstleistungen in den Bereichen Geografische Informationssysteme (GIS) und mobile Anwendungen für den Bildungsbereich.',
+        fr: "Smarttrip vise à fournir des services informatiques dans les domaines des systèmes d'information géographique (SIG) et des applications mobiles pour le secteur de l'éducation.",
+        it: "Smarttrip mira a fornire servizi informatici nei settori dei Sistemi Informativi Geografici (GIS) e delle applicazioni mobili per il settore dell'istruzione.",
+    },
+    infoTextDaniel: {
+        en: 'Daniel works as an independent digital cartographer, mainly focusing on web applications that are centered around maps, data analysis and visualization.',
+        de: 'Daniel arbeitet als unabhängiger digitaler Kartograf und entwicklet hauptsächlich Webanwendungen, die sich auf Karten, Datenanalyse und Visualisierung konzentrieren.',
+        fr: "Daniel travaille en tant que cartographe numérique indépendant, se concentrant principalement sur des applications web centrées sur les cartes, l'analyse de données et la visualisation.",
+        it: 'Daniel lavora come cartografo digitale indipendente, concentrandosi principalmente su applicazioni web incentrate su mappe, analisi dei dati e visualizzazione.',
+    },
+    ressources: {
+        en: 'resources',
+        de: 'Ressourcen',
+        fr: 'ressources',
+        it: 'risorse',
     },
     analyzeTitle: {
         de: 'Analyse',
@@ -172,9 +190,9 @@ const translations = {
     },
     oxygenToTemp: {
         en: 'Oxygen content in relation to water temperature',
-        de: 'TODO Oxygen content in relation to water temperature',
-        fr: 'TODO Oxygen content in relation to water temperature',
-        it: 'TODO Oxygen content in relation to water temperature',
+        de: 'Sauerstoffgehalt in Abhängigkeit der Wassertemperatur',
+        fr: "Contenu en oxygène en relation avec la température de l'eau",
+        it: "Contenuto di ossigeno in relazione alla temperatura dell'acqua",
     },
 
     amount: {

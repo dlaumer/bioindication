@@ -16,6 +16,7 @@ type ButtonProps = {
     titleKey?: string;
     isDisabled?: boolean;
     isActive?: boolean;
+    activeType?: string;
     hoverTitle?: string;
     hoverStyle?: React.CSSProperties;
     icon?: any;
@@ -26,6 +27,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     titleKey,
     isDisabled,
     isActive = false,
+    activeType = 'background',
     hoverTitle = title,
     icon = null,
     isVisible = true,
@@ -57,11 +59,22 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
 
     return (
         <button
-            className={`hover:bg-backgroundgray h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
+            className={`bg-white hover:bg-backgroundgray h-full transition-opacity font-noigrotesk p-2  w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
                 isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
             }
-           
-            ${isActive ? 'bg-headergreen shadow-sm text-black' : 'bg-white'}
+            ${
+                activeType == 'side'
+                    ? 'border-l-8 !h-fit !w-full text-start'
+                    : 'rounded-xl'
+            }
+
+
+            ${isActive && activeType == 'background' ? '!bg-headergreen' : ''}
+            ${
+                isActive && activeType == 'side'
+                    ? 'border-headergreen'
+                    : 'border-white'
+            }
             ${isVisible ? '' : 'hidden'}
             `}
             onMouseEnter={handleHover}
