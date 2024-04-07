@@ -22,6 +22,7 @@ import {
     selectFilterTimeActive,
     selectFilterSpaceActive,
     selectFilterSpaceDrawing,
+    selectCategory,
 } from '@store/selectors';
 import Dropdown from './Dropdown';
 import Button from './Button';
@@ -46,6 +47,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     const filterTimeActive = useSelector(selectFilterTimeActive);
     const filterSpaceActive = useSelector(selectFilterSpaceActive);
     const filterSpaceDrawing = useSelector(selectFilterSpaceDrawing);
+    const category = useSelector(selectCategory);
 
     // UI part
     return (
@@ -161,29 +163,17 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
             </div>
             <div
                 id="filterChart"
-                className="flex-1 rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray overflow-auto"
+                className="flex-1 rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray"
             >
                 <div className="flex items-center justify-between ">
-                    <div className="h-full flex items-center">
+                    <div className="h-full w-[calc(100%-20px)] flex items-center">
                         <img src={sliders} className="h-[20px] px-[10px]"></img>
                         <div id="filterTopicTitle" className="font-bold">
-                            {getTranslation('filterTopicTitle')}
+                            {getTranslation(category)}
                         </div>
                     </div>
 
-                    <Dropdown
-                        tag="categories"
-                        options={[
-                            'bioQuality',
-                            'waterQuality',
-                            'waterToBio',
-                            'waterToOxygen',
-                            'waterToNitrate',
-                            'bioToOxygen',
-                            'bioToNitrate',
-                            'oxygenToTemp',
-                        ]}
-                    />
+                    <Dropdown tag="categories" />
                 </div>
                 <Chart />
             </div>

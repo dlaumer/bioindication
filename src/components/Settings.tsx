@@ -120,14 +120,13 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
                 className={`${settingsContent == 'help' ? '' : 'hidden'} `}
             >
                 <Button
-                    titleKey="ressources"
+                    titleKey="resources"
                     onClick={() =>
                         window.open(
                             'https://globe-swiss.ch/de/Angebote/Bioindikation_im_Fliessgewaesser/',
                             '_blank'
                         )
                     }
-                    isActive={language == 'it'}
                 ></Button>
             </div>
         );

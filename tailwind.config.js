@@ -15,6 +15,7 @@ module.exports = {
           hovergreenLight: '#14AF00',
           winered: '#580000',
           backgroundblue: '#C9ECFF',
+          lightgrey: '#a8a8a8',
           midgrey: '#e9e9e9',
           darkergrey: '#d5d5d5',
           infoPanel: '#ffd900',
@@ -22,7 +23,8 @@ module.exports = {
           headergreen: '#ccf585',
           projectgreen: '#A2C367',
           activeBlue: '#6c93ff8b',
-          whiteTransparent: '#ffffffaa'
+          whiteTransparent: '#ffffffaa',
+          evendarkergrey: "#757575"
       },
   },
   },

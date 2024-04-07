@@ -67,7 +67,7 @@ export const initialAppState: AppState = {
     userInfos: {},
 
     settingsContent: 'languages',
-    settingsOpen: true,
+    settingsOpen: false,
 };
 
 const slice = createSlice({

@@ -85,8 +85,8 @@ const translations = {
         fr: "Daniel travaille en tant que cartographe numérique indépendant, se concentrant principalement sur des applications web centrées sur les cartes, l'analyse de données et la visualisation.",
         it: 'Daniel lavora come cartografo digitale indipendente, concentrandosi principalmente su applicazioni web incentrate su mappe, analisi dei dati e visualizzazione.',
     },
-    ressources: {
-        en: 'resources',
+    resources: {
+        en: 'Resources',
         de: 'Ressourcen',
         fr: 'ressources',
         it: 'risorse',
@@ -195,6 +195,30 @@ const translations = {
         it: "Contenuto di ossigeno in relazione alla temperatura dell'acqua",
     },
 
+    category1: {
+        en: 'Biological water quality and habitat quality',
+        de: 'Biologische Wasserqualität und Lebensraumqualität',
+        fr: "Qualité biologique de l'eau et qualité de l'habitat",
+        it: "Qualità biologica dell'acqua e qualità dell'habitat",
+    },
+    category2: {
+        en: 'Biological water quality in relation to physico-chemical properties',
+        de: 'Biologische Wasserqualität in Bezug zu physikalisch-chemischen Eigenschaften',
+        fr: "Qualité biologique de l'eau en relation avec les propriétés physico-chimiques",
+        it: "Qualità biologica dell'acqua in relazione alle proprietà fisico-chimiche",
+    },
+    category3: {
+        en: 'Habitat quality in relation to physico-chemical properties',
+        de: 'Lebensraumqualität in Bezug zu physikalisch-chemischen Eigenschaften',
+        fr: "Qualité de l'habitat en relation avec les propriétés physico-chimiques",
+        it: "Qualità dell'habitat in relazione alle proprietà fisico-chimiche",
+    },
+    category4: {
+        en: 'Dependencies within the physico-chemical properties',
+        de: 'Abhängigkeiten innerhalb der physikalisch-chemischen Eigenschaften',
+        fr: 'Dépendances au sein des propriétés physico-chimiques',
+        it: "Dipendenze all'interno delle proprietà fisico-chimiche",
+    },
     amount: {
         en: 'Amount',
         de: 'Menge',
