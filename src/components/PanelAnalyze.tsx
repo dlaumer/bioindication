@@ -163,9 +163,9 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
             </div>
             <div
                 id="filterChart"
-                className="flex-1 rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray"
+                className="flex-1 rounded-xl w-full p-[5px] my-[2.5px] bg-white"
             >
-                <div className="flex items-center justify-between ">
+                <div className="flex items-center justify-between bg-backgroundgray">
                     <div className="h-full w-[calc(100%-20px)] flex items-center">
                         <img src={sliders} className="h-[20px] px-[10px]"></img>
                         <div id="filterTopicTitle" className="font-bold">

@@ -4,6 +4,7 @@ import {
     selectAttribute,
     selectCategory,
     selectFeatures,
+    selectLanguage,
 } from '@store/selectors';
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -23,6 +24,7 @@ import {
     LabelList,
     ScatterChart,
     Scatter,
+    Cell,
 } from 'recharts';
 
 type ChartProps = {
@@ -36,6 +38,7 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
     const features = useSelector(selectFeatures);
     const attribute = useSelector(selectAttribute);
     const category = useSelector(selectCategory);
+    const language = useSelector(selectLanguage);
 
     const [data, setData] = useState<any>(null);
     const [translations, setTranslations] = useState<any>(null);
@@ -54,6 +57,20 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
         'excessively polluted - IV',
     ];
 
+    const colors: any = {
+        'natural (1.0 - 1.4)': '#00c5ff',
+        'obstructed (1.5 - 1.9)': '#55ff00',
+        'strongly obstructed (2.0 - 2.4)': '#ffff00',
+        'artificial (2.5 - 3.0)': '#ff0000',
+        'unpolluted - I': '#73b2ff',
+        'slightly polluted - I-II': '#01fec5',
+        'moderately polluted - II': '#55ff00',
+        'seriously polluted - II-III': '#ffff00',
+        'heavily polluted - III': '#ffaa00',
+        'very heavily polluted - III-IV': '#ff0000',
+        'excessively polluted - IV': '#a83800',
+    };
+
     const categoryToCharType: any = {
         bioQuality: 'bar',
         waterQuality: 'bar',
@@ -67,9 +84,10 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
 
     useEffect(() => {
         parseData(features);
-    }, [features]);
+    }, [features, language]);
 
     const tickFormatter = (value: string, index: number) => {
+        value = getTranslationStatic(translations[value] + '_label');
         const limit = 10; // put your maximum character
         if (value.length < limit) return value;
         return `${value.substring(0, limit)}...`;
@@ -144,16 +162,22 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
                 <Tooltip />
                 <Bar
                     dataKey="value"
-                    fill="#A2C367"
                     onMouseOver={(event) => {
                         dispatch(setHoverFeatures(translations[event.name]));
                     }}
                     onMouseOut={(event) => {
                         dispatch(setHoverFeatures(null));
                     }}
-                    activeBar={<Rectangle fill="#79924e" />}
                 >
                     <LabelList dataKey="value" position="top" />
+                    {data?.map((entry: any, index: any) => (
+                        <Cell
+                            key={`cell-${index}`}
+                            fill={colors[translations[entry.name]]}
+                            stroke={'#99999940'}
+                            strokeWidth={1}
+                        />
+                    ))}
                 </Bar>
             </BarChart>
         );

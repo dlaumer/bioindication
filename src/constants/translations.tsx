@@ -468,6 +468,30 @@ const translations = {
         fr: 'artificiel (2.5 - 3.0)',
         it: 'artificiale (2.5 - 3.0)',
     },
+    'natural (1.0 - 1.4)_label': {
+        en: '1.0 - 1.4',
+        de: '1,0 - 1,4',
+        fr: '1,0 - 1,4',
+        it: '1,0 - 1,4',
+    },
+    'obstructed (1.5 - 1.9)_label': {
+        en: '1.5 - 1.9',
+        de: '1,5 - 1,9',
+        fr: '1,5 - 1,9',
+        it: '1,5 - 1,9',
+    },
+    'strongly obstructed (2.0 - 2.4)_label': {
+        en: '2.0 - 2.4',
+        de: '2,0 - 2,4',
+        fr: '2,0 - 2,4',
+        it: '2,0 - 2,4',
+    },
+    'artificial (2.5 - 3.0)_label': {
+        en: '2.5 - 3.0',
+        de: '2,5 - 3,0',
+        fr: '2,5 - 3,0',
+        it: '2,5 - 3,0',
+    },
     'unpolluted - I': {
         en: 'unpolluted - I',
         de: 'unbelastet - I',
@@ -509,6 +533,49 @@ const translations = {
         de: 'übermässig verschmutzt - IV',
         fr: 'excessivement polluée - IV',
         it: 'eccessivamente inquinato - IV',
+    },
+
+    'unpolluted - I_label': {
+        en: 'I',
+        de: 'I',
+        fr: 'I',
+        it: 'I',
+    },
+    'slightly polluted - I-II_label': {
+        en: 'I-II',
+        de: 'I-II',
+        fr: 'I-II',
+        it: 'I-II',
+    },
+    'moderately polluted - II_label': {
+        en: 'II',
+        de: 'II',
+        fr: 'II',
+        it: 'II',
+    },
+    'seriously polluted - II-III_label': {
+        en: 'II-III',
+        de: 'II-III',
+        fr: 'II-III',
+        it: 'II-III',
+    },
+    'heavily polluted - III_label': {
+        en: 'III',
+        de: 'III',
+        fr: 'III',
+        it: 'III',
+    },
+    'very heavily polluted - III-IV_label': {
+        en: 'III-IV',
+        de: 'III-IV',
+        fr: 'III-IV',
+        it: 'III-IV',
+    },
+    'excessively polluted - IV_label': {
+        en: 'IV',
+        de: 'IV',
+        fr: 'IV',
+        it: 'IV',
     },
 };
 
