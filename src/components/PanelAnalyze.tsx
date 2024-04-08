@@ -32,6 +32,9 @@ import penTool from './../constants/pen-tool.svg';
 import clock from './../constants/clock.svg';
 import crop from './../constants/crop.svg';
 import sliders from './../constants/sliders.svg';
+import eyeOpen from './../constants/view-visible-24.svg';
+import eyeClosed from './../constants/view-hide-24.svg';
+import trash from './../constants/trash.svg';
 
 type PanelAnalyzeProps = {
     title?: string;
@@ -53,7 +56,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     return (
         <div
             id="analyze"
-            className={`flex flex-col flex-none z-30 w-full  h-full bg-white p-[5px]`}
+            className={`flex flex-col flex-none z-30 h-[calc(100%-40px)] rounded-xl w-full bg-white p-[5px]`}
         >
             <div
                 id="filterTime"
@@ -63,16 +66,6 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
             >
                 <div className="flex items-center justify-between ">
                     <div className="flex items-center">
-                        <input
-                            type="checkbox"
-                            id="checkboxTime"
-                            checked={filterTimeActive ? true : false}
-                            className="w-[15px] h-[15px] m-[10px]"
-                            onChange={() => {
-                                dispatch(setFilterTimeActive());
-                            }}
-                        />
-
                         <div className="h-full flex items-center">
                             <img
                                 src={clock}
@@ -84,23 +77,31 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                         </div>
                     </div>
 
-                    <button
-                        id="filterTimeClear"
-                        className={`mx-[10px] underline ${
-                            !filterTimeActive
-                                ? 'cursor-not-allowed opacity-50'
-                                : 'cursor-pointer'
-                        }`}
-                        onClick={(event: any) => {
-                            dispatch(setFilterTimeStart(null));
-                            dispatch(setFilterTimeEnd(null));
-                            event.stopPropagation();
-                        }}
-                    >
-                        {getTranslation('clear')}
-                    </button>
+                    <div className="flex items-center">
+                        <img
+                            src={trash}
+                            className="h-[20px] px-[10px] cursor-pointer"
+                            id="filterSpaceClear"
+                            onClick={(event: any) => {
+                                dispatch(setFilterTimeStart(null));
+                                dispatch(setFilterTimeEnd(null));
+                                event.stopPropagation();
+                            }}
+                        ></img>
+                        <img
+                            src={filterSpaceActive ? eyeOpen : eyeClosed}
+                            className="h-[20px] px-[10px] cursor-pointer"
+                            id="checkboxTime"
+                            onClick={() => {
+                                dispatch(setFilterTimeActive());
+                            }}
+                        ></img>
+                    </div>
                 </div>
-                <div id="filterTimeContainer"></div>
+                <div
+                    id="filterTimeContainer"
+                    className="h-[94px] bg-backgroundgray"
+                ></div>
             </div>
             <div
                 id="filterSpace"
@@ -110,16 +111,6 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
             >
                 <div className="flex items-center justify-between ">
                     <div className="flex items-center">
-                        <input
-                            type="checkbox"
-                            id="checkboxTime"
-                            checked={filterSpaceActive ? true : false}
-                            className="w-[15px] h-[15px] m-[10px]"
-                            onChange={() => {
-                                dispatch(setFilterSpaceActive());
-                            }}
-                        />
-
                         <div className="h-full flex items-center">
                             <img
                                 src={crop}
@@ -144,28 +135,29 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                             isActive={filterSpaceDrawing}
                             isDisabled={!filterSpaceActive}
                         ></Button>
-                        <button
+
+                        <img
+                            src={trash}
+                            className="h-[20px] px-[10px] cursor-pointer"
                             id="filterSpaceClear"
-                            className={`mx-[10px] underline ${
-                                !filterSpaceActive
-                                    ? 'cursor-not-allowed opacity-50'
-                                    : 'cursor-pointer'
-                            }`}
                             onClick={(event: any) => {
                                 dispatch(setFilterSpace(null));
                                 event.stopPropagation();
                             }}
-                        >
-                            {getTranslation('clear')}
-                        </button>
+                        ></img>
+                        <img
+                            src={filterSpaceActive ? eyeOpen : eyeClosed}
+                            className="h-[20px] px-[10px] cursor-pointer"
+                            id="checkboxTime"
+                            onClick={() => {
+                                dispatch(setFilterSpaceActive());
+                            }}
+                        ></img>
                     </div>
                 </div>
             </div>
-            <div
-                id="filterChart"
-                className="flex-1 rounded-xl w-full p-[5px] my-[2.5px] bg-white"
-            >
-                <div className="flex items-center justify-between bg-backgroundgray">
+            <div id="filterChart" className="flex-1 rounded-xl w-full bg-white">
+                <div className="flex items-center justify-between rounded-xl w-full p-[5px] my-[2.5px] bg-backgroundgray">
                     <div className="h-full w-[calc(100%-20px)] flex items-center">
                         <img src={sliders} className="h-[20px] px-[10px]"></img>
                         <div id="filterTopicTitle" className="font-bold">

@@ -88,8 +88,20 @@ const translations = {
     resources: {
         en: 'Resources',
         de: 'Ressourcen',
-        fr: 'ressources',
-        it: 'risorse',
+        fr: 'Ressources',
+        it: 'Risorse',
+    },
+    linkToGlobe: {
+        en: 'Link to Globe page',
+        de: 'Link zur Globe-Seite',
+        fr: 'Lien vers la page Globe',
+        it: 'Link alla pagina Globe',
+    },
+    atAGlance: {
+        en: 'The offer at a glance',
+        de: 'Das Angebot auf einen Blick',
+        fr: "L'offre en un coup d'œil",
+        it: "L'offerta in sintesi",
     },
     analyzeTitle: {
         de: 'Analyse',

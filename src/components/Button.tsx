@@ -72,7 +72,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
             ${isActive && activeType == 'background' ? '!bg-headergreen' : ''}
             ${
                 isActive && activeType == 'side'
-                    ? 'border-headergreen'
+                    ? 'border-projectgreen'
                     : 'border-white'
             }
             ${isVisible ? '' : 'hidden'}

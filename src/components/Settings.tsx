@@ -118,16 +118,34 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
             <div
                 key="help"
                 className={`${settingsContent == 'help' ? '' : 'hidden'} `}
+            ></div>
+        );
+
+        content.push(
+            <div
+                key="resources"
+                className={`${settingsContent == 'resources' ? '' : 'hidden'} `}
             >
-                <Button
-                    titleKey="resources"
-                    onClick={() =>
-                        window.open(
-                            'https://globe-swiss.ch/de/Angebote/Bioindikation_im_Fliessgewaesser/',
-                            '_blank'
-                        )
-                    }
-                ></Button>
+                <div>
+                    <a
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        href="https://globe-swiss.ch/de/Angebote/Bioindikation_im_Fliessgewaesser/"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        {getTranslationStatic('linkToGlobe')}
+                    </a>
+                </div>
+                <div>
+                    <a
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        href="https://globe-swiss.ch/files/Downloads/1622/Download/Bioindikation%20im%20Fliessgewaesser%20auf%20einen%20Blick.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        {getTranslationStatic('atAGlance')}
+                    </a>
+                </div>
             </div>
         );
 
@@ -151,7 +169,16 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
                         activeType="side"
                     ></Button>
                 </div>
-
+                <div className="w-full">
+                    <Button
+                        titleKey="resources"
+                        onClick={() =>
+                            dispatch(setSettingsContent('resources'))
+                        }
+                        isActive={settingsContent == 'resources'}
+                        activeType="side"
+                    ></Button>
+                </div>
                 <div className="w-full">
                     <Button
                         titleKey="help"

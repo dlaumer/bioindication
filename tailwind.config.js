@@ -19,12 +19,12 @@ module.exports = {
           midgrey: '#e9e9e9',
           darkergrey: '#d5d5d5',
           infoPanel: '#ffd900',
-          headerwhite: '#e9e9e999',
-          headergreen: '#ccf585',
-          projectgreen: '#A2C367',
+          headerwhite: '#ffffff55',
+          headergreen: '#0b99ff55',
+          projectgreen: '#0b99ff',
           activeBlue: '#6c93ff8b',
           whiteTransparent: '#ffffffaa',
-          evendarkergrey: "#757575"
+          evendarkergrey: "#5b5b5b"
       },
   },
   },
