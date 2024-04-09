@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import React, { FC, useEffect, useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
 import { setSidePanelContent } from '@store/reducer';
-import close from './../constants/x_white.svg';
+import close from './../constants/chevron-down.svg';
 import { selectIsLoggedIn, selectSidePanelContent } from '@store/selectors';
 
 import edit from './../constants/Edit.svg';
@@ -29,7 +29,7 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
     const sidePanelHeader = (
         <div
             id="sidePanelHeader"
-            className="rounded-t-xl w-full flex flex-row justify-between h-[40px] bg-evendarkergrey text-white px-[5px] "
+            className="pointer-events-auto rounded-t-xl w-full flex flex-row justify-between h-[40px] bg-evendarkergrey text-white px-[5px] "
         >
             <div className="rounded-t-xl flex flex-row h-full bg-evendarkergrey text-white ">
                 <div
@@ -99,8 +99,14 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
 
             <div className="flex flex-row white">
                 <img
-                    className={`w-[25px] flex cursor-pointer`}
-                    onClick={() => dispatch(setSidePanelContent('null'))}
+                    className={`w-[25px] flex cursor-pointer invert`}
+                    onClick={() => {
+                        if (sidePanelContent == 'null') {
+                            dispatch(setSidePanelContent('analyze'));
+                        } else {
+                            dispatch(setSidePanelContent('null'));
+                        }
+                    }}
                     src={close}
                 ></img>
             </div>

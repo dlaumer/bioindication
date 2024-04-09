@@ -56,7 +56,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     return (
         <div
             id="analyze"
-            className={`flex flex-col flex-none z-30 h-[calc(100%-40px)] rounded-xl w-full bg-white p-[5px]`}
+            className={`flex flex-col flex-none z-30 h-full rounded-xl w-full bg-white p-[5px]`}
         >
             <div
                 id="filterTime"

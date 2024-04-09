@@ -45,11 +45,10 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         content.push(
             <div
                 key="analyze"
-                className={`${
+                className={`pointer-events-auto ${
                     sidePanelContent == 'analyze' ? '' : 'hidden'
                 } h-full`}
             >
-                <SidePanelHeader></SidePanelHeader>
                 <PanelAnalyze
                     active={sidePanelContent == 'analyze'}
                     title="analyzeTitle"
@@ -59,9 +58,10 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         content.push(
             <div
                 key="process"
-                className={`${sidePanelContent == 'process' ? '' : 'hidden'} `}
+                className={`pointer-events-auto ${
+                    sidePanelContent == 'process' ? '' : 'hidden'
+                } `}
             >
-                <SidePanelHeader></SidePanelHeader>
                 <PanelProcess
                     active={sidePanelContent == 'process'}
                     title="processTitle"
@@ -71,22 +71,20 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
         content.push(
             <div
                 key="print"
-                className={`${
+                className={`pointer-events-auto ${
                     sidePanelContent == 'print' ? '' : 'hidden'
                 }  h-full`}
             >
-                <SidePanelHeader></SidePanelHeader>
                 <PanelPrint title="printTitle"></PanelPrint>
             </div>
         );
         content.push(
             <div
                 key="edit"
-                className={`${
+                className={`pointer-events-auto ${
                     sidePanelContent == 'edit' ? '' : 'hidden'
                 }  h-full`}
             >
-                <SidePanelHeader></SidePanelHeader>
                 <PanelEditor
                     active={sidePanelContent == 'edit'}
                     title="editTitle"
@@ -98,10 +96,10 @@ const SidePanel: FC<React.ComponentProps<'div'>> = () => {
             <div
                 key="sidePanel"
                 id="sidePanel"
-                className={`${
-                    sidePanelContent == 'null' ? 'hidden' : ''
-                } absolute rounded-xl flex flex-col flex-none justify-between z-30 w-[30%] rounded-xl h-[calc(100%_-_90px)] bg-backgroundgray top-[70px] left-[10px]`}
+                className={`absolute rounded-xl flex flex-col flex-none justify-start z-30 w-[30%] rounded-xl h-[calc(100%_-_90px)] pointer-events-none top-[70px] left-[10px]`}
             >
+                <SidePanelHeader></SidePanelHeader>
+
                 {content}
             </div>
         );

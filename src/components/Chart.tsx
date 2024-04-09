@@ -58,17 +58,17 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
     ];
 
     const colors: any = {
-        'natural (1.0 - 1.4)': '#00c5ff',
-        'obstructed (1.5 - 1.9)': '#55ff00',
-        'strongly obstructed (2.0 - 2.4)': '#ffff00',
-        'artificial (2.5 - 3.0)': '#ff0000',
-        'unpolluted - I': '#73b2ff',
-        'slightly polluted - I-II': '#01fec5',
-        'moderately polluted - II': '#55ff00',
-        'seriously polluted - II-III': '#ffff00',
+        'natural (1.0 - 1.4)': '#0088cc',
+        'obstructed (1.5 - 1.9)': '#66cc00',
+        'strongly obstructed (2.0 - 2.4)': '#cccc00',
+        'artificial (2.5 - 3.0)': '#cc0000',
+        'unpolluted - I': '#80bfff',
+        'slightly polluted - I-II': '#00ffcc',
+        'moderately polluted - II': '#66cc00',
+        'seriously polluted - II-III': '#cccc00',
         'heavily polluted - III': '#ffaa00',
-        'very heavily polluted - III-IV': '#ff0000',
-        'excessively polluted - IV': '#a83800',
+        'very heavily polluted - III-IV': '#cc0000',
+        'excessively polluted - IV': '#b84c00',
     };
 
     const categoryToCharType: any = {
