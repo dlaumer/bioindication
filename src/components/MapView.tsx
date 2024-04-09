@@ -788,7 +788,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 const timeExtent = timeSlider.timeExtent;
                 timeSlider.timeExtent = new TimeExtent({
                     start: new Date(2000, 0, 1),
-                    end: actualDate,
+                    end: new Date(actualDate.valueOf() - 100000),
                 });
 
                 setTimeout(function () {
@@ -815,6 +815,17 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         filterTimeStart,
         filterTimeEnd,
     ]);
+
+    useEffect(() => {
+        if (mapView != null) {
+            if (filterTimeStart == null || filterTimeEnd == null) {
+                timeSlider.timeExtent = new TimeExtent({
+                    start: new Date(2000, 0, 1),
+                    end: new Date(actualDate.valueOf() - 100000),
+                });
+            }
+        }
+    }, [filterTimeStart, filterTimeEnd]);
 
     useEffect(() => {
         if (mapView != null && dataLayer != null && dataLayerView != null) {

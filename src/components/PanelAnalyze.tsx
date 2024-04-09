@@ -81,7 +81,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                         <img
                             src={trash}
                             className="h-[20px] px-[10px] cursor-pointer"
-                            id="filterSpaceClear"
+                            id="filterTimeClear"
                             onClick={(event: any) => {
                                 dispatch(setFilterTimeStart(null));
                                 dispatch(setFilterTimeEnd(null));
@@ -89,7 +89,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                             }}
                         ></img>
                         <img
-                            src={filterSpaceActive ? eyeOpen : eyeClosed}
+                            src={filterTimeActive ? eyeOpen : eyeClosed}
                             className="h-[20px] px-[10px] cursor-pointer"
                             id="checkboxTime"
                             onClick={() => {
