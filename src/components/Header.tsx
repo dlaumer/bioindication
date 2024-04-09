@@ -68,12 +68,12 @@ const Header = () => {
                     className="h-[50px] w-[50px]"
                     src="https://lottie.host/embed/1cbfaa25-8306-43b9-91ab-aec97b47e4ae/DiSaFHfqFN.json"
                 ></iframe>
-                <div>
-                    <div className="leading-snug text-xs font-bold">
-                        {getTranslation('subTitle')}
+                <div className="flex items-center">
+                    <div className="leading-snug text-3xl font-bold mr-4">
+                        {getTranslation('title')}
                     </div>
                     <div className="leading-snug text-base font-bold">
-                        {getTranslation('title')}
+                        {getTranslation('subTitle')}
                     </div>
                 </div>
             </div>
