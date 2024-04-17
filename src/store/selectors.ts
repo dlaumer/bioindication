@@ -98,3 +98,13 @@ export const selectSettingsOpen = createSelector(
     (state: RootState) => state.App.settingsOpen,
     (settingsOpen) => settingsOpen
 );
+
+export const selectCookiesSet = createSelector(
+    (state: RootState) => state.App.cookiesSet,
+    (cookiesSet) => cookiesSet
+);
+
+export const selectCookiesAllowed = createSelector(
+    (state: RootState) => state.App.cookiesAllowed,
+    (cookiesAllowed) => cookiesAllowed
+);

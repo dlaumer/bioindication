@@ -18,10 +18,10 @@ const translations = {
         it: "Corsie d'acqua",
     },
     subTitle: {
-        en: ' Examination and Analysis of Quality',
-        de: 'Untersuchung und Analyse der Qualität',
-        fr: 'Examen et analyse de la qualité',
-        it: 'Examen et analyse de la qualité',
+        en: 'Watercourses: Examination and Analysis of Quality',
+        de: 'Fliessgewässer: Untersuchung und Analyse der Qualität',
+        fr: "Cours d'eau : Examen et analyse de la qualité",
+        it: "Corsie d'acqua: Esame e analisi della qualità",
     },
     en: {
         de: 'Englisch',
@@ -46,6 +46,24 @@ const translations = {
         en: 'Italian',
         fr: 'Italien',
         it: 'Italiano',
+    },
+    yes: {
+        de: 'Ja',
+        en: 'Yes',
+        fr: 'Oui',
+        it: 'Si',
+    },
+    no: {
+        de: 'Nein',
+        en: 'No',
+        fr: 'Non',
+        it: 'No',
+    },
+    cookieInfo: {
+        en: "This website uses cookies to save the language you chose to use this website in. By clicking 'Yes' you consent to the use of cookies. You can also choose to reject the use of cookies if you wish.",
+        de: "Diese Website verwendet Cookies, um die Sprache zu speichern, die Sie für die Nutzung dieser Website gewählt haben. Durch Klicken auf 'Ja' stimmen Sie der Verwendung von Cookies zu. Sie können auch wählen, die Verwendung von Cookies abzulehnen, wenn Sie möchten.",
+        fr: "Ce site web utilise des cookies pour enregistrer la langue que vous avez choisie pour utiliser ce site web. En cliquant sur 'Oui', vous consentez à l'utilisation de cookies. Vous pouvez également choisir de refuser l'utilisation de cookies si vous le souhaitez.",
+        it: "Questo sito web utilizza i cookie per salvare la lingua che hai scelto di utilizzare per questo sito web. Cliccando su 'Sì', acconsenti all'uso dei cookie. Puoi anche scegliere di rifiutare l'uso dei cookie se lo desideri.",
     },
     login: {
         de: 'Login',

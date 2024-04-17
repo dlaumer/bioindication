@@ -40,10 +40,13 @@ export type AppState = {
 
     settingsContent?: string;
     settingsOpen?: boolean;
+
+    cookiesSet?: boolean;
+    cookiesAllowed?: boolean;
 };
 
 export const initialAppState: AppState = {
-    language: 'en',
+    language: '',
     webmapId: '67372ff42cd145319639a99152b15bc3',
     sidePanelContent: 'analyze',
     filterTimeActive: true,
@@ -68,6 +71,9 @@ export const initialAppState: AppState = {
 
     settingsContent: 'languages',
     settingsOpen: false,
+
+    cookiesSet: false,
+    cookiesAllowed: false,
 };
 
 const slice = createSlice({
@@ -138,6 +144,12 @@ const slice = createSlice({
         toggleSettingsOpen: (state) => {
             state.settingsOpen = !state.settingsOpen;
         },
+        setCookiesSet: (state, action: PayloadAction<boolean>) => {
+            state.cookiesSet = action.payload;
+        },
+        setCookiesAllowed: (state, action: PayloadAction<boolean>) => {
+            state.cookiesAllowed = action.payload;
+        },
     },
 });
 
@@ -165,6 +177,8 @@ export const {
     setUserInfos,
     setSettingsContent,
     toggleSettingsOpen,
+    setCookiesSet,
+    setCookiesAllowed,
 } = slice.actions;
 
 export default reducer;

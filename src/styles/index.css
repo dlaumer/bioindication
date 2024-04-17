@@ -102,10 +102,10 @@ input[type='checkbox'] {
     }
 
     #settings {
-        width: 350px !important;
-        height: 600px !important;
-        top: calc(50% - 300px) !important;
-        left: calc(50% - 175px) !important;
+        width: 100%;
+        height: calc(100% - 120px);
+        top: 60px;
+        left: 0;
     }
 
     #mobileInfo {
@@ -114,5 +114,17 @@ input[type='checkbox'] {
 
     #tooltip {
         display: none;
+    }
+    #titleContainer {
+        flex-direction: column;
+    }
+    #subTitle {
+        display: none;
+    }
+    #header1 {
+        width: 70%;
+    }
+    #header2 {
+        width: 30%;
     }
 }

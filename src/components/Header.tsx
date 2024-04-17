@@ -63,22 +63,34 @@ const Header = () => {
             id="header"
             className="absolute flex flex-row flex-none z-30 w-full h-[60px] py-1 bg-headerwhite backdrop-blur-sm px-[15px]"
         >
-            <div className="h-full w-[30%] flex flex-row items-center gap-2 mr-4 font-noigrotesk">
+            <div
+                id="header1"
+                className="h-full w-[50%] flex flex-row items-center gap-2 mr-4 font-noigrotesk"
+            >
                 <iframe
                     className="h-[50px] w-[50px]"
                     src="https://lottie.host/embed/1cbfaa25-8306-43b9-91ab-aec97b47e4ae/DiSaFHfqFN.json"
                 ></iframe>
-                <div className="flex items-center">
-                    <div className="leading-snug text-3xl font-bold mr-4">
+                <div id="titleContainer" className="flex items-center">
+                    <div
+                        id="mainTitle"
+                        className="leading-snug text-3xl font-bold mr-4"
+                    >
                         {getTranslation('title')}
                     </div>
-                    <div className="leading-snug text-base font-bold">
+                    <div
+                        id="subTitle"
+                        className="leading-snug text-base font-bold"
+                    >
                         {getTranslation('subTitle')}
                     </div>
                 </div>
             </div>
 
-            <div className="flex flex-row w-[70%] h-full justify-end items-center gap-2 mr-4 font-noigrotesk">
+            <div
+                id="header2"
+                className="flex flex-row w-[50%] h-full justify-end items-center gap-2 mr-4 font-noigrotesk"
+            >
                 <div className="flex flex-row h-[80%] items-center gap-2 font-noigrotesk">
                     <Button
                         titleKey=""

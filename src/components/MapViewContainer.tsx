@@ -5,6 +5,7 @@ import Header from './Header';
 import SidePanel from './SidePanel';
 import Settings from './Settings';
 import MobileInfo from './MobileInfo';
+import CookieInfo from './CookieInfo';
 
 const MapViewContainer = () => {
     return (
@@ -14,6 +15,7 @@ const MapViewContainer = () => {
             <SidePanel title="chartTitle"></SidePanel>
             <Settings></Settings>
             <MobileInfo></MobileInfo>
+            <CookieInfo></CookieInfo>
             <div id="timeSlider"></div>
         </div>
     );

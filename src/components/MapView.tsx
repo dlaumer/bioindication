@@ -45,6 +45,7 @@ import BasemapStyle from '@arcgis/core/support/BasemapStyle';
 import {
     selectAttribute,
     selectCategory,
+    selectCookiesAllowed,
     selectFilterSpace,
     selectFilterSpaceActive,
     selectFilterSpaceDrawing,
@@ -107,6 +108,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const hoverFeatures = useSelector(selectHoverFeatures);
     const attribute = useSelector(selectAttribute);
     const language = useSelector(selectLanguage);
+    const cookiesAllowed = useSelector(selectCookiesAllowed);
 
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
@@ -845,6 +847,12 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
     useEffect(() => {
         if (mapView != null && dataLayer != null && dataLayerView != null) {
+            if (cookiesAllowed) {
+                document.cookie =
+                    'lang=' +
+                    language +
+                    '; expires=Fri, 31 Dec 9999 23:59:59 GMT';
+            }
             (mapView.map.basemap as any) = new Basemap({
                 style: new BasemapStyle({
                     id: 'arcgis/topographic',
