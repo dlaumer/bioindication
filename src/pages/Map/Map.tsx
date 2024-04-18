@@ -83,6 +83,7 @@ export const Map = () => {
             queryParams.set('lang', langSystem);
             // Replace current querystring with the new one.
             history.replaceState(null, null, '?' + queryParams.toString());
+            dispatch(setLanguage(langSystem));
             if (cookiesAllowed) {
                 setCookie('lang', langSystem);
             }
