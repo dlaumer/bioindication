@@ -46,7 +46,7 @@ export type AppState = {
 };
 
 export const initialAppState: AppState = {
-    language: '',
+    language: null,
     webmapId: '67372ff42cd145319639a99152b15bc3',
     sidePanelContent: 'analyze',
     filterTimeActive: true,
