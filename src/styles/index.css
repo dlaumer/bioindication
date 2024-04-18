@@ -5,9 +5,6 @@
 @import "https://js.arcgis.com/4.28/@arcgis/core/assets/esri/themes/light/main.css";
 @import "@esri/calcite-components/dist/calcite/calcite.css";
 
-body {
-    zoom: 75%
-}
 
 .esri-ui-inner-container.esri-ui-corner-container {
     inset: 0px 15px 30px 0px !important

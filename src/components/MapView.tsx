@@ -62,6 +62,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import {
     setAttribute,
+    setCookiesSet,
     setFeatures,
     setFilterSpace,
     setFilterSpaceDrawing,
@@ -852,6 +853,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     'lang=' +
                     language +
                     '; expires=Fri, 31 Dec 9999 23:59:59 GMT';
+                dispatch(setCookiesSet(true));
             }
             (mapView.map.basemap as any) = new Basemap({
                 style: new BasemapStyle({
