@@ -41,6 +41,7 @@ import FeatureTemplate from '@arcgis/core/layers/support/FeatureTemplate';
 import Graphic from '@arcgis/core/Graphic';
 import Basemap from '@arcgis/core/Basemap';
 import BasemapStyle from '@arcgis/core/support/BasemapStyle';
+import LocalBasemapsSource from '@arcgis/core/widgets/BasemapGallery/support/LocalBasemapsSource';
 
 import {
     selectAttribute,
@@ -145,7 +146,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     let isInitalizing = false;
 
     esriConfig.portalUrl = 'https://globe-swiss.maps.arcgis.com/';
-    //esriConfig.apiKey = 'AAPKde4b596d996b4e698a1ca95b198e65651iQdxxwyc71nKOrzghuR6H3vBI6lHSHCW6sV5tB7b_ONx3fEztXJs8u9zChxGCsh';
 
     const info = new OAuthInfo({
         appId: 'yfPKXnYPgQwSEDyK',
@@ -153,17 +153,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     });
 
     const initMapView = () => {
-        esriId.registerOAuthInfos([info]);
-
-        esriId
-            .checkSignInStatus(info.portalUrl + '/sharing')
-            .then(() => {
-                handleSignedIn();
-            })
-            .catch(() => {
-                handleSignedOut();
-            });
-
         /////// BASIC MAP ELEMENTS /////////////////////////////////////////////////////////
         // Map instance, holds the layers and the basemap definition
         const map = new Map({
@@ -173,7 +162,13 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                  }
              }),
              */
-            basemap: 'topo-vector',
+            basemap: new Basemap({
+                style: new BasemapStyle({
+                    id: 'arcgis/topographic',
+                    language: language,
+                }),
+            }),
+            //basemap: 'topo-vector',
             ground: 'world-elevation',
         });
 
@@ -591,7 +586,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const basemapGal = new BasemapGallery({
             view: view,
-            //source: getCustomBasemaps(),
+            source: getCustomBasemaps(),
         });
 
         const basemapGallery = new Expand({
@@ -644,7 +639,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         });
 
         setElevationProfileWidget(elevProfile);
-        setWidgetStrings(meas, measArea, elevProfile);
+        setWidgetStrings(meas, measArea, elevProfile, basemapGal);
 
         view.ui.add(elevatonProfile, 'top-right');
 
@@ -855,7 +850,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     language: language,
                 }),
             });
-            //(basemapGalleryWidget.source as any) = getCustomBasemaps();
+            (basemapGalleryWidget.source as any) = getCustomBasemaps();
             dataLayer.title = getTranslationStatic('landscapeEcology');
             dataLayerView.title = getTranslationStatic('landscapeEcology');
             waterLayer.title = getTranslationStatic('bioWaterQuality');
@@ -864,7 +859,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             setWidgetStrings(
                 measureWidget,
                 measureAreaWidget,
-                elevationProfileWidget
+                elevationProfileWidget,
+                basemapGalleryWidget
             );
             for (const i in (dataLayer.renderer as any).uniqueValueInfos) {
                 (dataLayer.renderer as any).uniqueValueInfos[i].label =
@@ -1059,10 +1055,117 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     }
     */
 
+    const getCustomBasemaps = () => {
+        return new LocalBasemapsSource({
+            basemaps: [
+                new Basemap({
+                    title: 'Custom Title 1', // Custom title for the basemap
+                    style: new BasemapStyle({
+                        id: 'arcgis/imagery/standard',
+                        language: language,
+                    }),
+                    thumbnailUrl: '',
+                }),
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/imagery',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/ea3befe305494bb5b2acd77e1b3135dc/info/thumbnail/thumbnail1607389425104.jpeg?f=json',
+                }),
+
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/topographic',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/dd247558455c4ffab54566901a14f42c/info/thumbnail/thumbnail1607389112065.jpeg?f=json',
+                }),
+
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/streets',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/e3e6df1d2f6a485d8a70f28fdd3ce19e/info/thumbnail/thumbnail1607389307240.jpeg?f=json',
+                }),
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/streets-relief',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/03daad361e1849bc80cb7b70ed391379/info/thumbnail/thumbnail1607564881281.jpeg?f=json',
+                }),
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/navigation',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/78c096abedb9498380f5db1922f96aa0/info/thumbnail/thumbnail1607388861033.jpeg?f=json',
+                }),
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/navigation-night',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/77073a29526046b89bb5622b6276e933/info/thumbnail/thumbnail1607386977674.jpeg?f=json',
+                }),
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/light-gray',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/0f74af7609054be8a29e0ba5f154f0a8/info/thumbnail/thumbnail1607388219207.jpeg?f=json',
+                }),
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/dark-gray',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/7742cd5abef8497288dc81426266df9b/info/thumbnail/thumbnail1607387673856.jpeg?f=json',
+                }),
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/terrain',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/2ef1306b93c9459ca7c7b4f872c070b9/info/thumbnail/thumbnail1607387869592.jpeg?f=json',
+                }),
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/oceans',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/b1dca7ef7b61466785901c41aed89ba5/info/thumbnail/thumbnail1607387462611.jpeg?f=json',
+                }),
+                new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/outdoor',
+                        language: language,
+                    }),
+                    thumbnailUrl:
+                        'https://globe-swiss.maps.arcgis.com/sharing/rest/content/items/c6ec0420be5a4e36b57d1ef0f243b175/info/thumbnail/thumbnail1607563773856.jpeg?f=json',
+                }),
+                // Add more custom basemaps as needed
+            ],
+        });
+    };
+
     const setWidgetStrings = (
         meas: DistanceMeasurement2D,
         measArea: AreaMeasurement2D,
-        elevProfile: ElevationProfile
+        elevProfile: ElevationProfile,
+        basemapGal: BasemapGallery
     ) => {
         (meas as any).loadLocale = () => {
             (meas as any).messages = {
@@ -1079,7 +1182,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         };
 
         (elevProfile as any).loadLocale = () => {
-            console.log((elevProfile as any).messages.profiles);
             (elevProfile as any).messages.profiles = {
                 ...(elevProfile as any).messages.profiles,
                 ground: getTranslationStatic('statistics'),
@@ -1422,7 +1524,19 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     useEffect(() => {
         // For some reason it always excecuted this twice, so that's a hacky solution to fix this
         if (!isInitalizing) {
-            initMapView();
+            esriId.registerOAuthInfos([info]);
+            esriId
+                .checkSignInStatus(info.portalUrl + '/sharing')
+                .then(() => {
+                    handleSignedIn();
+                    initMapView();
+                })
+                .catch(() => {
+                    handleSignedOut();
+                    esriConfig.apiKey =
+                        'AAPKde4b596d996b4e698a1ca95b198e65651iQdxxwyc71nKOrzghuR6H3vBI6lHSHCW6sV5tB7b_ONx3fEztXJs8u9zChxGCsh';
+                    initMapView();
+                });
             isInitalizing = true;
         }
     }, []);
