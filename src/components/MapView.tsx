@@ -1004,7 +1004,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         if (mapView != null) {
             if (sidePanelContent == 'null') {
                 mapView.padding = {
-                    top: 70,
+                    top: 120,
                     left: 20,
                 };
             } else {
