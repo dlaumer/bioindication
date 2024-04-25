@@ -470,8 +470,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         esriId
             .checkSignInStatus(info.portalUrl + '/sharing')
             .then(() => {
-                console.log('Signed in');
-
                 handleSignedIn().then(() => {
                     view.map.add(dataLay, 1);
                     setCurrentLayer(dataLay);
@@ -485,7 +483,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                 });
             })
             .catch(() => {
-                console.log('Not signed in');
                 view.map.add(dataLayView, 1);
                 setCurrentLayer(dataLayView);
                 esriConfig.apiKey =
@@ -1372,7 +1369,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             if (filterTimeActive && view.timeExtent != null) {
                 query.timeExtent = view.timeExtent;
             }
-            console.log(filterTime);
             if (filterSpaceActive && filterSpace != null) {
                 query.geometry = filterSpace;
             }
@@ -1472,7 +1468,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     dispatch(setAttribute('point'));
                     break;
             }
-            console.log('before query');
 
             // Perform the query on the feature layer
             currentLayer

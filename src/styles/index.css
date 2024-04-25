@@ -115,13 +115,22 @@ input[type='checkbox'] {
     #titleContainer {
         flex-direction: column;
     }
+    #mainTitle {
+        font-size: 1.2rem;
+    }
     #subTitle {
         display: none;
     }
+    #settingsButton {
+        padding: 7px !important;
+    }
+    #settingsSidePanel {
+        width: 35% !important;
+    }
     #header1 {
-        width: 70%;
+        width: 60%;
     }
     #header2 {
-        width: 30%;
+        width: 40%;
     }
 }

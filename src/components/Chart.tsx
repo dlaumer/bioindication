@@ -101,8 +101,8 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
             if (['oxygenToTemp'].includes(category)) {
                 const tempValues = Object.values(features[i].attributes);
                 dataTemp.push({
-                    x: tempValues[0],
-                    y: tempValues[1],
+                    x: parseFloat(tempValues[0] as any),
+                    y: parseFloat(tempValues[1] as any),
                 });
             } else if (
                 features[i].attributes[attribute] != null &&
@@ -236,7 +236,11 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
     }
 
     return (
-        <ResponsiveContainer width="100%" height="80%">
+        <ResponsiveContainer
+            style={{ padding: '35px 0 0 0' }}
+            width="100%"
+            height="80%"
+        >
             {chart}
         </ResponsiveContainer>
     );

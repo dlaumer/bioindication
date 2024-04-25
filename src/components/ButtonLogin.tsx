@@ -117,7 +117,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
                 </div>
                 <div className="h-1/2 w-full flex items-center">
                     <button
-                        className={`!bg-projectgreen text-white cursor-default h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap
+                        className={`m-[10px] !bg-projectgreen text-white cursor-default h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap
         ${
             username != ''
                 ? '!w-[56px] !h-[56px] !border-[8px] !border-whiteTransparent !border-solid !rounded-full !font-bold '
@@ -133,7 +133,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
                     </button>
                     <div>
                         <div>{userInfo.fullName}</div>
-                        <div>{userInfo.email}</div>
+                        <div>{userInfo.username}</div>
                     </div>
                 </div>
 

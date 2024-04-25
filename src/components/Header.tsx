@@ -61,11 +61,11 @@ const Header = () => {
     return (
         <div
             id="header"
-            className="absolute flex flex-row flex-none z-30 w-full h-[60px] py-1 bg-headerwhite backdrop-blur-sm px-[15px]"
+            className="justify-between absolute flex flex-row flex-none z-30 w-full h-[60px] py-1 bg-headerwhite backdrop-blur-sm px-[15px]"
         >
             <div
                 id="header1"
-                className="h-full w-[50%] flex flex-row items-center gap-2 mr-4 font-noigrotesk"
+                className="h-full flex flex-row items-center gap-2 mr-4 font-noigrotesk"
             >
                 <iframe
                     className="h-[50px] w-[50px]"
@@ -74,13 +74,13 @@ const Header = () => {
                 <div id="titleContainer" className="flex items-center">
                     <div
                         id="mainTitle"
-                        className="leading-snug text-3xl font-bold mr-4"
+                        className="leading-snug text-3xl font-bold"
                     >
                         {getTranslation('title')}
                     </div>
                     <div
                         id="subTitle"
-                        className="leading-snug text-base font-bold"
+                        className="leading-snug text-base font-bold ml-4"
                     >
                         {getTranslation('subTitle')}
                     </div>
@@ -89,10 +89,11 @@ const Header = () => {
 
             <div
                 id="header2"
-                className="flex flex-row w-[50%] h-full justify-end items-center gap-2 mr-4 font-noigrotesk"
+                className="flex flex-row h-full justify-end items-center gap-2 font-noigrotesk"
             >
                 <div className="flex flex-row h-[80%] items-center gap-2 font-noigrotesk">
                     <Button
+                        id="settingsButton"
                         titleKey=""
                         onClick={() => dispatch(toggleSettingsOpen())}
                         isActive={settingsOpen}

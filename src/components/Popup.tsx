@@ -19,7 +19,6 @@ const Popup: FC<PopupProps & React.ComponentProps<'div'>> = ({
 }) => {
     const title = getTranslation('bioQuality');
     if (Object.keys(data).length != 0) {
-        console.log(data);
         // UI part
         return (
             <div
