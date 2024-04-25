@@ -162,12 +162,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                  }
              }),
              */
-            basemap: new Basemap({
-                style: new BasemapStyle({
-                    id: 'arcgis/topographic',
-                    language: language,
-                }),
-            }),
+
             //basemap: 'topo-vector',
             ground: 'world-elevation',
         });
@@ -471,13 +466,38 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             popupEnabled: false,
         });
 
-        if (isLoggedIn) {
-            view.map.add(dataLay, 1);
-            setCurrentLayer(dataLay);
-        } else {
-            view.map.add(dataLayView, 1);
-            setCurrentLayer(dataLayView);
-        }
+        esriId.registerOAuthInfos([info]);
+        esriId
+            .checkSignInStatus(info.portalUrl + '/sharing')
+            .then(() => {
+                console.log('Signed in');
+
+                handleSignedIn().then(() => {
+                    view.map.add(dataLay, 1);
+                    setCurrentLayer(dataLay);
+                    map.basemap = new Basemap({
+                        style: new BasemapStyle({
+                            id: 'arcgis/topographic',
+                            language: language,
+                        }),
+                    });
+                    basemapGal.source = getCustomBasemaps();
+                });
+            })
+            .catch(() => {
+                console.log('Not signed in');
+                view.map.add(dataLayView, 1);
+                setCurrentLayer(dataLayView);
+                esriConfig.apiKey =
+                    'AAPKde4b596d996b4e698a1ca95b198e65651iQdxxwyc71nKOrzghuR6H3vBI6lHSHCW6sV5tB7b_ONx3fEztXJs8u9zChxGCsh';
+                map.basemap = new Basemap({
+                    style: new BasemapStyle({
+                        id: 'arcgis/topographic',
+                        language: language,
+                    }),
+                });
+                basemapGal.source = getCustomBasemaps();
+            });
 
         view.map.add(dataLayViewWater, 10);
 
@@ -586,7 +606,6 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         const basemapGal = new BasemapGallery({
             view: view,
-            source: getCustomBasemaps(),
         });
 
         const basemapGallery = new Expand({
@@ -1483,28 +1502,30 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     };
 
     const handleSignedIn = () => {
-        const portal = new Portal();
-        portal
-            .load()
-            .then(() => {
-                dispatch(setIsLoggedIn(true));
-                dispatch(
-                    setUserInfos({
-                        username: portal.user.username,
-                        fullName: portal.user.fullName,
-                        email: portal.user.email,
-                    })
-                );
-            })
-            .catch(() => {
-                esriId.destroyCredentials();
-                dispatch(setIsLoggedIn(false));
-                window.location.reload();
-                //alert(strings.get("notAllowed"))
-            });
+        return new Promise((resolve, reject) => {
+            const portal = new Portal();
+            portal
+                .load()
+                .then(() => {
+                    dispatch(setIsLoggedIn(true));
+                    dispatch(
+                        setUserInfos({
+                            username: portal.user.username,
+                            fullName: portal.user.fullName,
+                            email: portal.user.email,
+                        })
+                    );
+                    resolve('Resolved');
+                })
+                .catch(() => {
+                    esriId.destroyCredentials();
+                    dispatch(setIsLoggedIn(false));
+                    window.location.reload();
+                    reject('Reject');
+                    //alert(strings.get("notAllowed"))
+                });
+        });
     };
-
-    const handleSignedOut = () => {};
 
     const detectMobile = () => {
         return window.innerWidth <= 600;
@@ -1524,19 +1545,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     useEffect(() => {
         // For some reason it always excecuted this twice, so that's a hacky solution to fix this
         if (!isInitalizing) {
-            esriId.registerOAuthInfos([info]);
-            esriId
-                .checkSignInStatus(info.portalUrl + '/sharing')
-                .then(() => {
-                    handleSignedIn();
-                    initMapView();
-                })
-                .catch(() => {
-                    handleSignedOut();
-                    esriConfig.apiKey =
-                        'AAPKde4b596d996b4e698a1ca95b198e65651iQdxxwyc71nKOrzghuR6H3vBI6lHSHCW6sV5tB7b_ONx3fEztXJs8u9zChxGCsh';
-                    initMapView();
-                });
+            initMapView();
             isInitalizing = true;
         }
     }, []);
