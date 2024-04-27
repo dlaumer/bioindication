@@ -15,7 +15,7 @@ const translations = {
         en: 'Watercourses',
         de: 'Fliessgewässer',
         fr: "Cours d'eau",
-        it: "Corsie d'acqua",
+        it: "Corsi d'acqua",
     },
     subTitle: {
         en: 'Watercourses: Examination and Analysis of Quality',
@@ -407,6 +407,12 @@ const translations = {
         fr: "Qualité de l'habitat",
         it: "Qualità dell'habitat",
     },
+    LandscapeEcology: {
+        en: 'Habitat Quality',
+        de: 'Lebensraumqualität',
+        fr: "Qualité de l'habitat",
+        it: "Qualità dell'habitat",
+    },
 
     landscape_eco_number: {
         en: 'Habitat Quality as a Number',
@@ -421,6 +427,12 @@ const translations = {
         it: 'Proprietà fisico-chimiche',
     },
     bioWaterQuality: {
+        en: 'Biological Water Quality',
+        de: 'Biologische Wasserqualität',
+        fr: "Qualité biologique de l'eau",
+        it: "Qualità biologica dell'acqua",
+    },
+    BioWaterQuality: {
         en: 'Biological Water Quality',
         de: 'Biologische Wasserqualität',
         fr: "Qualité biologique de l'eau",

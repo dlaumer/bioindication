@@ -82,6 +82,17 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
         oxygenToTemp: 'point',
     };
 
+    const categoryToLabel: any = {
+        bioQuality: 'value',
+        waterQuality: 'value',
+        waterToBio: 'landscapeEcology',
+        waterToOxygen: 'oxygen',
+        waterToNitrate: 'nitrate',
+        bioToOxygen: 'oxygen',
+        bioToNitrate: 'nitrate',
+        oxygenToTemp: 'oxygen',
+    };
+
     useEffect(() => {
         parseData(features);
     }, [features, language]);
@@ -101,8 +112,8 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
             if (['oxygenToTemp'].includes(category)) {
                 const tempValues = Object.values(features[i].attributes);
                 dataTemp.push({
-                    x: parseFloat(tempValues[0] as any),
-                    y: parseFloat(tempValues[1] as any),
+                    x: parseFloat(tempValues[1] as any),
+                    y: parseFloat(tempValues[0] as any),
                 });
             } else if (
                 features[i].attributes[attribute] != null &&
@@ -143,23 +154,36 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
             <BarChart
                 data={data}
                 margin={{
-                    top: 5,
+                    top: 25,
                     right: 30,
                     left: 20,
-                    bottom: 5,
+                    bottom: 25,
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" tickFormatter={tickFormatter}></XAxis>
+                <XAxis dataKey="name" tickFormatter={tickFormatter}>
+                    <Label
+                        value={getTranslation(attribute)}
+                        offset={-15}
+                        position={'insideBottom'}
+                    />
+                </XAxis>
                 <YAxis>
                     <Label
-                        value={getTranslation('amount')}
+                        value={getTranslation(categoryToLabel[category])}
                         offset={0}
                         position="insideLeft"
                         angle={-90}
                     />
                 </YAxis>
-                <Tooltip />
+                <Tooltip
+                    formatter={(value, name, props) => {
+                        return [
+                            value,
+                            getTranslation(categoryToLabel[category]),
+                        ];
+                    }}
+                />
                 <Bar
                     dataKey="value"
                     onMouseOver={(event) => {
@@ -186,23 +210,36 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
             <LineChart
                 data={data}
                 margin={{
-                    top: 5,
+                    top: 25,
                     right: 30,
                     left: 20,
-                    bottom: 5,
+                    bottom: 25,
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" tickFormatter={tickFormatter}></XAxis>
+                <XAxis dataKey="name" tickFormatter={tickFormatter}>
+                    <Label
+                        value={getTranslation(attribute)}
+                        offset={-15}
+                        position={'insideBottom'}
+                    />
+                </XAxis>
                 <YAxis>
                     <Label
-                        value={getTranslation('amount')}
+                        value={getTranslation(categoryToLabel[category])}
                         offset={0}
                         position="insideLeft"
                         angle={-90}
                     />
                 </YAxis>
-                <Tooltip />
+                <Tooltip
+                    formatter={(value, name, props) => {
+                        return [
+                            value,
+                            getTranslation(categoryToLabel[category]),
+                        ];
+                    }}
+                />
                 <Line dataKey="value" fill="#A2C367">
                     <LabelList dataKey="value" position="top" />
                 </Line>
@@ -213,23 +250,41 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
             <ScatterChart
                 data={data}
                 margin={{
-                    top: 5,
+                    top: 25,
                     right: 30,
                     left: 20,
-                    bottom: 5,
+                    bottom: 25,
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="x"></XAxis>
-                <YAxis>
+                <XAxis type="number" dataKey="x">
                     <Label
-                        value={getTranslation('amount')}
+                        value={getTranslation(attribute)}
+                        offset={-15}
+                        position={'insideBottom'}
+                    />
+                </XAxis>
+                <YAxis type="number" dataKey="y">
+                    <Label
+                        value={getTranslation(categoryToLabel[category])}
                         offset={0}
                         position="insideLeft"
                         angle={-90}
                     />
                 </YAxis>
-                <Tooltip />
+                <Tooltip
+                    formatter={(value, name, props) => {
+                        let formatedName = '';
+                        if (name === 'x') {
+                            formatedName = getTranslation(attribute) + ':';
+                        } else if (name === 'y') {
+                            formatedName =
+                                getTranslation(categoryToLabel[category]) + ':';
+                        }
+
+                        return [value, formatedName];
+                    }}
+                />
                 <Scatter dataKey="y" fill="#A2C367" />
             </ScatterChart>
         );
@@ -237,9 +292,9 @@ const Chart: FC<ChartProps & React.ComponentProps<'button'>> = ({
 
     return (
         <ResponsiveContainer
-            style={{ padding: '35px 0 0 0' }}
+            style={{ padding: '15px 0 0 0' }}
             width="100%"
-            height="80%"
+            height="85%"
         >
             {chart}
         </ResponsiveContainer>

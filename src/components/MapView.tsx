@@ -1465,7 +1465,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     query.outFields = ['water_O2', 'water_temp'];
                     query.where =
                         '(water_O2 IS NOT NULL) AND (water_O2 <> 0) AND (water_temp IS NOT NULL) AND (water_temp <> 0)';
-                    dispatch(setAttribute('point'));
+                    dispatch(setAttribute('waterTemperature'));
                     break;
             }
 
