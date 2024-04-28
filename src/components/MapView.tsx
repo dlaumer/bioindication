@@ -224,6 +224,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         const rendererLandscape: any = {
             type: 'unique-value', // autocasts as new UniqueValueRenderer()
             field: 'LandscapeEcology',
+            defaultLabel: getTranslationStatic('others'),
             defaultSymbol: {
                 type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                 style: 'circle',
@@ -308,6 +309,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         const rendererWater: any = {
             type: 'unique-value', // autocasts as new UniqueValueRenderer()
             field: 'BioWaterQuality',
+            defaultLabel: getTranslationStatic('others'),
             defaultSymbol: {
                 type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
                 style: 'diamond',
@@ -884,6 +886,8 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                         (dataLayer.renderer as any).uniqueValueInfos[i].value
                     );
             }
+            (dataLayer.renderer as any).defaultLabel =
+                getTranslationStatic('others');
             for (const i in (dataLayerView.renderer as any).uniqueValueInfos) {
                 (dataLayerView.renderer as any).uniqueValueInfos[i].label =
                     getTranslationStatic(
@@ -891,12 +895,16 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                             .value
                     );
             }
+            (dataLayerView.renderer as any).defaultLabel =
+                getTranslationStatic('others');
             for (const i in (waterLayer.renderer as any).uniqueValueInfos) {
                 (waterLayer.renderer as any).uniqueValueInfos[i].label =
                     getTranslationStatic(
                         (waterLayer.renderer as any).uniqueValueInfos[i].value
                     );
             }
+            (waterLayer.renderer as any).defaultLabel =
+                getTranslationStatic('others');
         }
     }, [language]);
 

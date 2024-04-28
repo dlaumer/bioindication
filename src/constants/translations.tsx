@@ -444,6 +444,12 @@ const translations = {
         fr: 'Valeur',
         it: 'Valore',
     },
+    others: {
+        en: 'others',
+        de: 'andere',
+        fr: 'autres',
+        it: 'altri',
+    },
     mobileInfo: {
         en: 'This mobile version is reduced and can only be used as a viewer. If you want to do analysis or edit the data, open this website on a screen that is wider than 600px.',
         de: 'Diese mobile Version ist reduziert und kann nur als Viewer verwendet werden. Wenn Sie Analysen durchführen oder Daten bearbeiten möchten, öffnen Sie diese Website auf einem Bildschirm, der breiter als 600px ist.',
