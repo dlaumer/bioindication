@@ -50,6 +50,7 @@ import {
     selectFilterSpace,
     selectFilterSpaceActive,
     selectFilterSpaceDrawing,
+    selectFilterSpaceDrawingType,
     selectFilterTime,
     selectFilterTimeActive,
     selectFilterTimeEnd,
@@ -102,6 +103,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const sidePanelContent = useSelector(selectSidePanelContent);
     const logInAttempt = useSelector(selectLogInAttempt);
     const filterSpaceDrawing = useSelector(selectFilterSpaceDrawing);
+    const filterSpaceDrawingType = useSelector(selectFilterSpaceDrawingType);
     const filterSpace = useSelector(selectFilterSpace);
     const filterTime = useSelector(selectFilterTime);
     const filterTimeStart = useSelector(selectFilterTimeStart);
@@ -681,7 +683,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
 
         // Event listener for when the sketch is completed
         sketch.on('create', function (event: any) {
-            if (event.state === 'complete' && event.tool === 'polygon') {
+            if (event.state === 'complete') {
                 dispatch(setFilterSpaceDrawing(false));
 
                 // Get the polygon geometry
@@ -948,7 +950,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         if (sketchWidget) {
             if (filterSpaceDrawing) {
                 filterGraphic.removeAll();
-                sketchWidget.create('polygon');
+                sketchWidget.create(filterSpaceDrawingType as any);
             } else {
                 sketchWidget.cancel();
             }

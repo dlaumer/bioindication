@@ -83,7 +83,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     return (
         <div>
             <button
-                className={`!bg-projectgreen text-white h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
+                className={`!bg-projectcolor text-white h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
                     isDisabled
                         ? 'cursor-not-allowed opacity-50'
                         : 'cursor-pointer'
@@ -95,8 +95,8 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
         }
         ${
             isActive
-                ? 'bg-headergreen shadow-sm text-black'
-                : 'bg-white hover:bg-backgroundgray'
+                ? 'bg-activecolor shadow-sm text-black'
+                : 'bg-white hover:bg-hovergrey'
         }
         ${isVisible ? '' : 'hidden'}
         `}
@@ -117,13 +117,13 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
                 </div>
                 <div className="h-1/2 w-full flex items-center">
                     <button
-                        className={`m-[10px] !bg-projectgreen text-white cursor-default h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap
+                        className={`m-[10px] !bg-projectcolor text-white cursor-default h-full rounded-xl transition-opacity ease-in-out duration-200 font-noigrotesk p-2 h-fit w-fit text-lg font-medium text-neutral-600 whitespace-nowrap
         ${
             username != ''
                 ? '!w-[56px] !h-[56px] !border-[8px] !border-whiteTransparent !border-solid !rounded-full !font-bold '
                 : ''
         }
-        ${isActive ? 'bg-headergreen shadow-sm text-black' : 'bg-white'}
+        ${isActive ? 'bg-activecolor shadow-sm text-black' : 'bg-white'}
         ${isVisible ? '' : 'hidden'}
         `}
                         disabled={isDisabled}
@@ -139,7 +139,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
 
                 <button
                     id="test"
-                    className=" h-1/4 w-full font-noigrotesk w-full whitespace-nowrap hover:bg-backgroundgray"
+                    className=" h-1/4 w-full font-noigrotesk w-full whitespace-nowrap hover:bg-hovergrey"
                     onClick={() => {
                         dispatch(setLogInAttempt(true));
                     }}

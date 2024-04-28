@@ -29,14 +29,14 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
     const sidePanelHeader = (
         <div
             id="sidePanelHeader"
-            className="pointer-events-auto rounded-t-xl w-full flex flex-row justify-between h-[40px] bg-evendarkergrey text-white px-[5px] "
+            className="pointer-events-auto rounded-t-xl w-full flex flex-row justify-between h-[40px] bg-darkgrey text-white px-[5px] "
         >
-            <div className="rounded-t-xl flex flex-row h-full bg-evendarkergrey text-white ">
+            <div className="rounded-t-xl flex flex-row h-full bg-darkgrey text-white ">
                 <div
                     className={`pr-2 cursor-pointer h-full flex items-center border-b-4 ${
                         sidePanelContent == 'analyze'
-                            ? 'border-projectgreen'
-                            : 'border-evendarkergrey'
+                            ? 'border-projectcolor'
+                            : 'border-darkgrey'
                     } `}
                     onClick={() => dispatch(setSidePanelContent('analyze'))}
                 >
@@ -51,8 +51,8 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
                 <div
                     className={`pr-2 cursor-pointer h-full flex items-center border-b-4 ${
                         sidePanelContent == 'process'
-                            ? 'border-projectgreen'
-                            : 'border-evendarkergrey'
+                            ? 'border-projectcolor'
+                            : 'border-darkgrey'
                     } `}
                     onClick={() => dispatch(setSidePanelContent('process'))}
                 >
@@ -67,8 +67,8 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
                 <div
                     className={`pr-2 cursor-pointer h-full flex items-center border-b-4 ${
                         sidePanelContent == 'print'
-                            ? 'border-projectgreen'
-                            : 'border-evendarkergrey'
+                            ? 'border-projectcolor'
+                            : 'border-darkgrey'
                     } `}
                     onClick={() => dispatch(setSidePanelContent('print'))}
                 >
@@ -85,8 +85,8 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
                         isLoggedIn ? '' : 'hidden'
                     } cursor-pointer h-full flex items-center border-b-4 ${
                         sidePanelContent == 'edit'
-                            ? 'border-projectgreen'
-                            : 'border-evendarkergrey'
+                            ? 'border-projectcolor'
+                            : 'border-darkgrey'
                     } `}
                     onClick={() => dispatch(setSidePanelContent('edit'))}
                 >

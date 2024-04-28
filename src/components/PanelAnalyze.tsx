@@ -17,18 +17,23 @@ import {
     setFilterTimeEnd,
     setFilterSpace,
     setFilterSpaceDrawing,
+    setFilterSpaceDrawingType,
 } from '@store/reducer';
 import {
     selectFilterTimeActive,
     selectFilterSpaceActive,
     selectFilterSpaceDrawing,
     selectCategory,
+    selectFilterSpaceDrawingType,
 } from '@store/selectors';
 import Dropdown from './Dropdown';
 import Button from './Button';
 import Chart from './Chart';
 
-import penTool from './../constants/pen-tool.svg';
+import polygon from './../constants/polygon-16.svg';
+import circle from './../constants/circle-16.svg';
+import rectangle from './../constants/rectangle-16.svg';
+
 import clock from './../constants/clock.svg';
 import crop from './../constants/crop.svg';
 import sliders from './../constants/sliders.svg';
@@ -50,6 +55,7 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
     const filterTimeActive = useSelector(selectFilterTimeActive);
     const filterSpaceActive = useSelector(selectFilterSpaceActive);
     const filterSpaceDrawing = useSelector(selectFilterSpaceDrawing);
+    const filterSpaceDrawingType = useSelector(selectFilterSpaceDrawingType);
     const category = useSelector(selectCategory);
 
     // UI part
@@ -123,19 +129,74 @@ const PanelAnalyze: FC<PanelAnalyzeProps & React.ComponentProps<'div'>> = ({
                     </div>
 
                     <div className="flex items-center">
-                        <Button
-                            icon={penTool}
-                            title=""
-                            onClick={(event: any) => {
-                                dispatch(
-                                    setFilterSpaceDrawing(!filterSpaceDrawing)
-                                );
-                                event.stopPropagation();
-                            }}
-                            isActive={filterSpaceDrawing}
-                            isDisabled={!filterSpaceActive}
-                        ></Button>
+                        <div className="pr-2">
+                            <Button
+                                icon={polygon}
+                                title=""
+                                onClick={(event: any) => {
+                                    dispatch(
+                                        setFilterSpaceDrawing(
+                                            !filterSpaceDrawing
+                                        )
+                                    );
+                                    dispatch(
+                                        setFilterSpaceDrawingType('polygon')
+                                    );
 
+                                    event.stopPropagation();
+                                }}
+                                isActive={
+                                    filterSpaceDrawing &&
+                                    filterSpaceDrawingType == 'polygon'
+                                }
+                                isDisabled={!filterSpaceActive}
+                            ></Button>
+                        </div>
+
+                        <div className="pr-2">
+                            <Button
+                                icon={circle}
+                                title=""
+                                onClick={(event: any) => {
+                                    dispatch(
+                                        setFilterSpaceDrawing(
+                                            !filterSpaceDrawing
+                                        )
+                                    );
+                                    dispatch(
+                                        setFilterSpaceDrawingType('circle')
+                                    );
+                                    event.stopPropagation();
+                                }}
+                                isActive={
+                                    filterSpaceDrawing &&
+                                    filterSpaceDrawingType == 'circle'
+                                }
+                                isDisabled={!filterSpaceActive}
+                            ></Button>
+                        </div>
+                        <div className="pr-2">
+                            <Button
+                                icon={rectangle}
+                                title=""
+                                onClick={(event: any) => {
+                                    dispatch(
+                                        setFilterSpaceDrawing(
+                                            !filterSpaceDrawing
+                                        )
+                                    );
+                                    dispatch(
+                                        setFilterSpaceDrawingType('rectangle')
+                                    );
+                                    event.stopPropagation();
+                                }}
+                                isActive={
+                                    filterSpaceDrawing &&
+                                    filterSpaceDrawingType == 'rectangle'
+                                }
+                                isDisabled={!filterSpaceActive}
+                            ></Button>
+                        </div>
                         <img
                             src={trash}
                             className="h-[20px] px-[10px] cursor-pointer"

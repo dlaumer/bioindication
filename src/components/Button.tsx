@@ -51,7 +51,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     if (icon != null) {
         content = (
             <div className="h-full flex items-center">
-                <img src={icon} className="h-[80%] px-[5px]"></img>
+                <img src={icon} className="h-[20px] px-[5px]"></img>
                 <div>{isHover ? hoverTitle : title}</div>
             </div>
         );
@@ -59,7 +59,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
 
     return (
         <button
-            className={`bg-white hover:bg-backgroundgray h-full transition-opacity font-noigrotesk p-2  w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
+            className={`bg-white hover:bg-hovergrey h-full transition-opacity font-noigrotesk p-2  w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
                 isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
             }
             ${
@@ -69,10 +69,10 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
             }
 
 
-            ${isActive && activeType == 'background' ? '!bg-headergreen' : ''}
+            ${isActive && activeType == 'background' ? '!bg-activecolor' : ''}
             ${
                 isActive && activeType == 'side'
-                    ? 'border-projectgreen'
+                    ? 'border-projectcolor'
                     : 'border-white'
             }
             ${isVisible ? '' : 'hidden'}

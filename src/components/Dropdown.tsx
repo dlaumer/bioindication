@@ -58,7 +58,7 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, isDisabled }) => {
             const optionLabel = getTranslation(option);
             optionsElements.push(
                 <div
-                    className="flex font-bold hover:text-projectgreen cursor-pointer"
+                    className="flex w-full ml-4 hover:bg-hovergrey cursor-pointer px-2 py-1 rounded-xl"
                     key={option}
                     onClick={() => {
                         if (tag == 'categories') {
@@ -74,7 +74,9 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, isDisabled }) => {
         }
         categoriesElements.push(
             <div className="pt-2">
-                <div className="text-evendarkergrey">{categoryLabel}</div>
+                <div className=" bg-darkgrey text-white rounded-xl w-full p-2">
+                    {categoryLabel}
+                </div>
                 {optionsElements}
             </div>
         );
@@ -82,16 +84,11 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, isDisabled }) => {
     return (
         <div className="flex items-center relative px-1 py-1 h-fit w-fit">
             <button
-                className={`rounded-xl bg-white p-2 font-noigrotesk font-medium text-lg ${
+                className={`hover:bg-hovergrey rounded-xl bg-white p-2 font-noigrotesk font-medium text-lg ${
                     isDisabled
                         ? 'cursor-not-allowed opacity-50'
                         : 'cursor-pointer'
-                }
-                    ${
-                        tag == 'workspace'
-                            ? 'text-navyblue hover:text-hoverblue'
-                            : 'text-neutral-600'
-                    }`}
+                }`}
                 onClick={handleToggle}
             >
                 <div className="h-full flex items-center">

@@ -28,6 +28,7 @@ export type AppState = {
 
     filterSpace?: any;
     filterSpaceDrawing?: boolean;
+    filterSpaceDrawingType?: string;
 
     features?: any;
     attribute?: string;
@@ -59,6 +60,7 @@ export const initialAppState: AppState = {
 
     filterSpace: null,
     filterSpaceDrawing: false,
+    filterSpaceDrawingType: null,
 
     features: null,
     attribute: null,
@@ -114,6 +116,9 @@ const slice = createSlice({
         setFilterSpaceDrawing: (state, action: PayloadAction<boolean>) => {
             state.filterSpaceDrawing = action.payload;
         },
+        setFilterSpaceDrawingType: (state, action: PayloadAction<string>) => {
+            state.filterSpaceDrawingType = action.payload;
+        },
         setFeatures: (state, action: PayloadAction<any>) => {
             state.features = action.payload;
         },
@@ -167,6 +172,7 @@ export const {
     setFilterTimeEnd,
     setFilterSpace,
     setFilterSpaceDrawing,
+    setFilterSpaceDrawingType,
     setFeatures,
     setAttribute,
     setHoverFeatures,

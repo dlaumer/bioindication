@@ -55,6 +55,10 @@ export const selectFilterSpaceDrawing = createSelector(
     (filterSpaceDrawing) => filterSpaceDrawing
 );
 
+export const selectFilterSpaceDrawingType = createSelector(
+    (state: RootState) => state.App.filterSpaceDrawingType,
+    (filterSpaceDrawingType) => filterSpaceDrawingType
+);
 export const selectFeatures = createSelector(
     (state: RootState) => state.App.features,
     (features) => features

@@ -35,7 +35,7 @@ const CookieInfo: FC<React.ComponentProps<'div'>> = () => {
                     <div>{cookieInfo}</div>
                     <div className="flex justify-around">
                         <button
-                            className="w-[40%] bg-projectgreen top-2 right-2"
+                            className="w-[40%] bg-projectcolor top-2 right-2"
                             onClick={() => {
                                 dispatch(setCookiesAllowed(true));
                             }}
@@ -43,7 +43,7 @@ const CookieInfo: FC<React.ComponentProps<'div'>> = () => {
                             {getTranslation('yes')}
                         </button>
                         <button
-                            className="w-[40%] bg-projectgreen project top-2 right-2"
+                            className="w-[40%] bg-projectcolor project top-2 right-2"
                             onClick={() => {
                                 dispatch(setCookiesAllowed(false));
                                 document.cookie =
