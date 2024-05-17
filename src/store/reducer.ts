@@ -71,8 +71,8 @@ export const initialAppState: AppState = {
     logInAttempt: false,
     userInfos: {},
 
-    settingsContent: 'help',
-    settingsOpen: true,
+    settingsContent: 'languages',
+    settingsOpen: false,
 
     cookiesSet: false,
     cookiesAllowed: false,
