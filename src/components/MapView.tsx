@@ -1286,6 +1286,12 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     fieldName: 'comments',
                     label: getTranslationStatic('remarks'),
                 },
+                {
+                    // Autocasts to new FieldElement
+                    type: 'field',
+                    fieldName: 'finalDate',
+                    label: getTranslationStatic('finalDate'),
+                },
             ],
         }; // end of form template elements
 

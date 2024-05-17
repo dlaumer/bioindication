@@ -26,6 +26,24 @@ import close from './../constants/x_black.svg';
 import logoGlobe from './../constants/logoGlobe.png';
 import logoSmartTrip from './../constants/logo_smarttrip_edu.png';
 import logoDaniel from './../constants/logoDaniel.png';
+import externalLink from './../constants/external-link.svg';
+import file from './../constants/file-text.svg';
+import edit from './../constants/Edit.svg';
+import analyze from './../constants/pie-chart.svg';
+import process from './../constants/refresh-cw.svg';
+import print from './../constants/printer.svg';
+
+import polygon from './../constants/polygon-16.svg';
+import circle from './../constants/circle-16.svg';
+import rectangle from './../constants/rectangle-16.svg';
+
+import clock from './../constants/clock.svg';
+import crop from './../constants/crop.svg';
+import sliders from './../constants/sliders.svg';
+import eyeOpen from './../constants/view-visible-24.svg';
+import eyeClosed from './../constants/view-hide-24.svg';
+import trash from './../constants/trash.svg';
+import menu from './../constants/menu.svg';
 
 const Settings: FC<React.ComponentProps<'div'>> = () => {
     const dispatch = useDispatch();
@@ -107,7 +125,12 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
                     {getTranslationStatic('infoTextSmartTrip')}
                 </div>
                 <div className="p-6 flex align-center justify-center">
-                    <img className="w-[80%]" src={logoDaniel}></img>
+                    <a
+                        className="w-[80%]"
+                        href="mailto:daniel.laumer@gmail.com"
+                    >
+                        <img src={logoDaniel}></img>
+                    </a>
                 </div>
                 <div className="p-6">
                     {getTranslationStatic('infoTextDaniel')}
@@ -118,7 +141,70 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
             <div
                 key="help"
                 className={`${settingsContent == 'help' ? '' : 'hidden'} `}
-            ></div>
+            >
+                <div className="text-lg font-medium text-neutral-600">
+                    {getTranslationStatic('mainTopics')}
+                </div>
+                {getHelpEntry('analyzeTitle', 'analyzeHelp', analyze)}
+                {getHelpEntry('processTitle', 'processHelp', process)}
+                {getHelpEntry('printTitle', 'printHelp', print)}
+                {getHelpEntry('editTitle', 'editHelp', edit)}
+
+                <div className="text-lg font-medium text-neutral-600 pt-4">
+                    {getTranslationStatic('analyzeTitle')}
+                </div>
+                {getHelpEntry('selectPeriod', 'timeFilter', clock)}
+                {getHelpEntry('selectArea', 'regionFilter', crop)}
+                {getHelpEntry('charts', 'diagrams', sliders)}
+                {getHelpEntry('filterTopicTitle', 'changeTopic', menu)}
+                {getHelpEntry('hideShow', 'toggleFilters', eyeOpen)}
+                {getHelpEntry('reset', 'resetFilters', trash)}
+
+                <div className="text-lg font-medium text-neutral-600 pt-4">
+                    {getTranslationStatic('mapElements')}
+                </div>
+                {getHelpEntry(
+                    'legend',
+                    'legendHelp',
+                    'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/list-bullet-16.svg'
+                )}
+
+                {getHelpEntry(
+                    'layerList',
+                    'layerListHelp',
+                    'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/layers-16.svg'
+                )}
+                {getHelpEntry(
+                    'basemap',
+                    'basemapHelp',
+                    'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/basemap-16.svg'
+                )}
+                {getHelpEntry(
+                    'measureDistance',
+                    'measureDistanceHelp',
+                    'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/measure-line-16.svg'
+                )}
+                {getHelpEntry(
+                    'measureArea',
+                    'measureAreaHelp',
+                    'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/measure-area-16.svg'
+                )}
+                {getHelpEntry(
+                    'elevationProfile',
+                    'elevationProfileHelp',
+                    'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/altitude-16.svg'
+                )}
+                {getHelpEntry(
+                    'home',
+                    'homeHelp',
+                    'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/home-16.svg'
+                )}
+                {getHelpEntry(
+                    'locate',
+                    'locateHelp',
+                    'https://raw.githubusercontent.com/Esri/calcite-ui-icons/master/icons/gps-off-16.svg'
+                )}
+            </div>
         );
 
         content.push(
@@ -126,26 +212,28 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
                 key="resources"
                 className={`${settingsContent == 'resources' ? '' : 'hidden'} `}
             >
-                <div>
-                    <a
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        href="https://globe-swiss.ch/de/Angebote/Bioindikation_im_Fliessgewaesser/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        {getTranslationStatic('linkToGlobe')}
-                    </a>
-                </div>
-                <div>
-                    <a
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        href="https://globe-swiss.ch/files/Downloads/1622/Download/Bioindikation%20im%20Fliessgewaesser%20auf%20einen%20Blick.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        {getTranslationStatic('atAGlance')}
-                    </a>
-                </div>
+                {getLinkDiv(
+                    'infoCollection',
+                    language == 'en'
+                        ? 'https://bioindication-maps.globe-swiss.ch/Datenerfassung/de'
+                        : 'https://bioindication-maps.globe-swiss.ch/Datenerfassung/' +
+                              language,
+                    'linkToCollection',
+                    externalLink
+                )}
+
+                {getLinkDiv(
+                    'infoGlobe',
+                    'https://globe-swiss.ch/de/Angebote/Bioindikation_im_Fliessgewaesser/',
+                    'linkToGlobe',
+                    externalLink
+                )}
+                {getLinkDiv(
+                    'atAGlance',
+                    'https://globe-swiss.ch/files/Downloads/1622/Download/Bioindikation%20im%20Fliessgewaesser%20auf%20einen%20Blick.pdf',
+                    'linkToPdf',
+                    file
+                )}
             </div>
         );
 
@@ -211,6 +299,43 @@ const Settings: FC<React.ComponentProps<'div'>> = () => {
         }
     }, [settingsContent, settingsOpen, language]);
 
+    const getLinkDiv = (
+        title: string,
+        link: string,
+        linkText: string,
+        icon: any
+    ) => {
+        return (
+            <a href={link} target="_blank" rel="noreferrer">
+                <div className="flex w-full hover:bg-hovergrey py-2">
+                    <img className="px-4" src={icon}></img>
+                    <div>
+                        <div>{getTranslationStatic(title)}</div>
+                        <div className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                            {getTranslationStatic(linkText)}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        );
+    };
+
+    const getHelpEntry = (title: string, text: string, icon: any) => {
+        return (
+            <div className="flex w-full py-2">
+                <div className="w-[50px] pr-6">
+                    <img className=" " src={icon}></img>
+                </div>
+
+                <div className="w-[calc(100%-50px)]">
+                    <div className="font-bold">
+                        {getTranslationStatic(title)}
+                    </div>
+                    <div>{getTranslationStatic(text)}</div>
+                </div>
+            </div>
+        );
+    };
     // UI part
     return (
         <div
