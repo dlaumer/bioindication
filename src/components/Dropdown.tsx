@@ -58,7 +58,7 @@ const Dropdown: React.FC<DropdownProps> = ({ tag, isDisabled }) => {
             const optionLabel = getTranslation(option);
             optionsElements.push(
                 <div
-                    className="flex w-full ml-4 hover:bg-hovergrey cursor-pointer px-2 py-1 rounded-xl"
+                    className="flex w-full ml-4 hover:text-projectcolor hover:bg-hovergrey cursor-pointer px-2 py-1 rounded-xl"
                     key={option}
                     onClick={() => {
                         if (tag == 'categories') {
