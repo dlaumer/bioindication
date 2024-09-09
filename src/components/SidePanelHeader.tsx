@@ -9,7 +9,7 @@ UI for the Header, different buttons, dropdowns and titles
 import { useSelector, useDispatch } from 'react-redux';
 import React, { FC, useEffect, useState } from 'react';
 import { getTranslation } from '../services/languageHelper';
-import { setSidePanelContent } from '@store/reducer';
+import { setLoginClicked, setSidePanelContent } from '@store/reducer';
 import close from './../constants/chevron-down.svg';
 import { selectIsLoggedIn, selectSidePanelContent } from '@store/selectors';
 
@@ -32,6 +32,32 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
             className="pointer-events-auto rounded-t-xl w-full flex flex-row justify-between h-[40px] bg-darkgrey text-white px-[5px] "
         >
             <div className="rounded-t-xl flex flex-row h-full bg-darkgrey text-white ">
+                <div
+                    className={`pr-2 ${
+                        isLoggedIn ? '' : 'text-grayedOut'
+                    } cursor-pointer h-full flex items-center border-b-4 ${
+                        sidePanelContent == 'edit'
+                            ? 'border-projectcolor'
+                            : 'border-darkgrey'
+                    } `}
+                    onClick={() => {
+                        if (isLoggedIn) {
+                            dispatch(setSidePanelContent('edit'));
+                        } else {
+                            dispatch(setLoginClicked(true));
+                        }
+                    }}
+                >
+                    <img
+                        src={edit}
+                        className={`${
+                            isLoggedIn ? 'invert' : 'invert-[50%]'
+                        } h-[20px] px-[10px]`}
+                    ></img>
+                    <div className="font-bold">
+                        {getTranslation('editTitle')}
+                    </div>
+                </div>
                 <div
                     className={`pr-2 cursor-pointer h-full flex items-center border-b-4 ${
                         sidePanelContent == 'analyze'
@@ -78,21 +104,6 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
                     ></img>
                     <div className="font-bold">
                         {getTranslation('printTitle')}
-                    </div>
-                </div>
-                <div
-                    className={`pr-2 ${
-                        isLoggedIn ? '' : 'hidden'
-                    } cursor-pointer h-full flex items-center border-b-4 ${
-                        sidePanelContent == 'edit'
-                            ? 'border-projectcolor'
-                            : 'border-darkgrey'
-                    } `}
-                    onClick={() => dispatch(setSidePanelContent('edit'))}
-                >
-                    <img src={edit} className="invert h-[20px] px-[10px]"></img>
-                    <div className="font-bold">
-                        {getTranslation('editTitle')}
                     </div>
                 </div>
             </div>

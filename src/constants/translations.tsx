@@ -164,10 +164,10 @@ const translations = {
         it: 'Lista dei layer',
     },
     processTitle: {
-        de: 'Verarbeiten',
-        en: 'Process',
-        fr: 'Traiter',
-        it: 'Processare',
+        de: 'Geoverarbeitung',
+        en: 'Geoprocess',
+        fr: 'Géotraitement',
+        it: 'Geoprocesso',
     },
     printTitle: {
         de: 'Drucken',
@@ -487,10 +487,10 @@ const translations = {
         it: 'Impostazioni',
     },
     processInfoText: {
-        en: 'If you want to continue editing and processing this data, you can open it on ArcGIS Online. There you can change the visualization and get more insights into the data. There are different options, you can either open it in the 2D MapViewer or in the 3D SceneViewer.',
-        de: 'Wenn Sie mit der Bearbeitung und Verarbeitung dieser Daten fortfahren möchten, können Sie sie in ArcGIS Online öffnen. Dort können Sie die Visualisierung ändern und weitere Einblicke in die Daten erhalten. Es gibt verschiedene Optionen, Sie können sie entweder im 2D MapViewer oder im 3D SceneViewer öffnen.',
-        fr: "Si vous souhaitez continuer à éditer et traiter ces données, vous pouvez les ouvrir sur ArcGIS Online. Vous pouvez y modifier la visualisation et obtenir plus d'informations sur les données. Il existe différentes options, vous pouvez soit l'ouvrir dans le 2D MapViewer, soit dans le 3D SceneViewer.",
-        it: 'Se desideri continuare a modificare e elaborare questi dati, puoi aprirli su ArcGIS Online. Lì puoi cambiare la visualizzazione e ottenere ulteriori approfondimenti sui dati. Ci sono diverse opzioni, puoi aprirli sia nel 2D MapViewer che nel 3D SceneViewer.',
+        en: 'If you want to continue editing and processing this data, you can open it on the external GIS application ArcGIS Online. There you can change the visualization and get more insights into the data. There are different options, you can either open it in the 2D MapViewer or in the 3D SceneViewer.',
+        de: 'Wenn Sie mit der Bearbeitung und Verarbeitung dieser Daten fortfahren möchten, können Sie sie in der externen GIS Applikation ArcGIS Online öffnen. Dort können Sie die Visualisierung ändern und weitere Einblicke in die Daten erhalten. Es gibt verschiedene Optionen, Sie können sie entweder im 2D MapViewer oder im 3D SceneViewer öffnen.',
+        fr: "Si vous souhaitez continuer à éditer et traiter ces données, vous pouvez les ouvrir dans l'application GIS externe ArcGIS Online. Vous pouvez y modifier la visualisation et obtenir plus d'informations sur les données. Il existe différentes options, vous pouvez soit l'ouvrir dans le 2D MapViewer, soit dans le 3D SceneViewer.",
+        it: "Se desideri continuare a modificare e elaborare questi dati, puoi aprirli nell'applicazione GIS esterna ArcGIS Online. Lì puoi cambiare la visualizzazione e ottenere ulteriori approfondimenti sui dati. Ci sono diverse opzioni, puoi aprirli sia nel 2D MapViewer che nel 3D SceneViewer.",
     },
     openMapViewer: {
         en: 'Open in MapViewer',

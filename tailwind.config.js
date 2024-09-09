@@ -14,6 +14,7 @@ module.exports = {
         darkgrey: "#5b5b5b",
         headerwhite: '#ffffff55',
         whiteTransparent: '#ffffffaa',
+        grayedOut: '#939393'
       },
     },
   },
