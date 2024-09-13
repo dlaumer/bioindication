@@ -83,8 +83,8 @@ const Popup: FC<PopupProps & React.ComponentProps<'div'>> = ({
                                 <td>{getTranslation('alkalinity') + ':'}</td>
                                 <td>{data.graphic.attributes['water_alka']}</td>
                             </tr>
-                            <tr key="flowVelocity">
-                                <td>{getTranslation('flowVelocity') + ':'}</td>
+                            <tr key="transparancy">
+                                <td>{getTranslation('transparency') + ':'}</td>
                                 <td>{data.graphic.attributes['water_turb']}</td>
                             </tr>
                         </tbody>

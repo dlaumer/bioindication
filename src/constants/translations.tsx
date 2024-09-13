@@ -808,6 +808,12 @@ const translations = {
         fr: 'IV',
         it: 'IV',
     },
+    'transparency': {
+        en: 'Transparency [cm]',
+        de: 'Transparenz [cm]',
+        fr: 'Transparence [cm]',
+        it: 'Trasparenza [cm]'
+    }
 };
 
 export default translations;

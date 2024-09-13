@@ -33,9 +33,7 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
         >
             <div className="rounded-t-xl flex flex-row h-full bg-darkgrey text-white ">
                 <div
-                    className={`pr-2 ${
-                        isLoggedIn ? '' : 'text-grayedOut'
-                    } cursor-pointer h-full flex items-center border-b-4 ${
+                    className={`pr-2 cursor-pointer h-full flex items-center border-b-4 ${
                         sidePanelContent == 'edit'
                             ? 'border-projectcolor'
                             : 'border-darkgrey'
@@ -50,9 +48,7 @@ const SidePanelHeader: FC<React.ComponentProps<'div'>> = () => {
                 >
                     <img
                         src={edit}
-                        className={`${
-                            isLoggedIn ? 'invert' : 'invert-[50%]'
-                        } h-[20px] px-[10px]`}
+                        className={`invert h-[20px] px-[10px]`}
                     ></img>
                     <div className="font-bold">
                         {getTranslation('editTitle')}

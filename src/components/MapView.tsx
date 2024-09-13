@@ -1278,7 +1278,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     // Autocasts to new FieldElement
                     type: 'field',
                     fieldName: 'water_turb',
-                    label: getTranslationStatic('flowVelocity'),
+                    label: getTranslationStatic('transparency'),
                 },
                 {
                     // Autocasts to new FieldElement
