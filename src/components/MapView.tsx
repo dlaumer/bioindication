@@ -56,6 +56,7 @@ import {
     selectFilterTimeEnd,
     selectFilterTimeStart,
     selectHoverFeatures,
+    selectDownloadButtonClicked,
     selectIsLoggedIn,
     selectLanguage,
     selectLogInAttempt,
@@ -65,6 +66,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     setAttribute,
     setCookiesSet,
+    setdownloadButtonClicked,
     setFeatures,
     setFilterSpace,
     setFilterSpaceDrawing,
@@ -113,6 +115,7 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
     const attribute = useSelector(selectAttribute);
     const language = useSelector(selectLanguage);
     const cookiesAllowed = useSelector(selectCookiesAllowed);
+    const downloadButtonClicked = useSelector(selectDownloadButtonClicked);
 
     const [dataLayer, setDataLayer] = useState<FeatureLayer>(null);
     const [dataLayerView, setDataLayerView] = useState<FeatureLayer>(null);
@@ -1038,6 +1041,19 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         }
     }, [logInAttempt]);
 
+    useEffect(() => {
+        if (downloadButtonClicked) {
+            queryAllFeatures(mapView)
+                .then(function (result: any) {
+                    dispatch(setdownloadButtonClicked(false));
+                })
+                .catch(function (result: any) {
+                    dispatch(setdownloadButtonClicked(false));
+                }
+                )
+        }
+    }, [downloadButtonClicked]);
+
     /*
  
     const filterFeaturesView = () => {
@@ -1370,6 +1386,80 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         return myPromise;
     };
 
+    const queryAllFeatures = (view: MapView) => {
+        return new Promise((resolve, reject) => {
+
+            if (view != null) {
+                // Get the correct layer
+
+                const query: any = {
+                    //where: `EXTRACT(MONTH FROM ${layer.timeInfo.startField}) = ${month}`,
+                    where: `1=1`,
+                    returnGeometry: false,
+                    outFields: ['*'],
+                    maxRecordCountFactor: 2,
+                };
+
+                if (filterTimeActive && view.timeExtent != null) {
+                    query.timeExtent = view.timeExtent;
+                }
+                if (filterSpaceActive && filterSpace != null) {
+                    query.geometry = filterSpace;
+                }
+
+                // Perform the query on the feature layer
+                currentLayer
+                    .queryFeatures(query)
+                    .then(function (result: any) {
+                        if (result.features.length > 0) {
+                            let csv = convertToCsv(result.features)
+                            if (!csv.match(/^data:text\/csv/i)) {
+                                csv = 'data:text/csv;charset=utf-8,' + csv;
+                            }
+                            var encodedUri = encodeURI(csv);
+                            window.open(encodedUri);
+                            resolve("Resolve");
+                        } else {
+                            console.log(`No data found`);
+                            reject("Reject")
+                        }
+                    })
+                    .catch(function (error: any) {
+                        console.error(`Query failed: `, error);
+                        reject("Reject")
+                    });
+            }
+        })
+    };
+
+    const convertToCsv = (data: any) => {
+
+        if (data == null || !data.length) {
+            return null;
+        }
+
+        let columnDelimiter = ';';
+        let lineDelimiter = '\n';
+
+        let keys = Object.keys(data[0].attributes);
+        let result = '';
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+
+        data.forEach(function (item: any) {
+            let ctr = 0;
+            keys.forEach(function (key) {
+                if (ctr > 0) result += columnDelimiter;
+
+                result += item.attributes[key];
+                ctr++;
+            });
+            result += lineDelimiter;
+        });
+
+        return result;
+    }
+
     const queryFeatures = (view: MapView) => {
         if (view != null) {
             // Get the correct layer
@@ -1577,13 +1667,13 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
             ></div>
             {mapView
                 ? React.Children.map(children, (child) => {
-                      return React.cloneElement(
-                          child as React.ReactElement<any>,
-                          {
-                              mapView,
-                          }
-                      );
-                  })
+                    return React.cloneElement(
+                        child as React.ReactElement<any>,
+                        {
+                            mapView,
+                        }
+                    );
+                })
                 : null}
         </>
     );

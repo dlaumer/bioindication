@@ -74,6 +74,10 @@ export const selectHoverFeatures = createSelector(
     (hoverFeatures) => hoverFeatures
 );
 
+export const selectDownloadButtonClicked = createSelector(
+    (state: RootState) => state.App.downloadButtonClicked,
+    (downloadButtonClicked) => downloadButtonClicked
+);
 export const selectLoginClicked = createSelector(
     (state: RootState) => state.App.loginClicked,
     (loginClicked) => loginClicked

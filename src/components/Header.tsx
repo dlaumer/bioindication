@@ -16,10 +16,12 @@ import {
     selectSidePanelContent,
     selectSettingsOpen,
     selectUserInfos,
+    selectDownloadButtonClicked,
 } from '../store/selectors';
 import {
     setSidePanelContent,
     setLogInAttempt,
+    setdownloadButtonClicked,
     toggleSettingsOpen,
     setLoginClicked,
     toggleLoginClicked,
@@ -27,14 +29,14 @@ import {
 import { getTranslation } from '@services/languageHelper';
 
 import settings from './../constants/Settings.svg';
-import logoGlobe from './../constants/logoGlobe.png';
+import download from './../constants/download.svg';
 import ButtonLogin from './ButtonLogin';
 
 const Header = () => {
     const dispatch = useDispatch();
     // UI part
 
-    const sidePanelContent = useSelector(selectSidePanelContent);
+    const downloadButtonClicked = useSelector(selectDownloadButtonClicked);
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const userInfos = useSelector(selectUserInfos);
     const settingsOpen = useSelector(selectSettingsOpen);
@@ -91,7 +93,16 @@ const Header = () => {
                 id="header2"
                 className="flex flex-row h-full justify-end items-center gap-2 font-noigrotesk"
             >
+
                 <div className="flex flex-row h-[80%] items-center gap-2 font-noigrotesk">
+                    <Button
+                        id="downloadButton"
+                        titleKey=""
+                        onClick={() => dispatch(setdownloadButtonClicked(true))}
+                        isActive={downloadButtonClicked}
+                        icon={download}
+
+                    ></Button>
                     <Button
                         id="settingsButton"
                         titleKey=""
