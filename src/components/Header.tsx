@@ -95,13 +95,14 @@ const Header = () => {
             >
 
                 <div className="flex flex-row h-[80%] items-center gap-2 font-noigrotesk">
+                    
                     <Button
                         id="downloadButton"
                         titleKey=""
                         onClick={() => dispatch(setdownloadButtonClicked(true))}
                         isActive={downloadButtonClicked}
                         icon={download}
-
+                        tooltip="downloadInfo"
                     ></Button>
                     <Button
                         id="settingsButton"

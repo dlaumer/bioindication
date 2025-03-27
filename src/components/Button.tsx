@@ -21,6 +21,7 @@ type ButtonProps = {
     hoverStyle?: React.CSSProperties;
     icon?: any;
     isVisible?: boolean;
+    tooltip?: string;
 };
 const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     title = 'Default',
@@ -31,6 +32,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
     hoverTitle = title,
     icon = null,
     isVisible = true,
+    tooltip = "",
     ...props
 }) => {
     const [isHover, setIsHovered] = useState(false);
@@ -43,6 +45,7 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
         setIsHovered(false);
     };
     title = titleKey != null ? getTranslation(titleKey) : title;
+    tooltip = tooltip != null ? getTranslation(tooltip) : tooltip;
 
     hoverTitle = title;
 
@@ -59,22 +62,20 @@ const Button: FC<ButtonProps & React.ComponentProps<'button'>> = ({
 
     return (
         <button
-            className={`bg-white hover:bg-hovergrey h-full transition-opacity font-noigrotesk p-2  w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${
-                isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-            }
-            ${
-                activeType == 'side'
+            title={tooltip}
+            className={`bg-white hover:bg-hovergrey h-full transition-opacity font-noigrotesk p-2  w-fit text-lg font-medium text-neutral-600 whitespace-nowrap ${isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                }
+            ${activeType == 'side'
                     ? 'border-l-8 !h-fit !w-full text-start'
                     : 'rounded-xl'
-            }
+                }
 
 
             ${isActive && activeType == 'background' ? '!bg-activecolor' : ''}
-            ${
-                isActive && activeType == 'side'
+            ${isActive && activeType == 'side'
                     ? 'border-projectcolor'
                     : 'border-white'
-            }
+                }
             ${isVisible ? '' : 'hidden'}
             `}
             onMouseEnter={handleHover}

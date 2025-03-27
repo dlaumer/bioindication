@@ -813,6 +813,13 @@ const translations = {
         de: 'Transparenz [cm]',
         fr: 'Transparence [cm]',
         it: 'Trasparenza [cm]'
+    },
+    downloadInfo: {
+        en: "Download the visible data, filtered by the active period and area filter",
+        de: "Lade die sichtbaren Daten herunter, gefiltert nach dem aktiven Perioden- und Gebietsfilter",
+        fr: "Téléchargez les données visibles, filtrées par le filtre actif de période et de zone",
+        it: "Scarica i dati visibili, filtrati in base al filtro attivo di periodo e zona"
+    
     }
 };
 
