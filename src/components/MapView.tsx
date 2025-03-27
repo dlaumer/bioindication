@@ -1412,12 +1412,19 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
                     .queryFeatures(query)
                     .then(function (result: any) {
                         if (result.features.length > 0) {
-                            let csv = convertToCsv(result.features)
+                            let csv = convertToCsv(result)
                             if (!csv.match(/^data:text\/csv/i)) {
                                 csv = 'data:text/csv;charset=utf-8,' + csv;
                             }
                             var encodedUri = encodeURI(csv);
-                            window.open(encodedUri);
+                            var link = document.createElement("a");
+
+                            link.setAttribute("href", encodedUri);
+                            link.setAttribute("download", "data.csv");
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+
                             resolve("Resolve");
                         } else {
                             console.log(`No data found`);
@@ -1432,7 +1439,9 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         })
     };
 
-    const convertToCsv = (data: any) => {
+    const convertToCsv = (results: any) => {
+
+        let data = results.features;
 
         if (data == null || !data.length) {
             return null;
@@ -1441,9 +1450,17 @@ const ArcGISMapView: React.FC<Props> = ({ children }: Props) => {
         let columnDelimiter = ';';
         let lineDelimiter = '\n';
 
+        let fields = results.fields;
+        let fieldDict:any = {}
+        fields.forEach(function (field: any) {
+            fieldDict[field.name] = field.alias;
+        });
+
         let keys = Object.keys(data[0].attributes);
         let result = '';
-        result += keys.join(columnDelimiter);
+        keys.forEach(function (key: any) {
+            result += fieldDict[key] + columnDelimiter
+        });
         result += lineDelimiter;
 
         data.forEach(function (item: any) {
